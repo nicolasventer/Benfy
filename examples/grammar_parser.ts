@@ -82,7 +82,11 @@ const parse_regex = (rgx: RegExp) => {
 
 export type grammar = {
 	type: "grammar";
-	rule: rule[];
+	line: line[];
+};
+export type line = {
+	type: "line";
+	value: rule | comment | new_line;
 };
 export type rule = {
 	type: "rule";
@@ -184,8 +188,17 @@ export type rule_comment = {
 	type: "rule_comment";
 	value: string;
 };
+export type comment = {
+	type: "comment";
+	value: string;
+};
+export type new_line = {
+	type: "new_line";
+	value: string;
+};
 
-const create_grammar = (): grammar => ({ type: "grammar", rule: [] });
+const create_grammar = (): grammar => ({ type: "grammar", line: [] });
+const create_line = (): line => ({ type: "line", value: create_rule() });
 const create_rule = (): rule => ({ type: "rule", rule_name: create_rule_name(), rule_expr: create_rule_expr() });
 const create_rule_name = (): rule_name => ({ type: "rule_name", value: "" });
 const create_rule_expr = (): rule_expr => ({ type: "rule_expr", value: create_first_rule_regex() });
@@ -224,10 +237,22 @@ const create_rule_brace_min = (): rule_brace_min => ({ type: "rule_brace_min", v
 const create_rule_brace_max = (): rule_brace_max => ({ type: "rule_brace_max" });
 const create_rule_brace_max_value = (): rule_brace_max_value => ({ type: "rule_brace_max_value", value: "" });
 const create_rule_comment = (): rule_comment => ({ type: "rule_comment", value: "" });
+const create_comment = (): comment => ({ type: "comment", value: "" });
+const create_new_line = (): new_line => ({ type: "new_line", value: "" });
 
 const parse_grammar = (grammar: grammar) => {
 	debugName = "grammar";
-	parse_array_fn(parse_rule, grammar.rule, create_rule, 1);
+	parse_array_fn(parse_line, grammar.line, create_line, 0);
+};
+const parse_line = (line: line) => {
+	debugName = "line";
+	line.value = create_rule();
+	if (try_parse_fn(parse_rule, line.value)) return;
+	line.value = create_comment();
+	if (try_parse_fn(parse_comment, line.value)) return;
+	line.value = create_new_line();
+	if (try_parse_fn(parse_new_line, line.value)) return;
+	fail_parse("Failed to parse line");
 };
 const parse_rule = (rule: rule) => {
 	debugName = "rule";
@@ -365,6 +390,14 @@ const parse_rule_brace_max_value = (rule_brace_max_value: rule_brace_max_value) 
 const parse_rule_comment = (rule_comment: rule_comment) => {
 	debugName = "rule_comment";
 	rule_comment.value = parse_regex(reg`/ #.*/`);
+};
+const parse_comment = (comment: comment) => {
+	debugName = "comment";
+	comment.value = parse_regex(reg`/#.*\r?\n/`);
+};
+const parse_new_line = (new_line: new_line) => {
+	debugName = "new_line";
+	new_line.value = parse_regex(reg`/\r?\n/`);
 };
 
 export const parse = (textToParse: string, onFail?: (result: grammar) => void) => {

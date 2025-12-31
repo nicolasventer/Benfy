@@ -1,4 +1,5 @@
-grammar: rule+
+grammar: line*
+line: rule | comment | new_line
 rule: rule_name /: / rule_expr rule_comment? /\r?\n/
 rule_name: /[a-z][a-z_]*/
 rule_expr: first_rule_regex | first_rule_name
@@ -22,3 +23,5 @@ rule_brace_min: /\d+/
 rule_brace_max: /,/ rule_brace_max_value?
 rule_brace_max_value: /\d+/
 rule_comment: / #.*/
+comment: /#.*\r?\n/
+new_line: /\r?\n/

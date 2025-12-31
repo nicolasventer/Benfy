@@ -1,20 +1,20 @@
-import type { grammar, rule_quantifier, space_rule_term } from "./grammar_parser";
+import type { grammar, rule, rule_quantifier, space_rule_term } from "./grammar_parser";
 
 // ============================================================================
 // Types
 // ============================================================================
 
 export type LogMessage = {
-	severity: "error" | "warning";
+	severity: "error" | "warning" | "info";
 	location: string; // file:line:col
-	messageType: "syntax error" | "reference error" | "reference warning";
+	messageType: "syntax error" | "syntax info" | "reference error" | "reference warning";
 	message: string;
 	matchedPattern: string;
 };
 
 export type ValidationResult = {
 	errors: LogMessage[];
-	warnings: LogMessage[];
+	others: LogMessage[];
 };
 
 // ============================================================================
@@ -37,6 +37,17 @@ export function checkSyntaxInText(grammarText: string, filePath: string): LogMes
 	};
 
 	let matches: RegExpMatchArray | null;
+
+	// Check that grammar has at least one rule
+	if (!grammarText.match(/^[a-z][a-z_]*:/gm)) {
+		errors.push({
+			severity: "error",
+			location: `${filePath}:1:1`,
+			messageType: "syntax error",
+			message: "grammar must have at least one rule",
+			matchedPattern: "",
+		});
+	}
 
 	// Check for uppercase letters
 	if ((matches = grammarText.match(/[A-Z]/g))) {
@@ -80,7 +91,7 @@ export function checkSyntaxInText(grammarText: string, filePath: string): LogMes
 		}
 	}
 
-	// Check for regex with modifier
+	// Check for regex with quantifier
 	if ((matches = grammarText.match(/\/(\\\/|[^\/])*\/[+*?]/g))) {
 		for (const match of matches) {
 			const { line, col } = indexToLineCol(grammarText.indexOf(match));
@@ -88,13 +99,13 @@ export function checkSyntaxInText(grammarText: string, filePath: string): LogMes
 				severity: "error",
 				location: `${filePath}:${line}:${col}`,
 				messageType: "syntax error",
-				message: "regex with modifier",
+				message: "regex with quantifier",
 				matchedPattern: match,
 			});
 		}
 	}
 
-	// Check for or rule with modifier
+	// Check for or rule with quantifier
 	if ((matches = grammarText.match(/[a-z][a-z_]*[+*?] \| [a-z][a-z_]*|[a-z][a-z_]* \| [a-z][a-z_]*[+*?]/g))) {
 		for (const match of matches) {
 			const { line, col } = indexToLineCol(grammarText.indexOf(match));
@@ -102,13 +113,13 @@ export function checkSyntaxInText(grammarText: string, filePath: string): LogMes
 				severity: "error",
 				location: `${filePath}:${line}:${col}`,
 				messageType: "syntax error",
-				message: "or rule with modifier",
+				message: "or rule with quantifier",
 				matchedPattern: match,
 			});
 		}
 	}
 
-	// Check for item of array rule with modifier different from '?'
+	// Check for item of array rule with quantifier different from '?'
 	if ((matches = grammarText.match(/[a-z][a-z_]*[+*] >>/g))) {
 		for (const match of matches) {
 			const { line, col } = indexToLineCol(grammarText.indexOf(match));
@@ -116,13 +127,13 @@ export function checkSyntaxInText(grammarText: string, filePath: string): LogMes
 				severity: "error",
 				location: `${filePath}:${line}:${col}`,
 				messageType: "syntax error",
-				message: "item of array rule with modifier different from '?'",
+				message: "item of array rule with quantifier different from '?'",
 				matchedPattern: match,
 			});
 		}
 	}
 
-	// Check for join of array rule with modifier
+	// Check for join of array rule with quantifier
 	if ((matches = grammarText.match(/>> [a-z][a-z_]*[+*?]/g))) {
 		for (const match of matches) {
 			const { line, col } = indexToLineCol(grammarText.indexOf(match));
@@ -130,7 +141,7 @@ export function checkSyntaxInText(grammarText: string, filePath: string): LogMes
 				severity: "error",
 				location: `${filePath}:${line}:${col}`,
 				messageType: "syntax error",
-				message: "join of array rule with modifier",
+				message: "join of array rule with quantifier",
 				matchedPattern: match,
 			});
 		}
@@ -154,6 +165,20 @@ export function checkSyntaxInText(grammarText: string, filePath: string): LogMes
 		}
 	}
 
+	// Check for successive regex
+	if ((matches = grammarText.match(/\/(\\\/|[^\/])*\/ \//g))) {
+		for (const match of matches) {
+			const { line, col } = indexToLineCol(grammarText.indexOf(match));
+			errors.push({
+				severity: "info",
+				location: `${filePath}:${line}:${col}`,
+				messageType: "syntax info",
+				message: "successive regex",
+				matchedPattern: match,
+			});
+		}
+	}
+
 	return errors;
 }
 
@@ -163,12 +188,12 @@ export function checkSyntaxInText(grammarText: string, filePath: string): LogMes
 
 /**
  * Validates a parsed grammar for syntax errors and reference issues.
- * Returns errors (which should stop generation) and warnings (which are informational).
+ * Returns errors (which should stop generation) and others (which are informational).
  */
 export function checkRules(parsedGrammar: grammar, filePath: string): ValidationResult {
 	const validationResult: ValidationResult = {
 		errors: [],
-		warnings: [],
+		others: [],
 	};
 
 	// Step 1: Reference validation
@@ -182,7 +207,7 @@ export function checkRules(parsedGrammar: grammar, filePath: string): Validation
 // Reference Checking
 // ============================================================================
 
-function checkReferences(parsedGrammar: grammar, filePath: string, { errors, warnings }: ValidationResult) {
+function checkReferences(parsedGrammar: grammar, filePath: string, { errors, others }: ValidationResult) {
 	const isHardQuantifier = (quantifier: rule_quantifier | undefined) =>
 		!quantifier ||
 		(quantifier.value.type === "rule_basic_quantifier" && quantifier.value.value === "+") ||
@@ -199,8 +224,13 @@ function checkReferences(parsedGrammar: grammar, filePath: string, { errors, war
 		else softReferenceListMap[key].push(childKey);
 	};
 
+	// Extract rules from lines
+	const rules: rule[] = parsedGrammar.line
+		.filter((line): line is { type: "line"; value: rule } => line.value.type === "rule")
+		.map((line) => line.value);
+
 	// Build reference maps
-	for (const rule of parsedGrammar.rule) {
+	for (const rule of rules) {
 		const key = rule.rule_name.value;
 		softReferenceListMap[key] = [];
 		hardReferenceListMap[key] = [];
@@ -255,7 +285,7 @@ function checkReferences(parsedGrammar: grammar, filePath: string, { errors, war
 	}
 
 	// Check for unused rules
-	const firstRule = parsedGrammar.rule[0].rule_name.value;
+	const firstRule = rules[0].rule_name.value;
 	const usedReferenceSet = new Set<string>();
 
 	const addUsedReference = (value: string) => {
@@ -266,9 +296,9 @@ function checkReferences(parsedGrammar: grammar, filePath: string, { errors, war
 	};
 	addUsedReference(firstRule);
 
-	for (const rule of parsedGrammar.rule) {
+	for (const rule of rules) {
 		if (!usedReferenceSet.has(rule.rule_name.value)) {
-			warnings.push({
+			others.push({
 				severity: "warning",
 				location: `${filePath}`, // TODO: line and col
 				messageType: "reference warning",

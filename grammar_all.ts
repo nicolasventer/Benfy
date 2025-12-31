@@ -71,8 +71,8 @@ export async function generateParser(config: ParserGeneratorConfig) {
 			process.exit(1);
 		}
 
-		if (validationResult.warnings.length > 0) {
-			console.table(validationResult.warnings);
+		if (validationResult.others.length > 0) {
+			console.table(validationResult.others);
 		}
 
 		// Step 5: Generate TypeScript parser code

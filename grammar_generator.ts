@@ -1,4 +1,4 @@
-import type { grammar, rule_name_quantified } from "./grammar_parser";
+import type { grammar, rule, rule_name_quantified } from "./grammar_parser";
 
 // ============================================================================
 // Types
@@ -49,8 +49,13 @@ export function generateCode(parsedGrammar: grammar): string {
 	const decrIndentParseCode = () => (indentParseCode = indentParseCode.slice(0, -1));
 	const newLineParseCode = () => parseCode.push(indentParseCode);
 
+	// Extract rules from lines
+	const rules: rule[] = parsedGrammar.line
+		.filter((line): line is { type: "line"; value: rule } => line.value.type === "rule")
+		.map((line) => line.value);
+
 	// Generate types and parsers for each rule
-	for (const rule of parsedGrammar.rule) {
+	for (const rule of rules) {
 		const expr = rule.rule_expr.value;
 		if (expr.type === "first_rule_regex") {
 			const type: DefineTypeType = expr.space_rule_term.length === 0 ? "value" : "default";
@@ -108,17 +113,17 @@ export function generateCode(parsedGrammar: grammar): string {
 	// Generate main parse function
 	newLineParseCode();
 	parseCode.push(`
-export const parse = (textToParse: string, onFail?: (result: ${parsedGrammar.rule[0].rule_name.value}) => void) => {
+export const parse = (textToParse: string, onFail?: (result: ${rules[0].rule_name.value}) => void) => {
 	text = textToParse;
 	index = 0;
-	const result = create_${parsedGrammar.rule[0].rule_name.value}();
+	const result = create_${rules[0].rule_name.value}();
 	successValues.length = 0;
 	failedValues.length = 0;
 	try {`);
 	incrIndentParseCode();
 	incrIndentParseCode();
 	newLineParseCode();
-	parseCode.push(`parse_${parsedGrammar.rule[0].rule_name.value}(result);`);
+	parseCode.push(`parse_${rules[0].rule_name.value}(result);`);
 	newLineParseCode();
 	parseCode.push(`logs.length = 0;
 		logs.push(...successValues, ...failedValues);
