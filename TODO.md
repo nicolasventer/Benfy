@@ -1,54 +1,70 @@
-# TODOs
+# TODO
 
-- grammar should have at least one rule
+## ✨ Features
 
-# TODO features
+- [ ] **Import handling**: Create rule `rule_ref != rule_name` to handle `.`
+- [ ] **Watch mode**: File watching for automatic re-parsing
+- [ ] **Auto-fix**: Implement automatic error fixing
+- [ ] **Interactive execution**: Step-by-step parsing/debugging
+- [ ] **Non-interruptive parse**: Background parsing without blocking
 
-- import ==> create rule rule_ref != rule_name to handle .
-- info spec to impl (successive regex)
-- watch mode
-- implement auto-fix
-- interactive execution (step by step)
-- non interruptive parse
+---
 
-## TODO auto-fix
+## 🔧 Auto-fix Implementation
 
-- syntax:
-	- uppercase (auto-fix)
-	- multiple spaces (auto-fix)
-	- space in rule name (auto-fix)
-	- regex quantifiers (config auto-fix)
-	- quantifiers in or rule (config auto-fix)
-	- invalid regex
-	- successive regex (auto-fix)
-- grammar:
-	- invalid reference
-	- missing soft reference (special config auto-fix)
-	- cyclic hard reference
+### Syntax Fixes
 
-- no fix --> --no-fix in command
-- auto-fix --> none in command
-- config auto-fix --> --fix in command
-- special config auto-fix --> --fix-all in command
+| Issue                     | Fix Type            |
+| ------------------------- | ------------------- |
+| Uppercase inconsistencies | Auto-fix            |
+| Multiple spaces           | Auto-fix            |
+| Space in rule name        | Auto-fix            |
+| Regex quantifiers         | Config auto-fix     |
+| Quantifiers in OR rule    | Config auto-fix     |
+| Invalid regex             | Manual fix required |
+| Successive regex          | Auto-fix            |
 
-# TODO useful
+### Grammar Fixes
 
-- typescript.bf
-- number.bf
-- regex.bf
+| Issue                  | Fix Type                |
+| ---------------------- | ----------------------- |
+| Invalid reference      | Manual fix required     |
+| Missing soft reference | Special config auto-fix |
+| Cyclic hard reference  | Manual fix required     |
 
-# TODO later
+### Command Line Flags
 
-conversion from/to EBFN (for railroad diagrams)
+| Behavior                | Flag             |
+| ----------------------- | ---------------- |
+| No fix                  | `--no-fix`       |
+| Auto-fix                | (none - default) |
+| Config auto-fix         | `--fix`          |
+| Special config auto-fix | `--fix-all`      |
 
-# TOSEE
+---
 
-scope
-declaration
-definition
-import
-export
-function
-class (attribute, method)
+## 📚 Useful Examples
 
-(later) inheritance (public/protected/private)
+- [ ] `typescript.bf` - TypeScript grammar example
+- [ ] `number.bf` - Number parsing grammar
+- [ ] `regex.bf` - Regular expression grammar
+
+---
+
+## 🔮 Future Considerations
+
+- [ ] **EBFN Conversion**: Support conversion from/to EBFN format (for railroad diagrams)
+
+---
+
+## 💡 Ideas to Explore
+
+### Language Features
+
+- Scope management
+- Declaration syntax
+- Definition syntax
+- Import/export system
+- Function support
+- Class support (attributes, methods)
+- Inheritance (public/protected/private) - _later_
