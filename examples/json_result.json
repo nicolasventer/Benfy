@@ -1,0 +1,544 @@
+{
+	"type": "grammar",
+	"line": [
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "json"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_regex",
+						"rule_regex": {
+							"type": "rule_regex",
+							"rule_regex_content": {
+								"type": "rule_regex_content",
+								"value": "/\\s*/"
+							},
+							"rule_regex_flags": {
+								"type": "rule_regex_flags",
+								"value": ""
+							}
+						},
+						"space_rule_term": [
+							{
+								"type": "space_rule_term",
+								"rule_term": {
+									"type": "rule_term",
+									"value": {
+										"type": "rule_term_positive",
+										"value": {
+											"type": "rule_name_quantified",
+											"rule_name": {
+												"type": "rule_name",
+												"value": "json_content"
+											}
+										}
+									}
+								}
+							},
+							{
+								"type": "space_rule_term",
+								"rule_term": {
+									"type": "rule_term",
+									"value": {
+										"type": "rule_term_positive",
+										"value": {
+											"type": "rule_regex",
+											"rule_regex_content": {
+												"type": "rule_regex_content",
+												"value": "/\\s*/"
+											},
+											"rule_regex_flags": {
+												"type": "rule_regex_flags",
+												"value": ""
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "json_content"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_name",
+						"rule_name": {
+							"type": "rule_name",
+							"value": "null_"
+						},
+						"rest_rule_name": {
+							"type": "rest_rule_name",
+							"value": {
+								"type": "rule_name_with_or",
+								"space_rule_name": [
+									{
+										"type": "space_rule_name",
+										"rule_name": {
+											"type": "rule_name",
+											"value": "boolean_"
+										}
+									},
+									{
+										"type": "space_rule_name",
+										"rule_name": {
+											"type": "rule_name",
+											"value": "string_"
+										}
+									},
+									{
+										"type": "space_rule_name",
+										"rule_name": {
+											"type": "rule_name",
+											"value": "number_"
+										}
+									},
+									{
+										"type": "space_rule_name",
+										"rule_name": {
+											"type": "rule_name",
+											"value": "array_"
+										}
+									},
+									{
+										"type": "space_rule_name",
+										"rule_name": {
+											"type": "rule_name",
+											"value": "object_"
+										}
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "null_"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_regex",
+						"rule_regex": {
+							"type": "rule_regex",
+							"rule_regex_content": {
+								"type": "rule_regex_content",
+								"value": "/null/"
+							},
+							"rule_regex_flags": {
+								"type": "rule_regex_flags",
+								"value": ""
+							}
+						},
+						"space_rule_term": []
+					}
+				}
+			}
+		},
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "boolean_"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_regex",
+						"rule_regex": {
+							"type": "rule_regex",
+							"rule_regex_content": {
+								"type": "rule_regex_content",
+								"value": "/true|false/"
+							},
+							"rule_regex_flags": {
+								"type": "rule_regex_flags",
+								"value": ""
+							}
+						},
+						"space_rule_term": []
+					}
+				}
+			}
+		},
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "string_"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_regex",
+						"rule_regex": {
+							"type": "rule_regex",
+							"rule_regex_content": {
+								"type": "rule_regex_content",
+								"value": "/\"(\\\\\"|[^\"])*\"/"
+							},
+							"rule_regex_flags": {
+								"type": "rule_regex_flags",
+								"value": ""
+							}
+						},
+						"space_rule_term": []
+					}
+				}
+			}
+		},
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "number_"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_regex",
+						"rule_regex": {
+							"type": "rule_regex",
+							"rule_regex_content": {
+								"type": "rule_regex_content",
+								"value": "/(0|[1-9][0-9]*)(.[0-9]+)?(e[+-]?[0-9]+)?/"
+							},
+							"rule_regex_flags": {
+								"type": "rule_regex_flags",
+								"value": ""
+							}
+						},
+						"space_rule_term": []
+					}
+				}
+			}
+		},
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "array_"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_regex",
+						"rule_regex": {
+							"type": "rule_regex",
+							"rule_regex_content": {
+								"type": "rule_regex_content",
+								"value": "/\\[/"
+							},
+							"rule_regex_flags": {
+								"type": "rule_regex_flags",
+								"value": ""
+							}
+						},
+						"space_rule_term": [
+							{
+								"type": "space_rule_term",
+								"rule_term": {
+									"type": "rule_term",
+									"value": {
+										"type": "rule_term_positive",
+										"value": {
+											"type": "rule_name_quantified",
+											"rule_name": {
+												"type": "rule_name",
+												"value": "array_content"
+											}
+										}
+									}
+								}
+							},
+							{
+								"type": "space_rule_term",
+								"rule_term": {
+									"type": "rule_term",
+									"value": {
+										"type": "rule_term_positive",
+										"value": {
+											"type": "rule_regex",
+											"rule_regex_content": {
+												"type": "rule_regex_content",
+												"value": "/\\s*\\]/"
+											},
+											"rule_regex_flags": {
+												"type": "rule_regex_flags",
+												"value": ""
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "array_content"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_name",
+						"rule_name": {
+							"type": "rule_name",
+							"value": "json"
+						},
+						"rest_rule_name": {
+							"type": "rest_rule_name",
+							"value": {
+								"type": "rule_name_as_item",
+								"rule_first_item_optional": {
+									"type": "rule_first_item_optional",
+									"value": "?"
+								},
+								"rule_name_or_regex": {
+									"type": "rule_name_or_regex",
+									"value": {
+										"type": "rule_regex",
+										"rule_regex_content": {
+											"type": "rule_regex_content",
+											"value": "/,/"
+										},
+										"rule_regex_flags": {
+											"type": "rule_regex_flags",
+											"value": ""
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "object_"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_regex",
+						"rule_regex": {
+							"type": "rule_regex",
+							"rule_regex_content": {
+								"type": "rule_regex_content",
+								"value": "/\\{/"
+							},
+							"rule_regex_flags": {
+								"type": "rule_regex_flags",
+								"value": ""
+							}
+						},
+						"space_rule_term": [
+							{
+								"type": "space_rule_term",
+								"rule_term": {
+									"type": "rule_term",
+									"value": {
+										"type": "rule_term_positive",
+										"value": {
+											"type": "rule_name_quantified",
+											"rule_name": {
+												"type": "rule_name",
+												"value": "object_content"
+											}
+										}
+									}
+								}
+							},
+							{
+								"type": "space_rule_term",
+								"rule_term": {
+									"type": "rule_term",
+									"value": {
+										"type": "rule_term_positive",
+										"value": {
+											"type": "rule_regex",
+											"rule_regex_content": {
+												"type": "rule_regex_content",
+												"value": "/\\s*}/"
+											},
+											"rule_regex_flags": {
+												"type": "rule_regex_flags",
+												"value": ""
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				}
+			}
+		},
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "object_content"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_name",
+						"rule_name": {
+							"type": "rule_name",
+							"value": "object_kv"
+						},
+						"rest_rule_name": {
+							"type": "rest_rule_name",
+							"value": {
+								"type": "rule_name_as_item",
+								"rule_first_item_optional": {
+									"type": "rule_first_item_optional",
+									"value": "?"
+								},
+								"rule_name_or_regex": {
+									"type": "rule_name_or_regex",
+									"value": {
+										"type": "rule_regex",
+										"rule_regex_content": {
+											"type": "rule_regex_content",
+											"value": "/,/"
+										},
+										"rule_regex_flags": {
+											"type": "rule_regex_flags",
+											"value": ""
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			"type": "line",
+			"value": {
+				"type": "rule",
+				"rule_name": {
+					"type": "rule_name",
+					"value": "object_kv"
+				},
+				"rule_expr": {
+					"type": "rule_expr",
+					"value": {
+						"type": "first_rule_regex",
+						"rule_regex": {
+							"type": "rule_regex",
+							"rule_regex_content": {
+								"type": "rule_regex_content",
+								"value": "/\\s*/"
+							},
+							"rule_regex_flags": {
+								"type": "rule_regex_flags",
+								"value": ""
+							}
+						},
+						"space_rule_term": [
+							{
+								"type": "space_rule_term",
+								"rule_term": {
+									"type": "rule_term",
+									"value": {
+										"type": "rule_term_positive",
+										"value": {
+											"type": "rule_name_quantified",
+											"rule_name": {
+												"type": "rule_name",
+												"value": "string_"
+											}
+										}
+									}
+								}
+							},
+							{
+								"type": "space_rule_term",
+								"rule_term": {
+									"type": "rule_term",
+									"value": {
+										"type": "rule_term_positive",
+										"value": {
+											"type": "rule_regex",
+											"rule_regex_content": {
+												"type": "rule_regex_content",
+												"value": "/\\s*:/"
+											},
+											"rule_regex_flags": {
+												"type": "rule_regex_flags",
+												"value": ""
+											}
+										}
+									}
+								}
+							},
+							{
+								"type": "space_rule_term",
+								"rule_term": {
+									"type": "rule_term",
+									"value": {
+										"type": "rule_term_positive",
+										"value": {
+											"type": "rule_name_quantified",
+											"rule_name": {
+												"type": "rule_name",
+												"value": "json"
+											}
+										}
+									}
+								}
+							}
+						]
+					}
+				}
+			}
+		}
+	]
+}

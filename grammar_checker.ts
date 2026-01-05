@@ -1,4 +1,4 @@
-import type { grammar, rule, rule_quantifier, space_rule_term } from "./grammar_parser";
+import type { grammar, rule, rule_quantifier, space_rule_term, spacing_policy } from "./grammar_parser";
 
 // ============================================================================
 // Types
@@ -7,7 +7,7 @@ import type { grammar, rule, rule_quantifier, space_rule_term } from "./grammar_
 export type LogMessage = {
 	severity: "error" | "warning" | "info";
 	location: string; // file:line:col
-	messageType: "syntax error" | "syntax info" | "reference error" | "reference warning";
+	messageType: "syntax error" | "reference error" | "reference warning" | "reference info";
 	message: string;
 	matchedPattern: string;
 };
@@ -16,171 +16,6 @@ export type ValidationResult = {
 	errors: LogMessage[];
 	others: LogMessage[];
 };
-
-// ============================================================================
-// Syntax Checking
-// ============================================================================
-
-/**
- * Checks syntax errors in the raw grammar text.
- * This should be called before parsing.
- */
-export function checkSyntaxInText(grammarText: string, filePath: string): LogMessage[] {
-	const errors: LogMessage[] = [];
-
-	const indexToLineCol = (textIndex: number) => {
-		const lineBreakBefore = textIndex === 0 ? -1 : grammarText.lastIndexOf("\n", textIndex - 1);
-		return {
-			line: lineBreakBefore === -1 ? 1 : grammarText.slice(0, lineBreakBefore + 1).match(/\n/g)!.length + 1,
-			col: textIndex - lineBreakBefore,
-		};
-	};
-
-	let matches: RegExpMatchArray | null;
-
-	// Check that grammar has at least one rule
-	if (!grammarText.match(/^[a-z][a-z_]*:/gm)) {
-		errors.push({
-			severity: "error",
-			location: `${filePath}:1:1`,
-			messageType: "syntax error",
-			message: "grammar must have at least one rule",
-			matchedPattern: "",
-		});
-	}
-
-	// Check for uppercase letters
-	if ((matches = grammarText.match(/[A-Z]/g))) {
-		for (const match of matches) {
-			const { line, col } = indexToLineCol(grammarText.indexOf(match));
-			errors.push({
-				severity: "error",
-				location: `${filePath}:${line}:${col}`,
-				messageType: "syntax error",
-				message: "uppercase",
-				matchedPattern: match,
-			});
-		}
-	}
-
-	// Check for multiple spaces
-	if ((matches = grammarText.match(/  +/g))) {
-		for (const match of matches) {
-			const { line, col } = indexToLineCol(grammarText.indexOf(match));
-			errors.push({
-				severity: "error",
-				location: `${filePath}:${line}:${col}`,
-				messageType: "syntax error",
-				message: "multiple spaces",
-				matchedPattern: match,
-			});
-		}
-	}
-
-	// Check for space in rule name
-	if ((matches = grammarText.match(/^[a-z][a-z_]* [a-z_]*/gm))) {
-		for (const match of matches) {
-			const { line, col } = indexToLineCol(grammarText.indexOf(match));
-			errors.push({
-				severity: "error",
-				location: `${filePath}:${line}:${col}`,
-				messageType: "syntax error",
-				message: "space in rule name",
-				matchedPattern: match,
-			});
-		}
-	}
-
-	// Check for regex with quantifier
-	if ((matches = grammarText.match(/\/(\\\/|[^\/])*\/[+*?]/g))) {
-		for (const match of matches) {
-			const { line, col } = indexToLineCol(grammarText.indexOf(match));
-			errors.push({
-				severity: "error",
-				location: `${filePath}:${line}:${col}`,
-				messageType: "syntax error",
-				message: "regex with quantifier",
-				matchedPattern: match,
-			});
-		}
-	}
-
-	// Check for or rule with quantifier
-	if ((matches = grammarText.match(/[a-z][a-z_]*[+*?] \| [a-z][a-z_]*|[a-z][a-z_]* \| [a-z][a-z_]*[+*?]/g))) {
-		for (const match of matches) {
-			const { line, col } = indexToLineCol(grammarText.indexOf(match));
-			errors.push({
-				severity: "error",
-				location: `${filePath}:${line}:${col}`,
-				messageType: "syntax error",
-				message: "or rule with quantifier",
-				matchedPattern: match,
-			});
-		}
-	}
-
-	// Check for item of array rule with quantifier different from '?'
-	if ((matches = grammarText.match(/[a-z][a-z_]*[+*] >>/g))) {
-		for (const match of matches) {
-			const { line, col } = indexToLineCol(grammarText.indexOf(match));
-			errors.push({
-				severity: "error",
-				location: `${filePath}:${line}:${col}`,
-				messageType: "syntax error",
-				message: "item of array rule with quantifier different from '?'",
-				matchedPattern: match,
-			});
-		}
-	}
-
-	// Check for join of array rule with quantifier
-	if ((matches = grammarText.match(/>> [a-z][a-z_]*[+*?]/g))) {
-		for (const match of matches) {
-			const { line, col } = indexToLineCol(grammarText.indexOf(match));
-			errors.push({
-				severity: "error",
-				location: `${filePath}:${line}:${col}`,
-				messageType: "syntax error",
-				message: "join of array rule with quantifier",
-				matchedPattern: match,
-			});
-		}
-	}
-
-	// Check for invalid regex
-	if ((matches = grammarText.match(/\/(\\\/|[^\/])*\//g))) {
-		for (const match of matches) {
-			try {
-				new RegExp(match);
-			} catch (error) {
-				const { line, col } = indexToLineCol(grammarText.indexOf(match));
-				errors.push({
-					severity: "error",
-					location: `${filePath}:${line}:${col}`,
-					messageType: "syntax error",
-					message: "invalid regex",
-					matchedPattern: match,
-				});
-			}
-		}
-	}
-
-	// Check for successive regex
-	if ((matches = grammarText.match(/\/(\\\/|[^\/])*\/ \//g))) {
-		for (const match of matches) {
-			const { line, col } = indexToLineCol(grammarText.indexOf(match));
-			errors.push({
-				severity: "info",
-				location: `${filePath}:${line}:${col}`,
-				messageType: "syntax info",
-				message: "successive regex",
-				matchedPattern: match,
-			});
-		}
-	}
-
-	return errors;
-}
 
 // ============================================================================
 // Rule Checker Module
@@ -197,7 +32,6 @@ export function checkRules(parsedGrammar: grammar, filePath: string): Validation
 	};
 
 	// Step 1: Reference validation
-	// Note: Syntax validation should be done before parsing (using checkSyntaxInText)
 	checkReferences(parsedGrammar, filePath, validationResult);
 
 	return validationResult;
@@ -208,6 +42,111 @@ export function checkRules(parsedGrammar: grammar, filePath: string): Validation
 // ============================================================================
 
 function checkReferences(parsedGrammar: grammar, filePath: string, { errors, others }: ValidationResult) {
+	// Extract rules from lines
+	const rules: rule[] = parsedGrammar.line
+		.filter((line): line is { type: "line"; value: rule } => line.value.type === "rule")
+		.map((line) => line.value);
+
+	if (rules.length === 0) {
+		errors.push({
+			severity: "error",
+			location: `${filePath}`, // TODO: line and col
+			messageType: "reference error",
+			message: "no rules",
+			matchedPattern: "",
+		});
+		return;
+	}
+
+	// Check for duplicate rule names
+	const ruleNameSet = new Set<string>();
+	for (const rule of rules) {
+		const ruleName = rule.rule_name.value;
+		if (ruleNameSet.has(ruleName)) {
+			errors.push({
+				severity: "error",
+				location: `${filePath}`, // TODO: line and col
+				messageType: "reference error",
+				message: "duplicate rule name",
+				matchedPattern: ruleName,
+			});
+		} else {
+			ruleNameSet.add(ruleName);
+		}
+	}
+
+	const checkRegex = (regex: string) => {
+		try {
+			new RegExp(regex);
+		} catch (error) {
+			errors.push({
+				severity: "error",
+				location: `${filePath}`, // TODO: line and col
+				messageType: "syntax error",
+				message: "invalid regex",
+				matchedPattern: regex,
+			});
+		}
+	};
+
+	const checkRegexSpaceRuleTermList = (space_rule_term_list: space_rule_term[]) => {
+		for (const space_rule_term of space_rule_term_list) {
+			const rule_term = space_rule_term.rule_term.value;
+			if (rule_term.type === "rule_term_negative") {
+				const rule_name_or_regex = rule_term.rule_name_or_regex.value;
+				if (rule_name_or_regex.type === "rule_regex") checkRegex(rule_name_or_regex.rule_regex_content.value);
+			} else {
+				// rule_term_positive
+				if (rule_term.value.type === "rule_regex") checkRegex(rule_term.value.rule_regex_content.value);
+			}
+		}
+	};
+
+	// Check that all regexes are valid
+	for (const rule of rules) {
+		if (rule.rule_expr.value.type === "first_rule_negation") {
+			const rule_name_or_regex = rule.rule_expr.value.rule_name_or_regex.value;
+			if (rule_name_or_regex.type === "rule_regex") checkRegex(rule_name_or_regex.rule_regex_content.value);
+			checkRegexSpaceRuleTermList(rule.rule_expr.value.space_rule_term);
+		} else if (rule.rule_expr.value.type === "first_rule_regex") {
+			const first_rule_regex = rule.rule_expr.value;
+			checkRegex(first_rule_regex.rule_regex.rule_regex_content.value);
+			checkRegexSpaceRuleTermList(first_rule_regex.space_rule_term);
+		}
+	}
+
+	// Check that all rules are different (compare JSON stringify with spacing policy prefix)
+	const ruleStrings = new Map<string, string>();
+	let currentSpacingPolicy = "strict"; // default is "strict"
+	for (const line of parsedGrammar.line) {
+		if (line.value.type === "spacing_policy") {
+			const spacingPolicy = line.value as spacing_policy;
+			currentSpacingPolicy = spacingPolicy.spacing_policy_value.value;
+			continue;
+		}
+		if (line.value.type !== "rule") continue;
+
+		const rule = line.value;
+		const ruleString = JSON.stringify(rule);
+		const ruleStringWithSpacing = `${currentSpacingPolicy}:${ruleString}`;
+		const ruleName = rule.rule_name.value;
+		let isDuplicate = false;
+		for (const [existingName, existingString] of ruleStrings.entries()) {
+			if (ruleStringWithSpacing === existingString) {
+				others.push({
+					severity: "info",
+					location: `${filePath}`, // TODO: line and col
+					messageType: "reference info",
+					message: "duplicate rule definition",
+					matchedPattern: `${ruleName} == ${existingName}`,
+				});
+				isDuplicate = true;
+				break;
+			}
+		}
+		if (!isDuplicate) ruleStrings.set(ruleName, ruleStringWithSpacing);
+	}
+
 	const isHardQuantifier = (quantifier: rule_quantifier | undefined) =>
 		!quantifier ||
 		(quantifier.value.type === "rule_basic_quantifier" && quantifier.value.value === "+") ||
@@ -216,27 +155,39 @@ function checkReferences(parsedGrammar: grammar, filePath: string, { errors, oth
 	const softReferenceListMap: Record<string, string[]> = {};
 	const hardReferenceListMap: Record<string, string[]> = {};
 
-	const handleSpaceRuleTerm = (space_rule_term: space_rule_term, key: string) => {
-		if (space_rule_term.rule_term.value.type !== "rule_name_quantified") return;
-		const childKey = space_rule_term.rule_term.value.rule_name.value;
-		const quantifier = space_rule_term.rule_term.value.rule_quantifier;
-		if (isHardQuantifier(quantifier)) hardReferenceListMap[key].push(childKey);
-		else softReferenceListMap[key].push(childKey);
+	const updateReferenceSpaceRuleTermList = (space_rule_term_list: space_rule_term[], key: string) => {
+		for (const space_rule_term of space_rule_term_list) {
+			let childKey: string;
+			let quantifier: rule_quantifier | undefined = undefined;
+			const rule_term = space_rule_term.rule_term.value;
+			if (rule_term.type === "rule_term_negative") {
+				if (rule_term.rule_name_or_regex.value.type === "rule_regex") continue;
+				childKey = rule_term.rule_name_or_regex.value.value;
+			} else {
+				// rule_term_positive
+				if (rule_term.value.type !== "rule_name_quantified") continue;
+				childKey = rule_term.value.rule_name.value;
+				quantifier = rule_term.value.rule_quantifier;
+			}
+			if (isHardQuantifier(quantifier)) hardReferenceListMap[key].push(childKey);
+			else softReferenceListMap[key].push(childKey);
+		}
 	};
-
-	// Extract rules from lines
-	const rules: rule[] = parsedGrammar.line
-		.filter((line): line is { type: "line"; value: rule } => line.value.type === "rule")
-		.map((line) => line.value);
 
 	// Build reference maps
 	for (const rule of rules) {
 		const key = rule.rule_name.value;
 		softReferenceListMap[key] = [];
 		hardReferenceListMap[key] = [];
-		if (rule.rule_expr.value.type === "first_rule_regex") {
-			for (const space_rule_term of rule.rule_expr.value.space_rule_term) handleSpaceRuleTerm(space_rule_term, key);
+		if (rule.rule_expr.value.type === "first_rule_negation") {
+			const first_rule_negation = rule.rule_expr.value;
+			if (first_rule_negation.rule_name_or_regex.value.type === "rule_name")
+				softReferenceListMap[key].push(first_rule_negation.rule_name_or_regex.value.value);
+			updateReferenceSpaceRuleTermList(first_rule_negation.space_rule_term, key);
+		} else if (rule.rule_expr.value.type === "first_rule_regex") {
+			updateReferenceSpaceRuleTermList(rule.rule_expr.value.space_rule_term, key);
 		} else {
+			// first_rule_name
 			const first_rule_name = rule.rule_expr.value.rule_name.value;
 			const rest_rule_name = rule.rule_expr.value.rest_rule_name.value;
 			if (rest_rule_name.type === "rule_name_with_or") {
@@ -246,12 +197,13 @@ function checkReferences(parsedGrammar: grammar, filePath: string, { errors, oth
 					softReferenceListMap[key].push(childKey);
 				}
 			} else if (rest_rule_name.type === "rule_name_as_item") {
-				if (rest_rule_name.rule_first_item_optional.value === "+") hardReferenceListMap[key].push(first_rule_name);
-				else softReferenceListMap[key].push(first_rule_name);
+				softReferenceListMap[key].push(first_rule_name);
+				if (rest_rule_name.rule_name_or_regex.value.type === "rule_name")
+					softReferenceListMap[key].push(rest_rule_name.rule_name_or_regex.value.value);
 			} else {
 				if (isHardQuantifier(rest_rule_name.rule_quantifier)) hardReferenceListMap[key].push(first_rule_name);
 				else softReferenceListMap[key].push(first_rule_name);
-				for (const space_rule_term of rest_rule_name.space_rule_term) handleSpaceRuleTerm(space_rule_term, key);
+				updateReferenceSpaceRuleTermList(rest_rule_name.space_rule_term, key);
 			}
 		}
 	}

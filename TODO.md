@@ -1,12 +1,36 @@
 # TODO
 
+## TODO EBNF
+
+- [ ] support of line comments with //
+- [ ] support of multiline comment with (* *)
+
+- [ ] ISO/IEC 14977:
+  - [ ] remove support of + * ?
+  - [ ] [...] optional
+  - [ ] {...} 0 or more
+  - [ ] support of line comment with start of line with '+'
+
+## TODO BENFY
+
+- [ ] support of multiline comment with ##
+- [ ] add param for add of index, line and column in parsed object
+- [ ] handle multiple times same rule in expression
+- [ ] update benfy lang (no more "include" and "as")
+- [ ] tests
+
+## TODO BOTH
+
+- [ ] merge ebnf_index with index (add options to select language and also conversion options (like strict/loose))
+
 ## ✨ Features
 
-- [ ] **Import handling**: Create rule `rule_ref != rule_name` to handle `.`
-- [ ] **Watch mode**: File watching for automatic re-parsing
-- [ ] **Auto-fix**: Implement automatic error fixing
 - [ ] **Interactive execution**: Step-by-step parsing/debugging
-- [ ] **Non-interruptive parse**: Background parsing without blocking
+- [x] **EBNF Conversion from**: Support conversion from Benfy to EBNF format
+- [ ] **EBNF Conversion to**: Support conversion from EBNF to Benfy format
+- [ ] **Railroad diagrams**: Support generation of railroad diagrams from EBNF
+- [ ] **Auto-sort**: Implement automatic sorting of rules
+- [ ] **Auto-fix**: Implement automatic error fixing (TO CANCEL)
 
 ---
 
@@ -51,15 +75,9 @@
 
 ---
 
-## 🔮 Future Considerations
-
-- [ ] **EBFN Conversion**: Support conversion from/to EBFN format (for railroad diagrams)
-
----
-
 ## 💡 Ideas to Explore
 
-### Language Features
+### Semantic analyzer
 
 - Scope management
 - Declaration syntax

@@ -4,8 +4,8 @@ null_: /null/
 boolean_: /true|false/
 string_: /"(\\"|[^"])*"/
 number_: /(0|[1-9][0-9]*)(.[0-9]+)?(e[+-]?[0-9]+)?/
-array_: /\[/ array_content /\]/
+array_: /\[/ array_content /\s*\]/
 array_content: json? >> /,/
-object_: /\{/ object_content /}/
+object_: /\{/ object_content /\s*}/
 object_content: object_kv? >> /,/
 object_kv: /\s*/ string_ /\s*:/ json

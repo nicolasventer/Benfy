@@ -1,14 +1,22 @@
-export type LogValue = { debugName: string; rgx: string; status: string; index: number; text: string };
+export type LogValue = { debugName: string; rgx: string; status: string; index: number; location: string; text: string };
 const successValues: LogValue[] = [];
 const failedValues: LogValue[] = [];
 export const logs: LogValue[] = [];
 let index = 0;
 let text = "";
 let debugName = "";
-const try_parse_fn = <T>(parse_fn: (arg: T) => void | boolean | string, arg: T) => {
+let path = "";
+const indexToLineCol = (textIndex: number) => {
+	const lineBreakBefore = textIndex === 0 ? -1 : text.lastIndexOf("\n", textIndex - 1);
+	return {
+		line: lineBreakBefore === -1 ? 1 : text.slice(0, lineBreakBefore + 1).match(/\n/g)!.length + 1,
+		col: textIndex - lineBreakBefore,
+	};
+};
+const try_parse_fn = <T extends any[]>(parse_fn: (...args: T) => void | boolean | string, ...args: T) => {
 	const current_index = index;
 	try {
-		if (parse_fn(arg) === false) return "stop";
+		if (parse_fn(...args) === false) return "stop";
 		return true;
 	} catch {
 		index = current_index;
@@ -41,19 +49,25 @@ const reg = (strings: TemplateStringsArray, ...keys: RegExp[]) => {
 	for (let i = 0; i < keys.length; i++) result.push(keys[i].source, strings.raw[i + 1]);
 	return new RegExp(result.join("").slice(1, -1));
 };
-const parse_regex = (rgx: RegExp) => {
-	let flags = rgx.flags;
-	if (!flags.includes("g")) flags += "g";
-	if (!flags.includes("y")) flags += "y";
+const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multiline: boolean) => {
+	const flags = "gy" + (ignoreCase ? "i" : "") + (multiline ? "m" : "");
+	if (skipSpace) {
+		const spaceRegex = /\s*/gy;
+		spaceRegex.lastIndex = index;
+		const matches = spaceRegex.exec(text);
+		if (matches) index = matches.index + matches[0].length;
+	}
 	const newRgx = new RegExp(rgx.source, flags);
 	newRgx.lastIndex = index;
 	const matches = newRgx.exec(text);
 	if (!matches) {
+		const { line, col } = indexToLineCol(index);
 		failedValues.push({
 			debugName: debugName,
 			rgx: rgx.source,
 			status: "false",
 			index: index,
+			location: `${path ? `${path}:` : ""}${line}:${col}`,
 			text: text
 				.slice(index, index + 25)
 				.replace(/\r?\n/g, "\\n")
@@ -65,11 +79,13 @@ const parse_regex = (rgx: RegExp) => {
 	if (matches) {
 		index = matches.index + matches[0].length;
 		failedValues.length = 0;
+		const { line, col } = indexToLineCol(index);
 		successValues.push({
 			debugName: debugName,
 			rgx: rgx.source,
 			status: "true",
 			index: index,
+			location: `${path ? `${path}:` : ""}${line}:${col}`,
 			text: text
 				.slice(index, index + 25)
 				.replace(/\r?\n/g, "\\n")
@@ -150,9 +166,9 @@ const create_object_kv = (): object_kv => ({ type: "object_kv", string_: create_
 
 const parse_json = (json: json) => {
 	debugName = "json";
-	parse_regex(reg`/\s*/`);
+	parse_regex(reg`/\s*/`, false, false, false);
 	parse_json_content(json.json_content);
-	parse_regex(reg`/\s*/`);
+	parse_regex(reg`/\s*/`, false, false, false);
 };
 const parse_json_content = (json_content: json_content) => {
 	debugName = "json_content";
@@ -172,30 +188,30 @@ const parse_json_content = (json_content: json_content) => {
 };
 const parse_null_ = (null_: null_) => {
 	debugName = "null_";
-	null_.value = parse_regex(reg`/null/`);
+	null_.value = parse_regex(reg`/null/`, false, false, false);
 };
 const parse_boolean_ = (boolean_: boolean_) => {
 	debugName = "boolean_";
-	boolean_.value = parse_regex(reg`/true|false/`);
+	boolean_.value = parse_regex(reg`/true|false/`, false, false, false);
 };
 const parse_string_ = (string_: string_) => {
 	debugName = "string_";
-	string_.value = parse_regex(reg`/"(\\"|[^"])*"/`);
+	string_.value = parse_regex(reg`/"(\\"|[^"])*"/`, false, false, false);
 };
 const parse_number_ = (number_: number_) => {
 	debugName = "number_";
-	number_.value = parse_regex(reg`/(0|[1-9][0-9]*)(.[0-9]+)?(e[+-]?[0-9]+)?/`);
+	number_.value = parse_regex(reg`/(0|[1-9][0-9]*)(.[0-9]+)?(e[+-]?[0-9]+)?/`, false, false, false);
 };
 const parse_array_ = (array_: array_) => {
 	debugName = "array_";
-	parse_regex(reg`/\[/`);
+	parse_regex(reg`/\[/`, false, false, false);
 	parse_array_content(array_.array_content);
-	parse_regex(reg`/\]/`);
+	parse_regex(reg`/\s*\]/`, false, false, false);
 };
 const parse_array_content_item = (array_content_item: array_content_item) => {
 	debugName = "array_content_item";
 	parse_json(array_content_item.json);
-	if (try_parse_fn(parse_regex, reg`/,/`)) return true;
+	if (try_parse_fn(parse_regex, reg`/,/`, false, false, false)) return true;
 	return false;
 };
 const parse_array_content = (array_content: array_content) => {
@@ -204,14 +220,14 @@ const parse_array_content = (array_content: array_content) => {
 };
 const parse_object_ = (object_: object_) => {
 	debugName = "object_";
-	parse_regex(reg`/\{/`);
+	parse_regex(reg`/\{/`, false, false, false);
 	parse_object_content(object_.object_content);
-	parse_regex(reg`/}/`);
+	parse_regex(reg`/\s*}/`, false, false, false);
 };
 const parse_object_content_item = (object_content_item: object_content_item) => {
 	debugName = "object_content_item";
 	parse_object_kv(object_content_item.object_kv);
-	if (try_parse_fn(parse_regex, reg`/,/`)) return true;
+	if (try_parse_fn(parse_regex, reg`/,/`, false, false, false)) return true;
 	return false;
 };
 const parse_object_content = (object_content: object_content) => {
@@ -220,13 +236,14 @@ const parse_object_content = (object_content: object_content) => {
 };
 const parse_object_kv = (object_kv: object_kv) => {
 	debugName = "object_kv";
-	parse_regex(reg`/\s*/`);
+	parse_regex(reg`/\s*/`, false, false, false);
 	parse_string_(object_kv.string_);
-	parse_regex(reg`/\s*:/`);
+	parse_regex(reg`/\s*:/`, false, false, false);
 	parse_json(object_kv.json);
 };
 
-export const parse = (textToParse: string, onFail?: (result: json) => void) => {
+export const parse = (textToParse: string, filePath = "", onFail?: (result: json) => void) => {
+	path = filePath;
 	text = textToParse;
 	index = 0;
 	const result = create_json();
@@ -234,6 +251,10 @@ export const parse = (textToParse: string, onFail?: (result: json) => void) => {
 	failedValues.length = 0;
 	try {
 		parse_json(result);
+		if (index !== text.length) {
+			const { line, col } = indexToLineCol(index);
+			throw new Error(`Text not fully parsed, interrupted at index ${index} (${path ? `${path}:` : ""}${line}:${col})`);
+		}
 		logs.length = 0;
 		logs.push(...successValues, ...failedValues);
 		return result;

@@ -1,5 +1,5 @@
 import path from "path";
-import { checkRules, checkSyntaxInText } from "./grammar_checker";
+import { checkRules } from "./grammar_checker";
 import { generateCode } from "./grammar_generator";
 import { logs, parse } from "./grammar_parser";
 
@@ -35,11 +35,13 @@ function parseArgs(): CliArgs {
 			}
 			result.outputFile = args[++i];
 		} else if (arg === "-d" || arg === "--debug") {
-			if (i + 1 >= args.length) {
-				console.error("Error: -d requires a file path");
-				process.exit(1);
+			// If next arg exists and doesn't start with -, it's a path
+			if (i + 1 < args.length && !args[i + 1].startsWith("-")) {
+				result.debugJsonFile = args[++i];
+			} else {
+				// -d without path: will be computed later from input file
+				result.debugJsonFile = "";
 			}
-			result.debugJsonFile = args[++i];
 		} else if (arg === "-h" || arg === "--help") {
 			console.log(`
 Usage: bun index.ts <input-file> [options]
@@ -49,13 +51,16 @@ Arguments:
 
 Options:
   -o, --output <file>   Output TypeScript parser file path
-  -d, --debug <file>    Output JSON result file path for debugging
+                        (if no path provided, uses <input-name>_parser.ts)
+  -d, --debug [file]    Output JSON result file path for debugging
+                        (if no path provided, uses <input-name>_result.json)
   -h, --help            Show this help message
 
 Examples:
   bun index.ts grammar.bf
   bun index.ts grammar.bf -o parser.ts
   bun index.ts grammar.bf -o parser.ts -d debug.json
+  bun index.ts grammar.bf -d
 			`);
 			process.exit(0);
 		} else if (!arg.startsWith("-")) {
@@ -92,28 +97,34 @@ function computeOutputFile(inputFile: string): string {
 	return path.join(parsed.dir, `${parsed.name}_parser.ts`);
 }
 
+/**
+ * Computes the debug JSON file path from the input file path.
+ * Uses the input file name with "_result.json" extension in the same directory.
+ */
+function computeDebugFile(inputFile: string): string {
+	const inputPath = path.resolve(inputFile);
+	const parsed = path.parse(inputPath);
+	return path.join(parsed.dir, `${parsed.name}_result.json`);
+}
+
 export async function generateParser(config: ParserGeneratorConfig) {
 	const inputPath = path.resolve(config.inputFile);
 	const outputPath = config.outputFile ? path.resolve(config.outputFile) : computeOutputFile(config.inputFile);
-	const debugJsonPath = config.debugJsonFile ? path.resolve(config.debugJsonFile) : undefined;
+	const debugJsonPath =
+		config.debugJsonFile !== undefined
+			? config.debugJsonFile === ""
+				? computeDebugFile(config.inputFile)
+				: path.resolve(config.debugJsonFile)
+			: undefined;
 
 	try {
 		// Step 1: Read the grammar file
 		console.log(`Reading grammar file: ${inputPath}`);
 		const grammarText = await Bun.file(inputPath).text();
 
-		// Step 2: Check syntax errors in the raw text (before parsing)
-		console.log("Checking syntax...");
-		const syntaxErrors = checkSyntaxInText(grammarText, inputPath);
-		if (syntaxErrors.length > 0) {
-			console.table(syntaxErrors);
-			console.log("Syntax validation failed, exiting...");
-			process.exit(1);
-		}
-
-		// Step 3: Parse the grammar file
+		// Step 2: Parse the grammar file
 		console.log("Parsing grammar...");
-		const parsedGrammar = parse(grammarText, (res) => {
+		const parsedGrammar = parse(grammarText, config.inputFile, (res) => {
 			console.table(logs);
 			if (debugJsonPath) {
 				console.log(`Writing debug JSON: ${debugJsonPath}`);
@@ -123,9 +134,19 @@ export async function generateParser(config: ParserGeneratorConfig) {
 			process.exit(1);
 		});
 
+		// Step 3: Optionally write debug JSON
+		if (debugJsonPath) {
+			console.log(`Writing debug JSON: ${debugJsonPath}`);
+			await Bun.write(debugJsonPath, JSON.stringify(parsedGrammar, null, "\t"));
+		}
+
 		// Step 4: Validate rules (reference checks)
 		console.log("Validating grammar rules...");
 		const validationResult = checkRules(parsedGrammar, inputPath);
+
+		if (validationResult.others.length > 0) {
+			console.table(validationResult.others);
+		}
 
 		if (validationResult.errors.length > 0) {
 			console.table(validationResult.errors);
@@ -133,20 +154,10 @@ export async function generateParser(config: ParserGeneratorConfig) {
 			process.exit(1);
 		}
 
-		if (validationResult.others.length > 0) {
-			console.table(validationResult.others);
-		}
-
 		// Step 5: Generate TypeScript parser code
 		console.log(`Generating parser code: ${outputPath}`);
 		const generatedCode = generateCode(parsedGrammar);
 		await Bun.write(outputPath, generatedCode);
-
-		// Step 6: Optionally write debug JSON
-		if (debugJsonPath) {
-			console.log(`Writing debug JSON: ${debugJsonPath}`);
-			await Bun.write(debugJsonPath, JSON.stringify(parsedGrammar, null, "\t"));
-		}
 
 		console.log("Parser generation completed successfully!");
 	} catch (error) {
