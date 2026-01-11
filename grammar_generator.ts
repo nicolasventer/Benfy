@@ -180,7 +180,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 			type: "regex",
 			regexContent: regexContent,
 			bNegation: bNegation,
-			skipSpace: defaultSkipSpace ? !regexFlags.includes("y") : regexFlags.includes("n"),
+			skipSpace: defaultSkipSpace ? !regexFlags.includes("s") : regexFlags.includes("l"),
 			ignoreCase: regexFlags.includes("i"),
 			multiline: regexFlags.includes("m"),
 		};

@@ -13,7 +13,6 @@
 
 ## TODO BENFY
 
-- [ ] support of multiline comment with ##
 - [ ] add param for add of index, line and column in parsed object
 - [ ] handle multiple times same rule in expression
 - [ ] update benfy lang (no more "include" and "as")

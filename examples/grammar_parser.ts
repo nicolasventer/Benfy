@@ -494,7 +494,7 @@ const parse_rule_regex_content = (rule_regex_content: rule_regex_content) => {
 };
 const parse_rule_regex_flags = (rule_regex_flags: rule_regex_flags) => {
 	debugName = "rule_regex_flags";
-	rule_regex_flags.value = parse_regex(reg`/[myni]*/`, false, false, false);
+	rule_regex_flags.value = parse_regex(reg`/[slmi]*/`, false, false, false);
 };
 const parse_rule_basic_quantifier = (rule_basic_quantifier: rule_basic_quantifier) => {
 	debugName = "rule_basic_quantifier";
