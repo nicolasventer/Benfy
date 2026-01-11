@@ -152,7 +152,19 @@ const regexWithQuantifier = (value: string, quantifier: string, bSlash: boolean 
 		bSlash ? "/" : ""
 	}`;
 
-const toBenfyComment = (value: string) => `##${value.slice(2, -2)}##`;
+const toBenfyComment = (value: string) =>
+	value.includes("\n")
+		? `##${value
+				.slice(2, -2)
+				.split("\n")
+				.map((line) => line.trimStart().replace(/^\*\s*/, ""))
+				.join("\n")}##`
+		: value
+				.slice(2, -2)
+				.trim()
+				.split("\n")
+				.map((line) => `# ${line}`)
+				.join("\n");
 
 const toBenfyIdentifier = (value: string) => value.replace(/-/g, "_").replace(/<\S+>/g, (match) => match.slice(1, -1));
 
@@ -168,6 +180,7 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 			if (bHasNoIdentifier) {
 				result += " /";
 				let interleaveExpressionStr = "";
+				let commentStr = "";
 				for (const expression of line.value.expression.value) {
 					const last_non_comment_index = expression.term_list.value.findLastIndex(
 						(term_list) => term_list.term.factor.value.type !== "comment"
@@ -187,9 +200,9 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 						else if (factor.type === "terminal")
 							expressionStr += regexWithQuantifier(factor.value.slice(1, -1), realQuantifier, false);
 						else if (factor.type === "hex") expressionStr += regexWithQuantifier(factor.value, realQuantifier, false);
-						else if (factor.type === "comment")
-							expressionStr += `${term_list_index === last_term_index ? "\n" : " "}${toBenfyComment(factor.value)}`;
-						else if (factor.type === "character_class")
+						else if (factor.type === "comment") {
+							if (term_list_index === last_term_index) commentStr += `\n${toBenfyComment(factor.value)}`;
+						} else if (factor.type === "character_class")
 							expressionStr += `[${factor.character_range.map((character_range) => replaceHex(character_range.value)).join("")}]`;
 						else if (factor.type === "group") throw new Error("Sanitized grammar should not have group");
 					});
@@ -202,9 +215,11 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 					else if (expression.expression_join.value === "-") console.warn("'-' join not supported for noIdentifier branch");
 					if (expression.expression_join.value === "**") interleaveExpressionStr = exprToAdd;
 				}
+				result += `/${commentStr}`;
 			} else {
 				let interleaveExpressionStr = "";
 				let minusExpressionStr = "";
+				let commentStr = "";
 				for (const expression of line.value.expression.value) {
 					const last_non_comment_index = expression.term_list.value.findLastIndex(
 						(term_list) => term_list.term.factor.value.type !== "comment"
@@ -221,9 +236,9 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 						else if (factor.type === "regex_") expressionStr += regexWithQuantifier(factor.value.slice(0, -1), realQuantifier);
 						else if (factor.type === "terminal") expressionStr += regexWithQuantifier(factor.value.slice(1, -1), realQuantifier);
 						else if (factor.type === "hex") expressionStr += regexWithQuantifier(factor.value, realQuantifier);
-						else if (factor.type === "comment")
-							expressionStr += `${term_list_index === last_term_index ? "\n" : " "}${toBenfyComment(factor.value)}`;
-						else if (factor.type === "character_class")
+						else if (factor.type === "comment") {
+							if (term_list_index === last_term_index) commentStr += `\n${toBenfyComment(factor.value)}`;
+						} else if (factor.type === "character_class")
 							expressionStr += `/[${factor.character_range
 								.map((character_range) => replaceHex(character_range.value))
 								.join("")}]${realQuantifier}/`;
@@ -247,6 +262,7 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 					else if (expression.expression_join.value === "-") minusExpressionStr = exprToAdd;
 					if (expression.expression_join.value === "**") interleaveExpressionStr = exprToAdd; // TODO: should not be handled here
 				}
+				result += commentStr;
 			}
 		} else if (line.value.type === "comment") result += toBenfyComment(line.value.value);
 		result += "\n";
