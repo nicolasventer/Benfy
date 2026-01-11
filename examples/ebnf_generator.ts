@@ -220,7 +220,8 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 				let interleaveExpressionStr = "";
 				let minusExpressionStr = "";
 				let commentStr = "";
-				for (const expression of line.value.expression.value) {
+				const last_expression_index = line.value.expression.value.length - 1;
+				line.value.expression.value.forEach((expression, expression_index) => {
 					const last_non_comment_index = expression.term_list.value.findLastIndex(
 						(term_list) => term_list.term.factor.value.type !== "comment"
 					);
@@ -243,12 +244,16 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 								.map((character_range) => replaceHex(character_range.value))
 								.join("")}]${realQuantifier}/`;
 						else if (factor.type === "group") throw new Error("Sanitized grammar should not have group");
-						if (term_list_index <= last_non_comment_index) expressionStr += " ";
+						if (
+							term_list_index <= last_non_comment_index &&
+							(term_list_index !== last_non_comment_index || expression_index !== last_expression_index)
+						)
+							expressionStr += " ";
 					});
 					const exprToAdd = interleaveExpressionStr
 						? `${interleaveExpressionStr}${expressionStr}| ${expressionStr}${interleaveExpressionStr}`
 						: minusExpressionStr
-						? `!${expressionStr}${minusExpressionStr.trimEnd()}`
+						? `!${expressionStr} ${minusExpressionStr.trimEnd()}`
 						: expressionStr;
 					if (
 						(interleaveExpressionStr || minusExpressionStr) &&
@@ -261,7 +266,7 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 					else if (expression.expression_join.value === "") result += ` ${exprToAdd}`;
 					else if (expression.expression_join.value === "-") minusExpressionStr = exprToAdd;
 					if (expression.expression_join.value === "**") interleaveExpressionStr = exprToAdd; // TODO: should not be handled here
-				}
+				});
 				result += commentStr;
 			}
 		} else if (line.value.type === "comment") result += toBenfyComment(line.value.value);
