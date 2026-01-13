@@ -26,6 +26,11 @@
  */
 
 
+
+
+/* Document Expression */
+Document ::= Ignored Definition+ Ignored
+
 /* SourceCharacter Expression */
 SourceCharacter ::=  #x0009 | #x000A | #x000D | [#x0020-#xFFFF] /* /[\u0009\u000A\u000D\u0020-\uFFFF]/ */
 
@@ -61,11 +66,6 @@ StringCharacter      ::= SourceCharacter - '"' | SourceCharacter - "\" | SourceC
 EscapedUnicode       ::= [#x0000-#xFFFF] 
 EscapedCharacter     ::= '"' | '\' | '/' | 'b' | 'f' | 'n' | 'r' | 't'
 BlockStringCharacter ::= SourceCharacter - '"""' | SourceCharacter - '\"""' | '\"""' 
-
-
-
-/* Document Expression */
-Document ::= Ignored Definition+ Ignored
 
 
 /* Definition Expression */
@@ -158,7 +158,7 @@ TypeExtension             ::= ScalarTypeExtension | ObjectTypeExtension | Interf
 ScalarTypeDefinition      ::= Description? Ignored "scalar" Ignored Name Ignored Directives? Ignored
 ScalarTypeExtension       ::= "extend" Ignored "scalar" Ignored Name Ignored Directives Ignored
 
-ObjectTypeDefinition      ::= Description? Ignored "type" Ignored Name Ignored ImplementsInterfaces? Ignored Directives? Ignored FieldsDefinition? gnored
+ObjectTypeDefinition      ::= Description? Ignored "type" Ignored Name Ignored ImplementsInterfaces? Ignored Directives? Ignored FieldsDefinition? Ignored
 ObjectTypeExtension       ::= "extend" Ignored "type" Ignored Name Ignored ImplementsInterfaces? Ignored Directives? Ignored FieldsDefinition Ignored | "extend" Ignored "type" Ignored Name Ignored ImplementsInterfaces? Ignored Directives Ignored | "extend" Ignored "type" Ignored Name Ignored ImplementsInterfaces Ignored
 
 ImplementsInterfaces      ::= "implements" Ignored "&"? Ignored NamedType Ignored | ImplementsInterfaces Ignored "&" Ignored NamedType Ignored

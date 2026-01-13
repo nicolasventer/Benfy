@@ -22,7 +22,7 @@ rule_term_positive: rule_name_quantified | rule_regex
 rule_name_quantified: rule_name rule_quantifier?
 rule_quantifier: rule_basic_quantifier | rule_brace_quantifier
 rule_regex: rule_regex_content rule_regex_flags
-rule_regex_content: /\/(\\\/|[^\/])*\//
+rule_regex_content: /\/(\\.|[^\/])*\//
 rule_regex_flags: /[slmi]*/
 rule_basic_quantifier: /[+*?]/
 rule_brace_quantifier: /\{/ rule_brace_min rule_brace_max? /\}/

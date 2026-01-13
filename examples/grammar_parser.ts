@@ -490,7 +490,7 @@ const parse_rule_regex = (rule_regex: rule_regex) => {
 };
 const parse_rule_regex_content = (rule_regex_content: rule_regex_content) => {
 	debugName = "rule_regex_content";
-	rule_regex_content.value = parse_regex(reg`/\/(\\\/|[^\/])*\//`, false, false, false);
+	rule_regex_content.value = parse_regex(reg`/\/(\\.|[^\/])*\//`, false, false, false);
 };
 const parse_rule_regex_flags = (rule_regex_flags: rule_regex_flags) => {
 	debugName = "rule_regex_flags";

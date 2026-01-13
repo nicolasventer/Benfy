@@ -265,7 +265,7 @@ function checkReferences(parsedGrammar: grammar, filePath: string, { errors, oth
 	const hardReferenceStack: string[] = [];
 	const checkHardReference = (key: string) => {
 		if (circularReferenceSet.has(key)) return;
-		for (const v of hardReferenceListMap[key]) {
+		for (const v of hardReferenceListMap[key] ?? []) {
 			if (hardReferenceStack.includes(v)) {
 				errors.push({
 					severity: "error",

@@ -262,7 +262,8 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 				} else {
 					if (content.bNegation)
 						parseCode.push(
-							`if (try_parse_fn(parse_regex, reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline})) throw new Error("Match should be failed: ${content.regexContent}");`
+							`if (try_parse_fn(parse_regex, reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline})) ` +
+								`throw new Error("Match should be failed: ${content.regexContent.replace('"', '\\"')}");`
 						);
 					else {
 						if (type === "value") {

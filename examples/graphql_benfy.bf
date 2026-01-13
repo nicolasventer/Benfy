@@ -24,6 +24,8 @@ list      -> +
 opt       -> ?
 list, opt -> *
 ##
+# Document Expression
+Document: Ignored Definition+ Ignored
 # SourceCharacter Expression
 SourceCharacter: /\u0009|\u000A|\u000D|[\u0020-\uFFFF]/
 # Ignored Tokens Expression
@@ -76,8 +78,6 @@ BlockStringCharacter: BlockStringCharacter_0 | BlockStringCharacter_1 | BlockStr
 BlockStringCharacter_0: !/"""/ SourceCharacter
 BlockStringCharacter_1: !/\\"""/ SourceCharacter
 BlockStringCharacter_2: /\\"""/
-# Document Expression
-Document: Ignored Definition+ Ignored
 # Definition Expression
 Definition: ExecutableDefinition | TypeSystemDefinition | TypeSystemExtension
 ExecutableDefinition: OperationDefinition | FragmentDefinition
@@ -153,7 +153,7 @@ TypeDefinition: ScalarTypeDefinition | ObjectTypeDefinition | InterfaceTypeDefin
 TypeExtension: ScalarTypeExtension | ObjectTypeExtension | InterfaceTypeExtension | UnionTypeExtension | EnumTypeExtension | InputObjectTypeExtension
 ScalarTypeDefinition: Description? Ignored /scalar/ Ignored Name Ignored Directives? Ignored
 ScalarTypeExtension: /extend/ Ignored /scalar/ Ignored Name Ignored Directives Ignored
-ObjectTypeDefinition: Description? Ignored /type/ Ignored Name Ignored ImplementsInterfaces? Ignored Directives? Ignored FieldsDefinition? gnored
+ObjectTypeDefinition: Description? Ignored /type/ Ignored Name Ignored ImplementsInterfaces? Ignored Directives? Ignored FieldsDefinition? Ignored
 ObjectTypeExtension: ObjectTypeExtension_0 | ObjectTypeExtension_1 | ObjectTypeExtension_2
 ObjectTypeExtension_0: /extend/ Ignored /type/ Ignored Name Ignored ImplementsInterfaces? Ignored Directives? Ignored FieldsDefinition Ignored
 ObjectTypeExtension_1: /extend/ Ignored /type/ Ignored Name Ignored ImplementsInterfaces? Ignored Directives Ignored
