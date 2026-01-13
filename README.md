@@ -121,9 +121,10 @@ It can be overridden anywhere in the grammar or with Regex flags.
 ```bf
 "loose"
 rule_1: /abc/ # equivalent to /\s*abc/
-rule_2: /abc/n # equivalent to /abc/, here "n" is the regex flag for strict spacing policy
+rule_2: /abc/s # equivalent to /abc/, here "s" is the regex flag for strict spacing policy
 "strict"
 rule_3: /abc/ # equivalent to /abc/, here "strict" is the spacing policy
+rule_4: /abc/l # equivalent to /abc/, here "l" is the regex flag for loose spacing policy
 ```
 
 ## Workflow
