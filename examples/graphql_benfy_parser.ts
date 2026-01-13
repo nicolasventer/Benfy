@@ -100,7 +100,7 @@ export type Document = {
 	type: "Document";
 	Ignored: Ignored;
 	Definition: Definition[];
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 };
 export type SourceCharacter = {
 	type: "SourceCharacter";
@@ -158,16 +158,16 @@ export type IntegerPart_0 = {
 	type: "IntegerPart_0";
 	NegativeSign?: NegativeSign;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 };
 export type IntegerPart_1 = {
 	type: "IntegerPart_1";
 	NegativeSign?: NegativeSign;
 	Ignored: Ignored;
 	NonZeroDigit: NonZeroDigit;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Digit: Digit[];
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type NegativeSign = {
 	type: "NegativeSign";
@@ -308,14 +308,14 @@ export type OperationDefinition_1 = {
 	type: "OperationDefinition_1";
 	Ignored: Ignored;
 	OperationType: OperationType;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name?: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	VariableDefinitions?: VariableDefinitions;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	Directives?: Directives;
 	SelectionSet: SelectionSet;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type OperationType = {
 	type: "OperationType";
@@ -325,8 +325,8 @@ export type SelectionSet = {
 	type: "SelectionSet";
 	Ignored: Ignored;
 	Selection: Selection[];
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
+	_Ignored_2: Ignored;
 };
 export type Selection = {
 	type: "Selection";
@@ -352,64 +352,64 @@ export type Field = {
 	Alias?: Alias;
 	Ignored: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Arguments?: Arguments;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	SelectionSet?: SelectionSet;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type Alias = {
 	type: "Alias";
 	Name: Name;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 };
 export type Arguments = {
 	type: "Arguments";
 	Ignored: Ignored;
 	Argument: Argument[];
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
+	_Ignored_2: Ignored;
 };
 export type Argument = {
 	type: "Argument";
 	Name: Name;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Value: Value;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type FragmentSpread = {
 	type: "FragmentSpread";
 	Ignored: Ignored;
 	FragmentName: FragmentName;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type InlineFragment = {
 	type: "InlineFragment";
 	Ignored: Ignored;
 	TypeCondition?: TypeCondition;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	SelectionSet: SelectionSet;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 };
 export type FragmentDefinition = {
 	type: "FragmentDefinition";
 	Ignored: Ignored;
 	FragmentName: FragmentName;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	TypeCondition: TypeCondition;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	SelectionSet: SelectionSet;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type FragmentName = {
 	type: "FragmentName";
@@ -419,7 +419,7 @@ export type TypeCondition = {
 	type: "TypeCondition";
 	Ignored: Ignored;
 	NamedType: NamedType;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 };
 export type Value = {
 	type: "Value";
@@ -477,10 +477,10 @@ export type ObjectField = {
 	type: "ObjectField";
 	Ignored: Ignored;
 	Name: Name;
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
+	_Ignored_2: Ignored;
 	Value: Value;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 };
 export type VariableDefinitions = {
 	type: "VariableDefinitions";
@@ -490,11 +490,11 @@ export type VariableDefinition = {
 	type: "VariableDefinition";
 	Variable: Variable;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Type: Type;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	DefaultValue?: DefaultValue;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 };
 export type Variable = {
 	type: "Variable";
@@ -537,9 +537,9 @@ export type Directive = {
 	type: "Directive";
 	Ignored: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Arguments?: Arguments;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type TypeSystemDefinition = {
 	type: "TypeSystemDefinition";
@@ -553,11 +553,11 @@ export type SchemaDefinition = {
 	type: "SchemaDefinition";
 	Ignored: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
+	_Ignored_2: Ignored;
 	OperationTypeDefinition: OperationTypeDefinition[];
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
+	_Ignored_4: Ignored;
 };
 export type SchemaExtension = {
 	type: "SchemaExtension";
@@ -567,25 +567,25 @@ export type SchemaExtension_0 = {
 	type: "SchemaExtension_0";
 	Ignored: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
+	_Ignored_2: Ignored;
 	OperationTypeDefinition: OperationTypeDefinition[];
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
+	_Ignored_4: Ignored;
 };
 export type SchemaExtension_1 = {
 	type: "SchemaExtension_1";
 	Ignored: Ignored;
 	Directives: Directives;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 };
 export type OperationTypeDefinition = {
 	type: "OperationTypeDefinition";
 	OperationType: OperationType;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	NamedType: NamedType;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type Description = {
 	type: "Description";
@@ -593,44 +593,56 @@ export type Description = {
 };
 export type TypeDefinition = {
 	type: "TypeDefinition";
-	value: ScalarTypeDefinition | ObjectTypeDefinition | InterfaceTypeDefinition | UnionTypeDefinition | EnumTypeDefinition | InputObjectTypeDefinition;
+	value:
+		| ScalarTypeDefinition
+		| ObjectTypeDefinition
+		| InterfaceTypeDefinition
+		| UnionTypeDefinition
+		| EnumTypeDefinition
+		| InputObjectTypeDefinition;
 };
 export type TypeExtension = {
 	type: "TypeExtension";
-	value: ScalarTypeExtension | ObjectTypeExtension | InterfaceTypeExtension | UnionTypeExtension | EnumTypeExtension | InputObjectTypeExtension;
+	value:
+		| ScalarTypeExtension
+		| ObjectTypeExtension
+		| InterfaceTypeExtension
+		| UnionTypeExtension
+		| EnumTypeExtension
+		| InputObjectTypeExtension;
 };
 export type ScalarTypeDefinition = {
 	type: "ScalarTypeDefinition";
 	Description?: Description;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 };
 export type ScalarTypeExtension = {
 	type: "ScalarTypeExtension";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 };
 export type ObjectTypeDefinition = {
 	type: "ObjectTypeDefinition";
 	Description?: Description;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	ImplementsInterfaces?: ImplementsInterfaces;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 	FieldsDefinition?: FieldsDefinition;
-	Ignored: Ignored;
+	_Ignored_5: Ignored;
 };
 export type ObjectTypeExtension = {
 	type: "ObjectTypeExtension";
@@ -639,35 +651,35 @@ export type ObjectTypeExtension = {
 export type ObjectTypeExtension_0 = {
 	type: "ObjectTypeExtension_0";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	ImplementsInterfaces?: ImplementsInterfaces;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 	FieldsDefinition: FieldsDefinition;
-	Ignored: Ignored;
+	_Ignored_5: Ignored;
 };
 export type ObjectTypeExtension_1 = {
 	type: "ObjectTypeExtension_1";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	ImplementsInterfaces?: ImplementsInterfaces;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	Directives: Directives;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type ObjectTypeExtension_2 = {
 	type: "ObjectTypeExtension_2";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	ImplementsInterfaces: ImplementsInterfaces;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 };
 export type ImplementsInterfaces = {
 	type: "ImplementsInterfaces";
@@ -676,29 +688,29 @@ export type ImplementsInterfaces = {
 export type ImplementsInterfaces_0 = {
 	type: "ImplementsInterfaces_0";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	NamedType: NamedType;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type ImplementsInterfaces_1 = {
 	type: "ImplementsInterfaces_1";
 	ImplementsInterfaces: ImplementsInterfaces;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	NamedType: NamedType;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type InterfaceTypeDefinition = {
 	type: "InterfaceTypeDefinition";
 	Description?: Description;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	FieldsDefinition?: FieldsDefinition;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type InterfaceTypeExtension = {
 	type: "InterfaceTypeExtension";
@@ -707,34 +719,34 @@ export type InterfaceTypeExtension = {
 export type InterfaceTypeExtension_0 = {
 	type: "InterfaceTypeExtension_0";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	FieldsDefinition: FieldsDefinition;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type InterfaceTypeExtension_1 = {
 	type: "InterfaceTypeExtension_1";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 };
 export type UnionTypeDefinition = {
 	type: "UnionTypeDefinition";
 	Description?: Description;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	UnionMemberTypes?: UnionMemberTypes;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type UnionMemberTypes = {
 	type: "UnionMemberTypes";
@@ -743,17 +755,17 @@ export type UnionMemberTypes = {
 export type UnionMemberTypes_0 = {
 	type: "UnionMemberTypes_0";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	NamedType: NamedType;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type UnionMemberTypes_1 = {
 	type: "UnionMemberTypes_1";
 	UnionMemberTypes: UnionMemberTypes;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	NamedType: NamedType;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type UnionTypeExtension = {
 	type: "UnionTypeExtension";
@@ -762,50 +774,50 @@ export type UnionTypeExtension = {
 export type UnionTypeExtension_0 = {
 	type: "UnionTypeExtension_0";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	UnionMemberTypes?: UnionMemberTypes;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type UnionTypeExtension_1 = {
 	type: "UnionTypeExtension_1";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 };
 export type EnumTypeDefinition = {
 	type: "EnumTypeDefinition";
 	Description?: Description;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	EnumValuesDefinition?: EnumValuesDefinition;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type EnumValuesDefinition = {
 	type: "EnumValuesDefinition";
 	Ignored: Ignored;
 	EnumValueDefinition: EnumValueDefinition[];
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
+	_Ignored_2: Ignored;
 };
 export type EnumValueDefinition = {
 	type: "EnumValueDefinition";
 	Description?: Description;
 	Ignored: Ignored;
 	EnumValue: EnumValue;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type EnumTypeExtension = {
 	type: "EnumTypeExtension";
@@ -814,41 +826,41 @@ export type EnumTypeExtension = {
 export type EnumTypeExtension_0 = {
 	type: "EnumTypeExtension_0";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	EnumValuesDefinition: EnumValuesDefinition;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type EnumTypeExtension_1 = {
 	type: "EnumTypeExtension_1";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 };
 export type InputObjectTypeDefinition = {
 	type: "InputObjectTypeDefinition";
 	Description?: Description;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	InputFieldsDefinition?: InputFieldsDefinition;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type InputFieldsDefinition = {
 	type: "InputFieldsDefinition";
 	Ignored: Ignored;
 	InputValueDefinition: InputValueDefinition[];
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
+	_Ignored_2: Ignored;
 };
 export type InputObjectTypeExtension = {
 	type: "InputObjectTypeExtension";
@@ -857,36 +869,36 @@ export type InputObjectTypeExtension = {
 export type InputObjectTypeExtension_0 = {
 	type: "InputObjectTypeExtension_0";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	InputFieldsDefinition: InputFieldsDefinition;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 };
 export type InputObjectTypeExtension_1 = {
 	type: "InputObjectTypeExtension_1";
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 	Directives: Directives;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 };
 export type DirectiveDefinition = {
 	type: "DirectiveDefinition";
 	Description?: Description;
 	Ignored: Ignored;
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
+	_Ignored_2: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	ArgumentsDefinition?: ArgumentsDefinition;
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
+	_Ignored_5: Ignored;
 	DirectiveLocations: DirectiveLocations;
-	Ignored: Ignored;
+	_Ignored_6: Ignored;
 };
 export type DirectiveLocations = {
 	type: "DirectiveLocations";
@@ -896,15 +908,15 @@ export type DirectiveLocations_0 = {
 	type: "DirectiveLocations_0";
 	Ignored: Ignored;
 	DirectiveLocation: DirectiveLocation;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 };
 export type DirectiveLocations_1 = {
 	type: "DirectiveLocations_1";
 	DirectiveLocations: DirectiveLocations;
 	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	DirectiveLocation: DirectiveLocation;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
 };
 export type DirectiveLocation = {
 	type: "DirectiveLocation";
@@ -922,45 +934,50 @@ export type FieldsDefinition = {
 	type: "FieldsDefinition";
 	Ignored: Ignored;
 	FieldDefinition: FieldDefinition[];
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 };
 export type FieldDefinition = {
 	type: "FieldDefinition";
 	Description?: Description;
 	Ignored: Ignored;
 	Name: Name;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
 	ArgumentsDefinition?: ArgumentsDefinition;
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_2: Ignored;
+	_Ignored_3: Ignored;
 	Type: Type;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_5: Ignored;
 };
 export type ArgumentsDefinition = {
 	type: "ArgumentsDefinition";
 	Ignored: Ignored;
 	InputValueDefinition: InputValueDefinition[];
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
+	_Ignored_2: Ignored;
 };
 export type InputValueDefinition = {
 	type: "InputValueDefinition";
 	Description?: Description;
 	Ignored: Ignored;
 	Name: Name;
-	Ignored: Ignored;
-	Ignored: Ignored;
+	_Ignored_1: Ignored;
+	_Ignored_2: Ignored;
 	Type: Type;
-	Ignored: Ignored;
+	_Ignored_3: Ignored;
 	DefaultValue?: DefaultValue;
-	Ignored: Ignored;
+	_Ignored_4: Ignored;
 	Directives?: Directives;
-	Ignored: Ignored;
+	_Ignored_5: Ignored;
 };
 
-const create_Document = (): Document => ({ type: "Document", Ignored: create_Ignored(), Definition: [], Ignored: create_Ignored() });
+const create_Document = (): Document => ({
+	type: "Document",
+	Ignored: create_Ignored(),
+	Definition: [],
+	_Ignored_1: create_Ignored(),
+});
 const create_SourceCharacter = (): SourceCharacter => ({ type: "SourceCharacter", value: "" });
 const create_Ignored = (): Ignored => ({ type: "Ignored", value: create_UnicodeBOM() });
 const create_UnicodeBOM = (): UnicodeBOM => ({ type: "UnicodeBOM", value: "" });
@@ -974,17 +991,45 @@ const create_Punctuator = (): Punctuator => ({ type: "Punctuator", value: "" });
 const create_Name = (): Name => ({ type: "Name", value: "" });
 const create_IntValue = (): IntValue => ({ type: "IntValue", IntegerPart: create_IntegerPart() });
 const create_IntegerPart = (): IntegerPart => ({ type: "IntegerPart", value: create_IntegerPart_0() });
-const create_IntegerPart_0 = (): IntegerPart_0 => ({ type: "IntegerPart_0", Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_IntegerPart_1 = (): IntegerPart_1 => ({ type: "IntegerPart_1", Ignored: create_Ignored(), NonZeroDigit: create_NonZeroDigit(), Ignored: create_Ignored(), Digit: [], Ignored: create_Ignored() });
+const create_IntegerPart_0 = (): IntegerPart_0 => ({
+	type: "IntegerPart_0",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+});
+const create_IntegerPart_1 = (): IntegerPart_1 => ({
+	type: "IntegerPart_1",
+	Ignored: create_Ignored(),
+	NonZeroDigit: create_NonZeroDigit(),
+	_Ignored_1: create_Ignored(),
+	Digit: [],
+	_Ignored_2: create_Ignored(),
+});
 const create_NegativeSign = (): NegativeSign => ({ type: "NegativeSign", value: "" });
 const create_Digit = (): Digit => ({ type: "Digit", value: "" });
 const create_NonZeroDigit = (): NonZeroDigit => ({ type: "NonZeroDigit", Digit: create_Digit() });
 const create_FloatValue = (): FloatValue => ({ type: "FloatValue", value: create_FloatValue_0() });
-const create_FloatValue_0 = (): FloatValue_0 => ({ type: "FloatValue_0", IntegerPart: create_IntegerPart(), FractionalPart: create_FractionalPart() });
-const create_FloatValue_1 = (): FloatValue_1 => ({ type: "FloatValue_1", IntegerPart: create_IntegerPart(), ExponentPart: create_ExponentPart() });
-const create_FloatValue_2 = (): FloatValue_2 => ({ type: "FloatValue_2", IntegerPart: create_IntegerPart(), FractionalPart: create_FractionalPart(), ExponentPart: create_ExponentPart() });
+const create_FloatValue_0 = (): FloatValue_0 => ({
+	type: "FloatValue_0",
+	IntegerPart: create_IntegerPart(),
+	FractionalPart: create_FractionalPart(),
+});
+const create_FloatValue_1 = (): FloatValue_1 => ({
+	type: "FloatValue_1",
+	IntegerPart: create_IntegerPart(),
+	ExponentPart: create_ExponentPart(),
+});
+const create_FloatValue_2 = (): FloatValue_2 => ({
+	type: "FloatValue_2",
+	IntegerPart: create_IntegerPart(),
+	FractionalPart: create_FractionalPart(),
+	ExponentPart: create_ExponentPart(),
+});
 const create_FractionalPart = (): FractionalPart => ({ type: "FractionalPart", Digit: [] });
-const create_ExponentPart = (): ExponentPart => ({ type: "ExponentPart", ExponentIndicator: create_ExponentIndicator(), Digit: [] });
+const create_ExponentPart = (): ExponentPart => ({
+	type: "ExponentPart",
+	ExponentIndicator: create_ExponentIndicator(),
+	Digit: [],
+});
 const create_ExponentIndicator = (): ExponentIndicator => ({ type: "ExponentIndicator", value: "" });
 const create_Sign = (): Sign => ({ type: "Sign", value: "" });
 const create_StringValue = (): StringValue => ({ type: "StringValue", value: create_StringValue_0() });
@@ -993,37 +1038,148 @@ const create_StringValue_1 = (): StringValue_1 => ({ type: "StringValue_1", valu
 const create_StringValue_2 = (): StringValue_2 => ({ type: "StringValue_2", StringCharacter: [] });
 const create_StringValue_3 = (): StringValue_3 => ({ type: "StringValue_3", BlockStringCharacter: [] });
 const create_StringCharacter = (): StringCharacter => ({ type: "StringCharacter", value: create_StringCharacter_0() });
-const create_StringCharacter_0 = (): StringCharacter_0 => ({ type: "StringCharacter_0", SourceCharacter: create_SourceCharacter() });
-const create_StringCharacter_1 = (): StringCharacter_1 => ({ type: "StringCharacter_1", SourceCharacter: create_SourceCharacter() });
-const create_StringCharacter_2 = (): StringCharacter_2 => ({ type: "StringCharacter_2", SourceCharacter: create_SourceCharacter() });
-const create_StringCharacter_3 = (): StringCharacter_3 => ({ type: "StringCharacter_3", EscapedUnicode: create_EscapedUnicode() });
-const create_StringCharacter_4 = (): StringCharacter_4 => ({ type: "StringCharacter_4", EscapedCharacter: create_EscapedCharacter() });
+const create_StringCharacter_0 = (): StringCharacter_0 => ({
+	type: "StringCharacter_0",
+	SourceCharacter: create_SourceCharacter(),
+});
+const create_StringCharacter_1 = (): StringCharacter_1 => ({
+	type: "StringCharacter_1",
+	SourceCharacter: create_SourceCharacter(),
+});
+const create_StringCharacter_2 = (): StringCharacter_2 => ({
+	type: "StringCharacter_2",
+	SourceCharacter: create_SourceCharacter(),
+});
+const create_StringCharacter_3 = (): StringCharacter_3 => ({
+	type: "StringCharacter_3",
+	EscapedUnicode: create_EscapedUnicode(),
+});
+const create_StringCharacter_4 = (): StringCharacter_4 => ({
+	type: "StringCharacter_4",
+	EscapedCharacter: create_EscapedCharacter(),
+});
 const create_EscapedUnicode = (): EscapedUnicode => ({ type: "EscapedUnicode", value: "" });
 const create_EscapedCharacter = (): EscapedCharacter => ({ type: "EscapedCharacter", value: "" });
-const create_BlockStringCharacter = (): BlockStringCharacter => ({ type: "BlockStringCharacter", value: create_BlockStringCharacter_0() });
-const create_BlockStringCharacter_0 = (): BlockStringCharacter_0 => ({ type: "BlockStringCharacter_0", SourceCharacter: create_SourceCharacter() });
-const create_BlockStringCharacter_1 = (): BlockStringCharacter_1 => ({ type: "BlockStringCharacter_1", SourceCharacter: create_SourceCharacter() });
+const create_BlockStringCharacter = (): BlockStringCharacter => ({
+	type: "BlockStringCharacter",
+	value: create_BlockStringCharacter_0(),
+});
+const create_BlockStringCharacter_0 = (): BlockStringCharacter_0 => ({
+	type: "BlockStringCharacter_0",
+	SourceCharacter: create_SourceCharacter(),
+});
+const create_BlockStringCharacter_1 = (): BlockStringCharacter_1 => ({
+	type: "BlockStringCharacter_1",
+	SourceCharacter: create_SourceCharacter(),
+});
 const create_BlockStringCharacter_2 = (): BlockStringCharacter_2 => ({ type: "BlockStringCharacter_2", value: "" });
 const create_Definition = (): Definition => ({ type: "Definition", value: create_ExecutableDefinition() });
-const create_ExecutableDefinition = (): ExecutableDefinition => ({ type: "ExecutableDefinition", value: create_OperationDefinition() });
-const create_OperationDefinition = (): OperationDefinition => ({ type: "OperationDefinition", value: create_OperationDefinition_0() });
-const create_OperationDefinition_0 = (): OperationDefinition_0 => ({ type: "OperationDefinition_0", SelectionSet: create_SelectionSet(), Ignored: create_Ignored() });
-const create_OperationDefinition_1 = (): OperationDefinition_1 => ({ type: "OperationDefinition_1", Ignored: create_Ignored(), OperationType: create_OperationType(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored(), SelectionSet: create_SelectionSet(), Ignored: create_Ignored() });
+const create_ExecutableDefinition = (): ExecutableDefinition => ({
+	type: "ExecutableDefinition",
+	value: create_OperationDefinition(),
+});
+const create_OperationDefinition = (): OperationDefinition => ({
+	type: "OperationDefinition",
+	value: create_OperationDefinition_0(),
+});
+const create_OperationDefinition_0 = (): OperationDefinition_0 => ({
+	type: "OperationDefinition_0",
+	SelectionSet: create_SelectionSet(),
+	Ignored: create_Ignored(),
+});
+const create_OperationDefinition_1 = (): OperationDefinition_1 => ({
+	type: "OperationDefinition_1",
+	Ignored: create_Ignored(),
+	OperationType: create_OperationType(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	SelectionSet: create_SelectionSet(),
+	_Ignored_4: create_Ignored(),
+});
 const create_OperationType = (): OperationType => ({ type: "OperationType", value: "" });
-const create_SelectionSet = (): SelectionSet => ({ type: "SelectionSet", Ignored: create_Ignored(), Selection: [], Ignored: create_Ignored(), Ignored: create_Ignored() });
+const create_SelectionSet = (): SelectionSet => ({
+	type: "SelectionSet",
+	Ignored: create_Ignored(),
+	Selection: [],
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+});
 const create_Selection = (): Selection => ({ type: "Selection", value: create_Selection_0() });
 const create_Selection_0 = (): Selection_0 => ({ type: "Selection_0", Field: create_Field(), Ignored: create_Ignored() });
-const create_Selection_1 = (): Selection_1 => ({ type: "Selection_1", FragmentSpread: create_FragmentSpread(), Ignored: create_Ignored() });
-const create_Selection_2 = (): Selection_2 => ({ type: "Selection_2", InlineFragment: create_InlineFragment(), Ignored: create_Ignored() });
-const create_Field = (): Field => ({ type: "Field", Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_Alias = (): Alias => ({ type: "Alias", Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_Arguments = (): Arguments => ({ type: "Arguments", Ignored: create_Ignored(), Argument: [], Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_Argument = (): Argument => ({ type: "Argument", Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Value: create_Value(), Ignored: create_Ignored() });
-const create_FragmentSpread = (): FragmentSpread => ({ type: "FragmentSpread", Ignored: create_Ignored(), FragmentName: create_FragmentName(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_InlineFragment = (): InlineFragment => ({ type: "InlineFragment", Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored(), SelectionSet: create_SelectionSet(), Ignored: create_Ignored() });
-const create_FragmentDefinition = (): FragmentDefinition => ({ type: "FragmentDefinition", Ignored: create_Ignored(), FragmentName: create_FragmentName(), Ignored: create_Ignored(), TypeCondition: create_TypeCondition(), Ignored: create_Ignored(), Ignored: create_Ignored(), SelectionSet: create_SelectionSet(), Ignored: create_Ignored() });
+const create_Selection_1 = (): Selection_1 => ({
+	type: "Selection_1",
+	FragmentSpread: create_FragmentSpread(),
+	Ignored: create_Ignored(),
+});
+const create_Selection_2 = (): Selection_2 => ({
+	type: "Selection_2",
+	InlineFragment: create_InlineFragment(),
+	Ignored: create_Ignored(),
+});
+const create_Field = (): Field => ({
+	type: "Field",
+	Ignored: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+});
+const create_Alias = (): Alias => ({
+	type: "Alias",
+	Name: create_Name(),
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+});
+const create_Arguments = (): Arguments => ({
+	type: "Arguments",
+	Ignored: create_Ignored(),
+	Argument: [],
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+});
+const create_Argument = (): Argument => ({
+	type: "Argument",
+	Name: create_Name(),
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Value: create_Value(),
+	_Ignored_2: create_Ignored(),
+});
+const create_FragmentSpread = (): FragmentSpread => ({
+	type: "FragmentSpread",
+	Ignored: create_Ignored(),
+	FragmentName: create_FragmentName(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+});
+const create_InlineFragment = (): InlineFragment => ({
+	type: "InlineFragment",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+	SelectionSet: create_SelectionSet(),
+	_Ignored_3: create_Ignored(),
+});
+const create_FragmentDefinition = (): FragmentDefinition => ({
+	type: "FragmentDefinition",
+	Ignored: create_Ignored(),
+	FragmentName: create_FragmentName(),
+	_Ignored_1: create_Ignored(),
+	TypeCondition: create_TypeCondition(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	SelectionSet: create_SelectionSet(),
+	_Ignored_4: create_Ignored(),
+});
 const create_FragmentName = (): FragmentName => ({ type: "FragmentName", Name: create_Name() });
-const create_TypeCondition = (): TypeCondition => ({ type: "TypeCondition", Ignored: create_Ignored(), NamedType: create_NamedType(), Ignored: create_Ignored() });
+const create_TypeCondition = (): TypeCondition => ({
+	type: "TypeCondition",
+	Ignored: create_Ignored(),
+	NamedType: create_NamedType(),
+	_Ignored_1: create_Ignored(),
+});
 const create_Value = (): Value => ({ type: "Value", value: create_Variable() });
 const create_BooleanValue = (): BooleanValue => ({ type: "BooleanValue", value: "" });
 const create_NullValue = (): NullValue => ({ type: "NullValue", value: "" });
@@ -1037,9 +1193,25 @@ const create_ListValue_1 = (): ListValue_1 => ({ type: "ListValue_1", Value: [] 
 const create_ObjectValue = (): ObjectValue => ({ type: "ObjectValue", value: create_ObjectValue_0() });
 const create_ObjectValue_0 = (): ObjectValue_0 => ({ type: "ObjectValue_0", value: "" });
 const create_ObjectValue_1 = (): ObjectValue_1 => ({ type: "ObjectValue_1", ObjectField: [] });
-const create_ObjectField = (): ObjectField => ({ type: "ObjectField", Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Value: create_Value(), Ignored: create_Ignored() });
+const create_ObjectField = (): ObjectField => ({
+	type: "ObjectField",
+	Ignored: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+	Value: create_Value(),
+	_Ignored_3: create_Ignored(),
+});
 const create_VariableDefinitions = (): VariableDefinitions => ({ type: "VariableDefinitions", VariableDefinition: [] });
-const create_VariableDefinition = (): VariableDefinition => ({ type: "VariableDefinition", Variable: create_Variable(), Ignored: create_Ignored(), Ignored: create_Ignored(), Type: create_Type(), Ignored: create_Ignored(), Ignored: create_Ignored() });
+const create_VariableDefinition = (): VariableDefinition => ({
+	type: "VariableDefinition",
+	Variable: create_Variable(),
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Type: create_Type(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+});
 const create_Variable = (): Variable => ({ type: "Variable", Name: create_Name() });
 const create_DefaultValue = (): DefaultValue => ({ type: "DefaultValue", Ignored: create_Ignored(), Value: create_Value() });
 const create_Type = (): Type => ({ type: "Type", value: create_NamedType() });
@@ -1049,66 +1221,378 @@ const create_NonNullType = (): NonNullType => ({ type: "NonNullType", value: cre
 const create_NonNullType_0 = (): NonNullType_0 => ({ type: "NonNullType_0", NamedType: create_NamedType() });
 const create_NonNullType_1 = (): NonNullType_1 => ({ type: "NonNullType_1", ListType: create_ListType() });
 const create_Directives = (): Directives => ({ type: "Directives", Directive: [] });
-const create_Directive = (): Directive => ({ type: "Directive", Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_TypeSystemDefinition = (): TypeSystemDefinition => ({ type: "TypeSystemDefinition", value: create_SchemaDefinition() });
+const create_Directive = (): Directive => ({
+	type: "Directive",
+	Ignored: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+});
+const create_TypeSystemDefinition = (): TypeSystemDefinition => ({
+	type: "TypeSystemDefinition",
+	value: create_SchemaDefinition(),
+});
 const create_TypeSystemExtension = (): TypeSystemExtension => ({ type: "TypeSystemExtension", value: create_SchemaExtension() });
-const create_SchemaDefinition = (): SchemaDefinition => ({ type: "SchemaDefinition", Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored(), OperationTypeDefinition: [], Ignored: create_Ignored(), Ignored: create_Ignored() });
+const create_SchemaDefinition = (): SchemaDefinition => ({
+	type: "SchemaDefinition",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+	OperationTypeDefinition: [],
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+});
 const create_SchemaExtension = (): SchemaExtension => ({ type: "SchemaExtension", value: create_SchemaExtension_0() });
-const create_SchemaExtension_0 = (): SchemaExtension_0 => ({ type: "SchemaExtension_0", Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored(), OperationTypeDefinition: [], Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_SchemaExtension_1 = (): SchemaExtension_1 => ({ type: "SchemaExtension_1", Ignored: create_Ignored(), Directives: create_Directives(), Ignored: create_Ignored() });
-const create_OperationTypeDefinition = (): OperationTypeDefinition => ({ type: "OperationTypeDefinition", OperationType: create_OperationType(), Ignored: create_Ignored(), Ignored: create_Ignored(), NamedType: create_NamedType(), Ignored: create_Ignored() });
+const create_SchemaExtension_0 = (): SchemaExtension_0 => ({
+	type: "SchemaExtension_0",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+	OperationTypeDefinition: [],
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+});
+const create_SchemaExtension_1 = (): SchemaExtension_1 => ({
+	type: "SchemaExtension_1",
+	Ignored: create_Ignored(),
+	Directives: create_Directives(),
+	_Ignored_1: create_Ignored(),
+});
+const create_OperationTypeDefinition = (): OperationTypeDefinition => ({
+	type: "OperationTypeDefinition",
+	OperationType: create_OperationType(),
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	NamedType: create_NamedType(),
+	_Ignored_2: create_Ignored(),
+});
 const create_Description = (): Description => ({ type: "Description", StringValue: create_StringValue() });
 const create_TypeDefinition = (): TypeDefinition => ({ type: "TypeDefinition", value: create_ScalarTypeDefinition() });
 const create_TypeExtension = (): TypeExtension => ({ type: "TypeExtension", value: create_ScalarTypeExtension() });
-const create_ScalarTypeDefinition = (): ScalarTypeDefinition => ({ type: "ScalarTypeDefinition", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_ScalarTypeExtension = (): ScalarTypeExtension => ({ type: "ScalarTypeExtension", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Directives: create_Directives(), Ignored: create_Ignored() });
-const create_ObjectTypeDefinition = (): ObjectTypeDefinition => ({ type: "ObjectTypeDefinition", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_ObjectTypeExtension = (): ObjectTypeExtension => ({ type: "ObjectTypeExtension", value: create_ObjectTypeExtension_0() });
-const create_ObjectTypeExtension_0 = (): ObjectTypeExtension_0 => ({ type: "ObjectTypeExtension_0", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored(), FieldsDefinition: create_FieldsDefinition(), Ignored: create_Ignored() });
-const create_ObjectTypeExtension_1 = (): ObjectTypeExtension_1 => ({ type: "ObjectTypeExtension_1", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Directives: create_Directives(), Ignored: create_Ignored() });
-const create_ObjectTypeExtension_2 = (): ObjectTypeExtension_2 => ({ type: "ObjectTypeExtension_2", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), ImplementsInterfaces: create_ImplementsInterfaces(), Ignored: create_Ignored() });
-const create_ImplementsInterfaces = (): ImplementsInterfaces => ({ type: "ImplementsInterfaces", value: create_ImplementsInterfaces_0() });
-const create_ImplementsInterfaces_0 = (): ImplementsInterfaces_0 => ({ type: "ImplementsInterfaces_0", Ignored: create_Ignored(), Ignored: create_Ignored(), NamedType: create_NamedType(), Ignored: create_Ignored() });
-const create_ImplementsInterfaces_1 = (): ImplementsInterfaces_1 => ({ type: "ImplementsInterfaces_1", ImplementsInterfaces: create_ImplementsInterfaces(), Ignored: create_Ignored(), Ignored: create_Ignored(), NamedType: create_NamedType(), Ignored: create_Ignored() });
-const create_InterfaceTypeDefinition = (): InterfaceTypeDefinition => ({ type: "InterfaceTypeDefinition", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_InterfaceTypeExtension = (): InterfaceTypeExtension => ({ type: "InterfaceTypeExtension", value: create_InterfaceTypeExtension_0() });
-const create_InterfaceTypeExtension_0 = (): InterfaceTypeExtension_0 => ({ type: "InterfaceTypeExtension_0", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), FieldsDefinition: create_FieldsDefinition(), Ignored: create_Ignored() });
-const create_InterfaceTypeExtension_1 = (): InterfaceTypeExtension_1 => ({ type: "InterfaceTypeExtension_1", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Directives: create_Directives(), Ignored: create_Ignored() });
-const create_UnionTypeDefinition = (): UnionTypeDefinition => ({ type: "UnionTypeDefinition", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored() });
+const create_ScalarTypeDefinition = (): ScalarTypeDefinition => ({
+	type: "ScalarTypeDefinition",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+});
+const create_ScalarTypeExtension = (): ScalarTypeExtension => ({
+	type: "ScalarTypeExtension",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	Directives: create_Directives(),
+	_Ignored_3: create_Ignored(),
+});
+const create_ObjectTypeDefinition = (): ObjectTypeDefinition => ({
+	type: "ObjectTypeDefinition",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+	_Ignored_5: create_Ignored(),
+});
+const create_ObjectTypeExtension = (): ObjectTypeExtension => ({
+	type: "ObjectTypeExtension",
+	value: create_ObjectTypeExtension_0(),
+});
+const create_ObjectTypeExtension_0 = (): ObjectTypeExtension_0 => ({
+	type: "ObjectTypeExtension_0",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+	FieldsDefinition: create_FieldsDefinition(),
+	_Ignored_5: create_Ignored(),
+});
+const create_ObjectTypeExtension_1 = (): ObjectTypeExtension_1 => ({
+	type: "ObjectTypeExtension_1",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	Directives: create_Directives(),
+	_Ignored_4: create_Ignored(),
+});
+const create_ObjectTypeExtension_2 = (): ObjectTypeExtension_2 => ({
+	type: "ObjectTypeExtension_2",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	ImplementsInterfaces: create_ImplementsInterfaces(),
+	_Ignored_3: create_Ignored(),
+});
+const create_ImplementsInterfaces = (): ImplementsInterfaces => ({
+	type: "ImplementsInterfaces",
+	value: create_ImplementsInterfaces_0(),
+});
+const create_ImplementsInterfaces_0 = (): ImplementsInterfaces_0 => ({
+	type: "ImplementsInterfaces_0",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	NamedType: create_NamedType(),
+	_Ignored_2: create_Ignored(),
+});
+const create_ImplementsInterfaces_1 = (): ImplementsInterfaces_1 => ({
+	type: "ImplementsInterfaces_1",
+	ImplementsInterfaces: create_ImplementsInterfaces(),
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	NamedType: create_NamedType(),
+	_Ignored_2: create_Ignored(),
+});
+const create_InterfaceTypeDefinition = (): InterfaceTypeDefinition => ({
+	type: "InterfaceTypeDefinition",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+});
+const create_InterfaceTypeExtension = (): InterfaceTypeExtension => ({
+	type: "InterfaceTypeExtension",
+	value: create_InterfaceTypeExtension_0(),
+});
+const create_InterfaceTypeExtension_0 = (): InterfaceTypeExtension_0 => ({
+	type: "InterfaceTypeExtension_0",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	FieldsDefinition: create_FieldsDefinition(),
+	_Ignored_4: create_Ignored(),
+});
+const create_InterfaceTypeExtension_1 = (): InterfaceTypeExtension_1 => ({
+	type: "InterfaceTypeExtension_1",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	Directives: create_Directives(),
+	_Ignored_3: create_Ignored(),
+});
+const create_UnionTypeDefinition = (): UnionTypeDefinition => ({
+	type: "UnionTypeDefinition",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+});
 const create_UnionMemberTypes = (): UnionMemberTypes => ({ type: "UnionMemberTypes", value: create_UnionMemberTypes_0() });
-const create_UnionMemberTypes_0 = (): UnionMemberTypes_0 => ({ type: "UnionMemberTypes_0", Ignored: create_Ignored(), Ignored: create_Ignored(), NamedType: create_NamedType(), Ignored: create_Ignored() });
-const create_UnionMemberTypes_1 = (): UnionMemberTypes_1 => ({ type: "UnionMemberTypes_1", UnionMemberTypes: create_UnionMemberTypes(), Ignored: create_Ignored(), Ignored: create_Ignored(), NamedType: create_NamedType(), Ignored: create_Ignored() });
-const create_UnionTypeExtension = (): UnionTypeExtension => ({ type: "UnionTypeExtension", value: create_UnionTypeExtension_0() });
-const create_UnionTypeExtension_0 = (): UnionTypeExtension_0 => ({ type: "UnionTypeExtension_0", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_UnionTypeExtension_1 = (): UnionTypeExtension_1 => ({ type: "UnionTypeExtension_1", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Directives: create_Directives(), Ignored: create_Ignored() });
-const create_EnumTypeDefinition = (): EnumTypeDefinition => ({ type: "EnumTypeDefinition", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_EnumValuesDefinition = (): EnumValuesDefinition => ({ type: "EnumValuesDefinition", Ignored: create_Ignored(), EnumValueDefinition: [], Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_EnumValueDefinition = (): EnumValueDefinition => ({ type: "EnumValueDefinition", Ignored: create_Ignored(), EnumValue: create_EnumValue(), Ignored: create_Ignored(), Ignored: create_Ignored() });
+const create_UnionMemberTypes_0 = (): UnionMemberTypes_0 => ({
+	type: "UnionMemberTypes_0",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	NamedType: create_NamedType(),
+	_Ignored_2: create_Ignored(),
+});
+const create_UnionMemberTypes_1 = (): UnionMemberTypes_1 => ({
+	type: "UnionMemberTypes_1",
+	UnionMemberTypes: create_UnionMemberTypes(),
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	NamedType: create_NamedType(),
+	_Ignored_2: create_Ignored(),
+});
+const create_UnionTypeExtension = (): UnionTypeExtension => ({
+	type: "UnionTypeExtension",
+	value: create_UnionTypeExtension_0(),
+});
+const create_UnionTypeExtension_0 = (): UnionTypeExtension_0 => ({
+	type: "UnionTypeExtension_0",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+});
+const create_UnionTypeExtension_1 = (): UnionTypeExtension_1 => ({
+	type: "UnionTypeExtension_1",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	Directives: create_Directives(),
+	_Ignored_3: create_Ignored(),
+});
+const create_EnumTypeDefinition = (): EnumTypeDefinition => ({
+	type: "EnumTypeDefinition",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+});
+const create_EnumValuesDefinition = (): EnumValuesDefinition => ({
+	type: "EnumValuesDefinition",
+	Ignored: create_Ignored(),
+	EnumValueDefinition: [],
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+});
+const create_EnumValueDefinition = (): EnumValueDefinition => ({
+	type: "EnumValueDefinition",
+	Ignored: create_Ignored(),
+	EnumValue: create_EnumValue(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+});
 const create_EnumTypeExtension = (): EnumTypeExtension => ({ type: "EnumTypeExtension", value: create_EnumTypeExtension_0() });
-const create_EnumTypeExtension_0 = (): EnumTypeExtension_0 => ({ type: "EnumTypeExtension_0", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), EnumValuesDefinition: create_EnumValuesDefinition(), Ignored: create_Ignored() });
-const create_EnumTypeExtension_1 = (): EnumTypeExtension_1 => ({ type: "EnumTypeExtension_1", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Directives: create_Directives(), Ignored: create_Ignored() });
-const create_InputObjectTypeDefinition = (): InputObjectTypeDefinition => ({ type: "InputObjectTypeDefinition", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_InputFieldsDefinition = (): InputFieldsDefinition => ({ type: "InputFieldsDefinition", Ignored: create_Ignored(), InputValueDefinition: [], Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_InputObjectTypeExtension = (): InputObjectTypeExtension => ({ type: "InputObjectTypeExtension", value: create_InputObjectTypeExtension_0() });
-const create_InputObjectTypeExtension_0 = (): InputObjectTypeExtension_0 => ({ type: "InputObjectTypeExtension_0", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), InputFieldsDefinition: create_InputFieldsDefinition(), Ignored: create_Ignored() });
-const create_InputObjectTypeExtension_1 = (): InputObjectTypeExtension_1 => ({ type: "InputObjectTypeExtension_1", Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Directives: create_Directives(), Ignored: create_Ignored() });
-const create_DirectiveDefinition = (): DirectiveDefinition => ({ type: "DirectiveDefinition", Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored(), DirectiveLocations: create_DirectiveLocations(), Ignored: create_Ignored() });
-const create_DirectiveLocations = (): DirectiveLocations => ({ type: "DirectiveLocations", value: create_DirectiveLocations_0() });
-const create_DirectiveLocations_0 = (): DirectiveLocations_0 => ({ type: "DirectiveLocations_0", Ignored: create_Ignored(), DirectiveLocation: create_DirectiveLocation(), Ignored: create_Ignored() });
-const create_DirectiveLocations_1 = (): DirectiveLocations_1 => ({ type: "DirectiveLocations_1", DirectiveLocations: create_DirectiveLocations(), Ignored: create_Ignored(), Ignored: create_Ignored(), DirectiveLocation: create_DirectiveLocation(), Ignored: create_Ignored() });
-const create_DirectiveLocation = (): DirectiveLocation => ({ type: "DirectiveLocation", value: create_ExecutableDirectiveLocation() });
-const create_ExecutableDirectiveLocation = (): ExecutableDirectiveLocation => ({ type: "ExecutableDirectiveLocation", value: "" });
-const create_TypeSystemDirectiveLocation = (): TypeSystemDirectiveLocation => ({ type: "TypeSystemDirectiveLocation", value: "" });
-const create_FieldsDefinition = (): FieldsDefinition => ({ type: "FieldsDefinition", Ignored: create_Ignored(), FieldDefinition: [], Ignored: create_Ignored() });
-const create_FieldDefinition = (): FieldDefinition => ({ type: "FieldDefinition", Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored(), Type: create_Type(), Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_ArgumentsDefinition = (): ArgumentsDefinition => ({ type: "ArgumentsDefinition", Ignored: create_Ignored(), InputValueDefinition: [], Ignored: create_Ignored(), Ignored: create_Ignored() });
-const create_InputValueDefinition = (): InputValueDefinition => ({ type: "InputValueDefinition", Ignored: create_Ignored(), Name: create_Name(), Ignored: create_Ignored(), Ignored: create_Ignored(), Type: create_Type(), Ignored: create_Ignored(), Ignored: create_Ignored(), Ignored: create_Ignored() });
+const create_EnumTypeExtension_0 = (): EnumTypeExtension_0 => ({
+	type: "EnumTypeExtension_0",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	EnumValuesDefinition: create_EnumValuesDefinition(),
+	_Ignored_4: create_Ignored(),
+});
+const create_EnumTypeExtension_1 = (): EnumTypeExtension_1 => ({
+	type: "EnumTypeExtension_1",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	Directives: create_Directives(),
+	_Ignored_3: create_Ignored(),
+});
+const create_InputObjectTypeDefinition = (): InputObjectTypeDefinition => ({
+	type: "InputObjectTypeDefinition",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+});
+const create_InputFieldsDefinition = (): InputFieldsDefinition => ({
+	type: "InputFieldsDefinition",
+	Ignored: create_Ignored(),
+	InputValueDefinition: [],
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+});
+const create_InputObjectTypeExtension = (): InputObjectTypeExtension => ({
+	type: "InputObjectTypeExtension",
+	value: create_InputObjectTypeExtension_0(),
+});
+const create_InputObjectTypeExtension_0 = (): InputObjectTypeExtension_0 => ({
+	type: "InputObjectTypeExtension_0",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	InputFieldsDefinition: create_InputFieldsDefinition(),
+	_Ignored_4: create_Ignored(),
+});
+const create_InputObjectTypeExtension_1 = (): InputObjectTypeExtension_1 => ({
+	type: "InputObjectTypeExtension_1",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_2: create_Ignored(),
+	Directives: create_Directives(),
+	_Ignored_3: create_Ignored(),
+});
+const create_DirectiveDefinition = (): DirectiveDefinition => ({
+	type: "DirectiveDefinition",
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+	_Ignored_5: create_Ignored(),
+	DirectiveLocations: create_DirectiveLocations(),
+	_Ignored_6: create_Ignored(),
+});
+const create_DirectiveLocations = (): DirectiveLocations => ({
+	type: "DirectiveLocations",
+	value: create_DirectiveLocations_0(),
+});
+const create_DirectiveLocations_0 = (): DirectiveLocations_0 => ({
+	type: "DirectiveLocations_0",
+	Ignored: create_Ignored(),
+	DirectiveLocation: create_DirectiveLocation(),
+	_Ignored_1: create_Ignored(),
+});
+const create_DirectiveLocations_1 = (): DirectiveLocations_1 => ({
+	type: "DirectiveLocations_1",
+	DirectiveLocations: create_DirectiveLocations(),
+	Ignored: create_Ignored(),
+	_Ignored_1: create_Ignored(),
+	DirectiveLocation: create_DirectiveLocation(),
+	_Ignored_2: create_Ignored(),
+});
+const create_DirectiveLocation = (): DirectiveLocation => ({
+	type: "DirectiveLocation",
+	value: create_ExecutableDirectiveLocation(),
+});
+const create_ExecutableDirectiveLocation = (): ExecutableDirectiveLocation => ({
+	type: "ExecutableDirectiveLocation",
+	value: "",
+});
+const create_TypeSystemDirectiveLocation = (): TypeSystemDirectiveLocation => ({
+	type: "TypeSystemDirectiveLocation",
+	value: "",
+});
+const create_FieldsDefinition = (): FieldsDefinition => ({
+	type: "FieldsDefinition",
+	Ignored: create_Ignored(),
+	FieldDefinition: [],
+	_Ignored_1: create_Ignored(),
+});
+const create_FieldDefinition = (): FieldDefinition => ({
+	type: "FieldDefinition",
+	Ignored: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+	_Ignored_3: create_Ignored(),
+	Type: create_Type(),
+	_Ignored_4: create_Ignored(),
+	_Ignored_5: create_Ignored(),
+});
+const create_ArgumentsDefinition = (): ArgumentsDefinition => ({
+	type: "ArgumentsDefinition",
+	Ignored: create_Ignored(),
+	InputValueDefinition: [],
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+});
+const create_InputValueDefinition = (): InputValueDefinition => ({
+	type: "InputValueDefinition",
+	Ignored: create_Ignored(),
+	Name: create_Name(),
+	_Ignored_1: create_Ignored(),
+	_Ignored_2: create_Ignored(),
+	Type: create_Type(),
+	_Ignored_3: create_Ignored(),
+	_Ignored_4: create_Ignored(),
+	_Ignored_5: create_Ignored(),
+});
 
 const parse_Document = (Document: Document) => {
 	debugName = "Document";
 	parse_Ignored(Document.Ignored);
 	parse_array_fn(parse_Definition, Document.Definition, create_Definition, 1);
-	parse_Ignored(Document.Ignored);
+	parse_Ignored(Document._Ignored_1);
 };
 const parse_SourceCharacter = (SourceCharacter: SourceCharacter) => {
 	debugName = "SourceCharacter";
@@ -1194,7 +1678,7 @@ const parse_IntegerPart_0 = (IntegerPart_0: IntegerPart_0) => {
 	if (!try_parse_fn(parse_NegativeSign, IntegerPart_0.NegativeSign)) IntegerPart_0.NegativeSign = undefined;
 	parse_Ignored(IntegerPart_0.Ignored);
 	parse_regex(reg`/0/`, false, false, false);
-	parse_Ignored(IntegerPart_0.Ignored);
+	parse_Ignored(IntegerPart_0._Ignored_1);
 };
 const parse_IntegerPart_1 = (IntegerPart_1: IntegerPart_1) => {
 	debugName = "IntegerPart_1";
@@ -1202,9 +1686,9 @@ const parse_IntegerPart_1 = (IntegerPart_1: IntegerPart_1) => {
 	if (!try_parse_fn(parse_NegativeSign, IntegerPart_1.NegativeSign)) IntegerPart_1.NegativeSign = undefined;
 	parse_Ignored(IntegerPart_1.Ignored);
 	parse_NonZeroDigit(IntegerPart_1.NonZeroDigit);
-	parse_Ignored(IntegerPart_1.Ignored);
+	parse_Ignored(IntegerPart_1._Ignored_1);
 	parse_array_fn(parse_Digit, IntegerPart_1.Digit, create_Digit, 0);
-	parse_Ignored(IntegerPart_1.Ignored);
+	parse_Ignored(IntegerPart_1._Ignored_2);
 };
 const parse_NegativeSign = (NegativeSign: NegativeSign) => {
 	debugName = "NegativeSign";
@@ -1313,7 +1797,7 @@ const parse_StringCharacter = (StringCharacter: StringCharacter) => {
 };
 const parse_StringCharacter_0 = (StringCharacter_0: StringCharacter_0) => {
 	debugName = "StringCharacter_0";
-	if (try_parse_fn(parse_regex, reg`/"/`, false, false, false)) throw new Error("Match should be failed: /\"/");
+	if (try_parse_fn(parse_regex, reg`/"/`, false, false, false)) throw new Error('Match should be failed: /"/');
 	parse_SourceCharacter(StringCharacter_0.SourceCharacter);
 };
 const parse_StringCharacter_1 = (StringCharacter_1: StringCharacter_1) => {
@@ -1356,12 +1840,12 @@ const parse_BlockStringCharacter = (BlockStringCharacter: BlockStringCharacter) 
 };
 const parse_BlockStringCharacter_0 = (BlockStringCharacter_0: BlockStringCharacter_0) => {
 	debugName = "BlockStringCharacter_0";
-	if (try_parse_fn(parse_regex, reg`/"""/`, false, false, false)) throw new Error("Match should be failed: /\"""/");
+	if (try_parse_fn(parse_regex, reg`/"""/`, false, false, false)) throw new Error('Match should be failed: /"""/');
 	parse_SourceCharacter(BlockStringCharacter_0.SourceCharacter);
 };
 const parse_BlockStringCharacter_1 = (BlockStringCharacter_1: BlockStringCharacter_1) => {
 	debugName = "BlockStringCharacter_1";
-	if (try_parse_fn(parse_regex, reg`/\\"""/`, false, false, false)) throw new Error("Match should be failed: /\\\"""/");
+	if (try_parse_fn(parse_regex, reg`/\\"""/`, false, false, false)) throw new Error('Match should be failed: /\\"""/');
 	parse_SourceCharacter(BlockStringCharacter_1.SourceCharacter);
 };
 const parse_BlockStringCharacter_2 = (BlockStringCharacter_2: BlockStringCharacter_2) => {
@@ -1403,17 +1887,18 @@ const parse_OperationDefinition_1 = (OperationDefinition_1: OperationDefinition_
 	debugName = "OperationDefinition_1";
 	parse_Ignored(OperationDefinition_1.Ignored);
 	parse_OperationType(OperationDefinition_1.OperationType);
-	parse_Ignored(OperationDefinition_1.Ignored);
+	parse_Ignored(OperationDefinition_1._Ignored_1);
 	OperationDefinition_1.Name = create_Name();
 	if (!try_parse_fn(parse_Name, OperationDefinition_1.Name)) OperationDefinition_1.Name = undefined;
-	parse_Ignored(OperationDefinition_1.Ignored);
+	parse_Ignored(OperationDefinition_1._Ignored_2);
 	OperationDefinition_1.VariableDefinitions = create_VariableDefinitions();
-	if (!try_parse_fn(parse_VariableDefinitions, OperationDefinition_1.VariableDefinitions)) OperationDefinition_1.VariableDefinitions = undefined;
-	parse_Ignored(OperationDefinition_1.Ignored);
+	if (!try_parse_fn(parse_VariableDefinitions, OperationDefinition_1.VariableDefinitions))
+		OperationDefinition_1.VariableDefinitions = undefined;
+	parse_Ignored(OperationDefinition_1._Ignored_3);
 	OperationDefinition_1.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, OperationDefinition_1.Directives)) OperationDefinition_1.Directives = undefined;
 	parse_SelectionSet(OperationDefinition_1.SelectionSet);
-	parse_Ignored(OperationDefinition_1.Ignored);
+	parse_Ignored(OperationDefinition_1._Ignored_4);
 };
 const parse_OperationType = (OperationType: OperationType) => {
 	debugName = "OperationType";
@@ -1424,9 +1909,9 @@ const parse_SelectionSet = (SelectionSet: SelectionSet) => {
 	parse_regex(reg`/\{/`, false, false, false);
 	parse_Ignored(SelectionSet.Ignored);
 	parse_array_fn(parse_Selection, SelectionSet.Selection, create_Selection, 1);
-	parse_Ignored(SelectionSet.Ignored);
+	parse_Ignored(SelectionSet._Ignored_1);
 	parse_regex(reg`/\}/`, false, false, false);
-	parse_Ignored(SelectionSet.Ignored);
+	parse_Ignored(SelectionSet._Ignored_2);
 };
 const parse_Selection = (Selection: Selection) => {
 	debugName = "Selection";
@@ -1459,51 +1944,51 @@ const parse_Field = (Field: Field) => {
 	if (!try_parse_fn(parse_Alias, Field.Alias)) Field.Alias = undefined;
 	parse_Ignored(Field.Ignored);
 	parse_Name(Field.Name);
-	parse_Ignored(Field.Ignored);
+	parse_Ignored(Field._Ignored_1);
 	Field.Arguments = create_Arguments();
 	if (!try_parse_fn(parse_Arguments, Field.Arguments)) Field.Arguments = undefined;
-	parse_Ignored(Field.Ignored);
+	parse_Ignored(Field._Ignored_2);
 	Field.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, Field.Directives)) Field.Directives = undefined;
-	parse_Ignored(Field.Ignored);
+	parse_Ignored(Field._Ignored_3);
 	Field.SelectionSet = create_SelectionSet();
 	if (!try_parse_fn(parse_SelectionSet, Field.SelectionSet)) Field.SelectionSet = undefined;
-	parse_Ignored(Field.Ignored);
+	parse_Ignored(Field._Ignored_4);
 };
 const parse_Alias = (Alias: Alias) => {
 	debugName = "Alias";
 	parse_Name(Alias.Name);
 	parse_Ignored(Alias.Ignored);
 	parse_regex(reg`/:/`, false, false, false);
-	parse_Ignored(Alias.Ignored);
+	parse_Ignored(Alias._Ignored_1);
 };
 const parse_Arguments = (Arguments: Arguments) => {
 	debugName = "Arguments";
 	parse_regex(reg`/\(/`, false, false, false);
 	parse_Ignored(Arguments.Ignored);
 	parse_array_fn(parse_Argument, Arguments.Argument, create_Argument, 1);
-	parse_Ignored(Arguments.Ignored);
+	parse_Ignored(Arguments._Ignored_1);
 	parse_regex(reg`/\)/`, false, false, false);
-	parse_Ignored(Arguments.Ignored);
+	parse_Ignored(Arguments._Ignored_2);
 };
 const parse_Argument = (Argument: Argument) => {
 	debugName = "Argument";
 	parse_Name(Argument.Name);
 	parse_Ignored(Argument.Ignored);
 	parse_regex(reg`/:/`, false, false, false);
-	parse_Ignored(Argument.Ignored);
+	parse_Ignored(Argument._Ignored_1);
 	parse_Value(Argument.Value);
-	parse_Ignored(Argument.Ignored);
+	parse_Ignored(Argument._Ignored_2);
 };
 const parse_FragmentSpread = (FragmentSpread: FragmentSpread) => {
 	debugName = "FragmentSpread";
 	parse_regex(reg`/\.\.\./`, false, false, false);
 	parse_Ignored(FragmentSpread.Ignored);
 	parse_FragmentName(FragmentSpread.FragmentName);
-	parse_Ignored(FragmentSpread.Ignored);
+	parse_Ignored(FragmentSpread._Ignored_1);
 	FragmentSpread.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, FragmentSpread.Directives)) FragmentSpread.Directives = undefined;
-	parse_Ignored(FragmentSpread.Ignored);
+	parse_Ignored(FragmentSpread._Ignored_2);
 };
 const parse_InlineFragment = (InlineFragment: InlineFragment) => {
 	debugName = "InlineFragment";
@@ -1511,26 +1996,26 @@ const parse_InlineFragment = (InlineFragment: InlineFragment) => {
 	parse_Ignored(InlineFragment.Ignored);
 	InlineFragment.TypeCondition = create_TypeCondition();
 	if (!try_parse_fn(parse_TypeCondition, InlineFragment.TypeCondition)) InlineFragment.TypeCondition = undefined;
-	parse_Ignored(InlineFragment.Ignored);
+	parse_Ignored(InlineFragment._Ignored_1);
 	InlineFragment.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, InlineFragment.Directives)) InlineFragment.Directives = undefined;
-	parse_Ignored(InlineFragment.Ignored);
+	parse_Ignored(InlineFragment._Ignored_2);
 	parse_SelectionSet(InlineFragment.SelectionSet);
-	parse_Ignored(InlineFragment.Ignored);
+	parse_Ignored(InlineFragment._Ignored_3);
 };
 const parse_FragmentDefinition = (FragmentDefinition: FragmentDefinition) => {
 	debugName = "FragmentDefinition";
 	parse_regex(reg`/fragment/`, false, false, false);
 	parse_Ignored(FragmentDefinition.Ignored);
 	parse_FragmentName(FragmentDefinition.FragmentName);
-	parse_Ignored(FragmentDefinition.Ignored);
+	parse_Ignored(FragmentDefinition._Ignored_1);
 	parse_TypeCondition(FragmentDefinition.TypeCondition);
-	parse_Ignored(FragmentDefinition.Ignored);
+	parse_Ignored(FragmentDefinition._Ignored_2);
 	FragmentDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, FragmentDefinition.Directives)) FragmentDefinition.Directives = undefined;
-	parse_Ignored(FragmentDefinition.Ignored);
+	parse_Ignored(FragmentDefinition._Ignored_3);
 	parse_SelectionSet(FragmentDefinition.SelectionSet);
-	parse_Ignored(FragmentDefinition.Ignored);
+	parse_Ignored(FragmentDefinition._Ignored_4);
 };
 const parse_FragmentName = (FragmentName: FragmentName) => {
 	debugName = "FragmentName";
@@ -1542,7 +2027,7 @@ const parse_TypeCondition = (TypeCondition: TypeCondition) => {
 	parse_regex(reg`/on/`, false, false, false);
 	parse_Ignored(TypeCondition.Ignored);
 	parse_NamedType(TypeCondition.NamedType);
-	parse_Ignored(TypeCondition.Ignored);
+	parse_Ignored(TypeCondition._Ignored_1);
 };
 const parse_Value = (Value: Value) => {
 	debugName = "Value";
@@ -1639,11 +2124,11 @@ const parse_ObjectField = (ObjectField: ObjectField) => {
 	debugName = "ObjectField";
 	parse_Ignored(ObjectField.Ignored);
 	parse_Name(ObjectField.Name);
-	parse_Ignored(ObjectField.Ignored);
+	parse_Ignored(ObjectField._Ignored_1);
 	parse_regex(reg`/:/`, false, false, false);
-	parse_Ignored(ObjectField.Ignored);
+	parse_Ignored(ObjectField._Ignored_2);
 	parse_Value(ObjectField.Value);
-	parse_Ignored(ObjectField.Ignored);
+	parse_Ignored(ObjectField._Ignored_3);
 };
 const parse_VariableDefinitions = (VariableDefinitions: VariableDefinitions) => {
 	debugName = "VariableDefinitions";
@@ -1656,12 +2141,12 @@ const parse_VariableDefinition = (VariableDefinition: VariableDefinition) => {
 	parse_Variable(VariableDefinition.Variable);
 	parse_Ignored(VariableDefinition.Ignored);
 	parse_regex(reg`/:/`, false, false, false);
-	parse_Ignored(VariableDefinition.Ignored);
+	parse_Ignored(VariableDefinition._Ignored_1);
 	parse_Type(VariableDefinition.Type);
-	parse_Ignored(VariableDefinition.Ignored);
+	parse_Ignored(VariableDefinition._Ignored_2);
 	VariableDefinition.DefaultValue = create_DefaultValue();
 	if (!try_parse_fn(parse_DefaultValue, VariableDefinition.DefaultValue)) VariableDefinition.DefaultValue = undefined;
-	parse_Ignored(VariableDefinition.Ignored);
+	parse_Ignored(VariableDefinition._Ignored_3);
 };
 const parse_Variable = (Variable: Variable) => {
 	debugName = "Variable";
@@ -1721,10 +2206,10 @@ const parse_Directive = (Directive: Directive) => {
 	parse_regex(reg`/@/`, false, false, false);
 	parse_Ignored(Directive.Ignored);
 	parse_Name(Directive.Name);
-	parse_Ignored(Directive.Ignored);
+	parse_Ignored(Directive._Ignored_1);
 	Directive.Arguments = create_Arguments();
 	if (!try_parse_fn(parse_Arguments, Directive.Arguments)) Directive.Arguments = undefined;
-	parse_Ignored(Directive.Ignored);
+	parse_Ignored(Directive._Ignored_2);
 };
 const parse_TypeSystemDefinition = (TypeSystemDefinition: TypeSystemDefinition) => {
 	debugName = "TypeSystemDefinition";
@@ -1750,13 +2235,13 @@ const parse_SchemaDefinition = (SchemaDefinition: SchemaDefinition) => {
 	parse_Ignored(SchemaDefinition.Ignored);
 	SchemaDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, SchemaDefinition.Directives)) SchemaDefinition.Directives = undefined;
-	parse_Ignored(SchemaDefinition.Ignored);
+	parse_Ignored(SchemaDefinition._Ignored_1);
 	parse_regex(reg`/\{/`, false, false, false);
-	parse_Ignored(SchemaDefinition.Ignored);
+	parse_Ignored(SchemaDefinition._Ignored_2);
 	parse_array_fn(parse_OperationTypeDefinition, SchemaDefinition.OperationTypeDefinition, create_OperationTypeDefinition, 1);
-	parse_Ignored(SchemaDefinition.Ignored);
+	parse_Ignored(SchemaDefinition._Ignored_3);
 	parse_regex(reg`/\}/`, false, false, false);
-	parse_Ignored(SchemaDefinition.Ignored);
+	parse_Ignored(SchemaDefinition._Ignored_4);
 };
 const parse_SchemaExtension = (SchemaExtension: SchemaExtension) => {
 	debugName = "SchemaExtension";
@@ -1773,13 +2258,13 @@ const parse_SchemaExtension_0 = (SchemaExtension_0: SchemaExtension_0) => {
 	parse_regex(reg`/schema/`, false, false, false);
 	SchemaExtension_0.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, SchemaExtension_0.Directives)) SchemaExtension_0.Directives = undefined;
-	parse_Ignored(SchemaExtension_0.Ignored);
+	parse_Ignored(SchemaExtension_0._Ignored_1);
 	parse_regex(reg`/\{/`, false, false, false);
-	parse_Ignored(SchemaExtension_0.Ignored);
+	parse_Ignored(SchemaExtension_0._Ignored_2);
 	parse_array_fn(parse_OperationTypeDefinition, SchemaExtension_0.OperationTypeDefinition, create_OperationTypeDefinition, 1);
-	parse_Ignored(SchemaExtension_0.Ignored);
+	parse_Ignored(SchemaExtension_0._Ignored_3);
 	parse_regex(reg`/\}/`, false, false, false);
-	parse_Ignored(SchemaExtension_0.Ignored);
+	parse_Ignored(SchemaExtension_0._Ignored_4);
 };
 const parse_SchemaExtension_1 = (SchemaExtension_1: SchemaExtension_1) => {
 	debugName = "SchemaExtension_1";
@@ -1787,16 +2272,16 @@ const parse_SchemaExtension_1 = (SchemaExtension_1: SchemaExtension_1) => {
 	parse_Ignored(SchemaExtension_1.Ignored);
 	parse_regex(reg`/schema/`, false, false, false);
 	parse_Directives(SchemaExtension_1.Directives);
-	parse_Ignored(SchemaExtension_1.Ignored);
+	parse_Ignored(SchemaExtension_1._Ignored_1);
 };
 const parse_OperationTypeDefinition = (OperationTypeDefinition: OperationTypeDefinition) => {
 	debugName = "OperationTypeDefinition";
 	parse_OperationType(OperationTypeDefinition.OperationType);
 	parse_Ignored(OperationTypeDefinition.Ignored);
 	parse_regex(reg`/:/`, false, false, false);
-	parse_Ignored(OperationTypeDefinition.Ignored);
+	parse_Ignored(OperationTypeDefinition._Ignored_1);
 	parse_NamedType(OperationTypeDefinition.NamedType);
-	parse_Ignored(OperationTypeDefinition.Ignored);
+	parse_Ignored(OperationTypeDefinition._Ignored_2);
 };
 const parse_Description = (Description: Description) => {
 	debugName = "Description";
@@ -1840,23 +2325,23 @@ const parse_ScalarTypeDefinition = (ScalarTypeDefinition: ScalarTypeDefinition) 
 	if (!try_parse_fn(parse_Description, ScalarTypeDefinition.Description)) ScalarTypeDefinition.Description = undefined;
 	parse_Ignored(ScalarTypeDefinition.Ignored);
 	parse_regex(reg`/scalar/`, false, false, false);
-	parse_Ignored(ScalarTypeDefinition.Ignored);
+	parse_Ignored(ScalarTypeDefinition._Ignored_1);
 	parse_Name(ScalarTypeDefinition.Name);
-	parse_Ignored(ScalarTypeDefinition.Ignored);
+	parse_Ignored(ScalarTypeDefinition._Ignored_2);
 	ScalarTypeDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, ScalarTypeDefinition.Directives)) ScalarTypeDefinition.Directives = undefined;
-	parse_Ignored(ScalarTypeDefinition.Ignored);
+	parse_Ignored(ScalarTypeDefinition._Ignored_3);
 };
 const parse_ScalarTypeExtension = (ScalarTypeExtension: ScalarTypeExtension) => {
 	debugName = "ScalarTypeExtension";
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(ScalarTypeExtension.Ignored);
 	parse_regex(reg`/scalar/`, false, false, false);
-	parse_Ignored(ScalarTypeExtension.Ignored);
+	parse_Ignored(ScalarTypeExtension._Ignored_1);
 	parse_Name(ScalarTypeExtension.Name);
-	parse_Ignored(ScalarTypeExtension.Ignored);
+	parse_Ignored(ScalarTypeExtension._Ignored_2);
 	parse_Directives(ScalarTypeExtension.Directives);
-	parse_Ignored(ScalarTypeExtension.Ignored);
+	parse_Ignored(ScalarTypeExtension._Ignored_3);
 };
 const parse_ObjectTypeDefinition = (ObjectTypeDefinition: ObjectTypeDefinition) => {
 	debugName = "ObjectTypeDefinition";
@@ -1864,18 +2349,20 @@ const parse_ObjectTypeDefinition = (ObjectTypeDefinition: ObjectTypeDefinition) 
 	if (!try_parse_fn(parse_Description, ObjectTypeDefinition.Description)) ObjectTypeDefinition.Description = undefined;
 	parse_Ignored(ObjectTypeDefinition.Ignored);
 	parse_regex(reg`/type/`, false, false, false);
-	parse_Ignored(ObjectTypeDefinition.Ignored);
+	parse_Ignored(ObjectTypeDefinition._Ignored_1);
 	parse_Name(ObjectTypeDefinition.Name);
-	parse_Ignored(ObjectTypeDefinition.Ignored);
+	parse_Ignored(ObjectTypeDefinition._Ignored_2);
 	ObjectTypeDefinition.ImplementsInterfaces = create_ImplementsInterfaces();
-	if (!try_parse_fn(parse_ImplementsInterfaces, ObjectTypeDefinition.ImplementsInterfaces)) ObjectTypeDefinition.ImplementsInterfaces = undefined;
-	parse_Ignored(ObjectTypeDefinition.Ignored);
+	if (!try_parse_fn(parse_ImplementsInterfaces, ObjectTypeDefinition.ImplementsInterfaces))
+		ObjectTypeDefinition.ImplementsInterfaces = undefined;
+	parse_Ignored(ObjectTypeDefinition._Ignored_3);
 	ObjectTypeDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, ObjectTypeDefinition.Directives)) ObjectTypeDefinition.Directives = undefined;
-	parse_Ignored(ObjectTypeDefinition.Ignored);
+	parse_Ignored(ObjectTypeDefinition._Ignored_4);
 	ObjectTypeDefinition.FieldsDefinition = create_FieldsDefinition();
-	if (!try_parse_fn(parse_FieldsDefinition, ObjectTypeDefinition.FieldsDefinition)) ObjectTypeDefinition.FieldsDefinition = undefined;
-	parse_Ignored(ObjectTypeDefinition.Ignored);
+	if (!try_parse_fn(parse_FieldsDefinition, ObjectTypeDefinition.FieldsDefinition))
+		ObjectTypeDefinition.FieldsDefinition = undefined;
+	parse_Ignored(ObjectTypeDefinition._Ignored_5);
 };
 const parse_ObjectTypeExtension = (ObjectTypeExtension: ObjectTypeExtension) => {
 	debugName = "ObjectTypeExtension";
@@ -1892,42 +2379,44 @@ const parse_ObjectTypeExtension_0 = (ObjectTypeExtension_0: ObjectTypeExtension_
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(ObjectTypeExtension_0.Ignored);
 	parse_regex(reg`/type/`, false, false, false);
-	parse_Ignored(ObjectTypeExtension_0.Ignored);
+	parse_Ignored(ObjectTypeExtension_0._Ignored_1);
 	parse_Name(ObjectTypeExtension_0.Name);
-	parse_Ignored(ObjectTypeExtension_0.Ignored);
+	parse_Ignored(ObjectTypeExtension_0._Ignored_2);
 	ObjectTypeExtension_0.ImplementsInterfaces = create_ImplementsInterfaces();
-	if (!try_parse_fn(parse_ImplementsInterfaces, ObjectTypeExtension_0.ImplementsInterfaces)) ObjectTypeExtension_0.ImplementsInterfaces = undefined;
-	parse_Ignored(ObjectTypeExtension_0.Ignored);
+	if (!try_parse_fn(parse_ImplementsInterfaces, ObjectTypeExtension_0.ImplementsInterfaces))
+		ObjectTypeExtension_0.ImplementsInterfaces = undefined;
+	parse_Ignored(ObjectTypeExtension_0._Ignored_3);
 	ObjectTypeExtension_0.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, ObjectTypeExtension_0.Directives)) ObjectTypeExtension_0.Directives = undefined;
-	parse_Ignored(ObjectTypeExtension_0.Ignored);
+	parse_Ignored(ObjectTypeExtension_0._Ignored_4);
 	parse_FieldsDefinition(ObjectTypeExtension_0.FieldsDefinition);
-	parse_Ignored(ObjectTypeExtension_0.Ignored);
+	parse_Ignored(ObjectTypeExtension_0._Ignored_5);
 };
 const parse_ObjectTypeExtension_1 = (ObjectTypeExtension_1: ObjectTypeExtension_1) => {
 	debugName = "ObjectTypeExtension_1";
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(ObjectTypeExtension_1.Ignored);
 	parse_regex(reg`/type/`, false, false, false);
-	parse_Ignored(ObjectTypeExtension_1.Ignored);
+	parse_Ignored(ObjectTypeExtension_1._Ignored_1);
 	parse_Name(ObjectTypeExtension_1.Name);
-	parse_Ignored(ObjectTypeExtension_1.Ignored);
+	parse_Ignored(ObjectTypeExtension_1._Ignored_2);
 	ObjectTypeExtension_1.ImplementsInterfaces = create_ImplementsInterfaces();
-	if (!try_parse_fn(parse_ImplementsInterfaces, ObjectTypeExtension_1.ImplementsInterfaces)) ObjectTypeExtension_1.ImplementsInterfaces = undefined;
-	parse_Ignored(ObjectTypeExtension_1.Ignored);
+	if (!try_parse_fn(parse_ImplementsInterfaces, ObjectTypeExtension_1.ImplementsInterfaces))
+		ObjectTypeExtension_1.ImplementsInterfaces = undefined;
+	parse_Ignored(ObjectTypeExtension_1._Ignored_3);
 	parse_Directives(ObjectTypeExtension_1.Directives);
-	parse_Ignored(ObjectTypeExtension_1.Ignored);
+	parse_Ignored(ObjectTypeExtension_1._Ignored_4);
 };
 const parse_ObjectTypeExtension_2 = (ObjectTypeExtension_2: ObjectTypeExtension_2) => {
 	debugName = "ObjectTypeExtension_2";
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(ObjectTypeExtension_2.Ignored);
 	parse_regex(reg`/type/`, false, false, false);
-	parse_Ignored(ObjectTypeExtension_2.Ignored);
+	parse_Ignored(ObjectTypeExtension_2._Ignored_1);
 	parse_Name(ObjectTypeExtension_2.Name);
-	parse_Ignored(ObjectTypeExtension_2.Ignored);
+	parse_Ignored(ObjectTypeExtension_2._Ignored_2);
 	parse_ImplementsInterfaces(ObjectTypeExtension_2.ImplementsInterfaces);
-	parse_Ignored(ObjectTypeExtension_2.Ignored);
+	parse_Ignored(ObjectTypeExtension_2._Ignored_3);
 };
 const parse_ImplementsInterfaces = (ImplementsInterfaces: ImplementsInterfaces) => {
 	debugName = "ImplementsInterfaces";
@@ -1942,18 +2431,18 @@ const parse_ImplementsInterfaces_0 = (ImplementsInterfaces_0: ImplementsInterfac
 	parse_regex(reg`/implements/`, false, false, false);
 	parse_Ignored(ImplementsInterfaces_0.Ignored);
 	parse_regex(reg`/(&)?/`, false, false, false);
-	parse_Ignored(ImplementsInterfaces_0.Ignored);
+	parse_Ignored(ImplementsInterfaces_0._Ignored_1);
 	parse_NamedType(ImplementsInterfaces_0.NamedType);
-	parse_Ignored(ImplementsInterfaces_0.Ignored);
+	parse_Ignored(ImplementsInterfaces_0._Ignored_2);
 };
 const parse_ImplementsInterfaces_1 = (ImplementsInterfaces_1: ImplementsInterfaces_1) => {
 	debugName = "ImplementsInterfaces_1";
 	parse_ImplementsInterfaces(ImplementsInterfaces_1.ImplementsInterfaces);
 	parse_Ignored(ImplementsInterfaces_1.Ignored);
 	parse_regex(reg`/&/`, false, false, false);
-	parse_Ignored(ImplementsInterfaces_1.Ignored);
+	parse_Ignored(ImplementsInterfaces_1._Ignored_1);
 	parse_NamedType(ImplementsInterfaces_1.NamedType);
-	parse_Ignored(ImplementsInterfaces_1.Ignored);
+	parse_Ignored(ImplementsInterfaces_1._Ignored_2);
 };
 const parse_InterfaceTypeDefinition = (InterfaceTypeDefinition: InterfaceTypeDefinition) => {
 	debugName = "InterfaceTypeDefinition";
@@ -1961,15 +2450,16 @@ const parse_InterfaceTypeDefinition = (InterfaceTypeDefinition: InterfaceTypeDef
 	if (!try_parse_fn(parse_Description, InterfaceTypeDefinition.Description)) InterfaceTypeDefinition.Description = undefined;
 	parse_Ignored(InterfaceTypeDefinition.Ignored);
 	parse_regex(reg`/interface/`, false, false, false);
-	parse_Ignored(InterfaceTypeDefinition.Ignored);
+	parse_Ignored(InterfaceTypeDefinition._Ignored_1);
 	parse_Name(InterfaceTypeDefinition.Name);
-	parse_Ignored(InterfaceTypeDefinition.Ignored);
+	parse_Ignored(InterfaceTypeDefinition._Ignored_2);
 	InterfaceTypeDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, InterfaceTypeDefinition.Directives)) InterfaceTypeDefinition.Directives = undefined;
-	parse_Ignored(InterfaceTypeDefinition.Ignored);
+	parse_Ignored(InterfaceTypeDefinition._Ignored_3);
 	InterfaceTypeDefinition.FieldsDefinition = create_FieldsDefinition();
-	if (!try_parse_fn(parse_FieldsDefinition, InterfaceTypeDefinition.FieldsDefinition)) InterfaceTypeDefinition.FieldsDefinition = undefined;
-	parse_Ignored(InterfaceTypeDefinition.Ignored);
+	if (!try_parse_fn(parse_FieldsDefinition, InterfaceTypeDefinition.FieldsDefinition))
+		InterfaceTypeDefinition.FieldsDefinition = undefined;
+	parse_Ignored(InterfaceTypeDefinition._Ignored_4);
 };
 const parse_InterfaceTypeExtension = (InterfaceTypeExtension: InterfaceTypeExtension) => {
 	debugName = "InterfaceTypeExtension";
@@ -1984,25 +2474,25 @@ const parse_InterfaceTypeExtension_0 = (InterfaceTypeExtension_0: InterfaceTypeE
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(InterfaceTypeExtension_0.Ignored);
 	parse_regex(reg`/interface/`, false, false, false);
-	parse_Ignored(InterfaceTypeExtension_0.Ignored);
+	parse_Ignored(InterfaceTypeExtension_0._Ignored_1);
 	parse_Name(InterfaceTypeExtension_0.Name);
-	parse_Ignored(InterfaceTypeExtension_0.Ignored);
+	parse_Ignored(InterfaceTypeExtension_0._Ignored_2);
 	InterfaceTypeExtension_0.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, InterfaceTypeExtension_0.Directives)) InterfaceTypeExtension_0.Directives = undefined;
-	parse_Ignored(InterfaceTypeExtension_0.Ignored);
+	parse_Ignored(InterfaceTypeExtension_0._Ignored_3);
 	parse_FieldsDefinition(InterfaceTypeExtension_0.FieldsDefinition);
-	parse_Ignored(InterfaceTypeExtension_0.Ignored);
+	parse_Ignored(InterfaceTypeExtension_0._Ignored_4);
 };
 const parse_InterfaceTypeExtension_1 = (InterfaceTypeExtension_1: InterfaceTypeExtension_1) => {
 	debugName = "InterfaceTypeExtension_1";
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(InterfaceTypeExtension_1.Ignored);
 	parse_regex(reg`/interface/`, false, false, false);
-	parse_Ignored(InterfaceTypeExtension_1.Ignored);
+	parse_Ignored(InterfaceTypeExtension_1._Ignored_1);
 	parse_Name(InterfaceTypeExtension_1.Name);
-	parse_Ignored(InterfaceTypeExtension_1.Ignored);
+	parse_Ignored(InterfaceTypeExtension_1._Ignored_2);
 	parse_Directives(InterfaceTypeExtension_1.Directives);
-	parse_Ignored(InterfaceTypeExtension_1.Ignored);
+	parse_Ignored(InterfaceTypeExtension_1._Ignored_3);
 };
 const parse_UnionTypeDefinition = (UnionTypeDefinition: UnionTypeDefinition) => {
 	debugName = "UnionTypeDefinition";
@@ -2010,15 +2500,16 @@ const parse_UnionTypeDefinition = (UnionTypeDefinition: UnionTypeDefinition) => 
 	if (!try_parse_fn(parse_Description, UnionTypeDefinition.Description)) UnionTypeDefinition.Description = undefined;
 	parse_Ignored(UnionTypeDefinition.Ignored);
 	parse_regex(reg`/union/`, false, false, false);
-	parse_Ignored(UnionTypeDefinition.Ignored);
+	parse_Ignored(UnionTypeDefinition._Ignored_1);
 	parse_Name(UnionTypeDefinition.Name);
-	parse_Ignored(UnionTypeDefinition.Ignored);
+	parse_Ignored(UnionTypeDefinition._Ignored_2);
 	UnionTypeDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, UnionTypeDefinition.Directives)) UnionTypeDefinition.Directives = undefined;
-	parse_Ignored(UnionTypeDefinition.Ignored);
+	parse_Ignored(UnionTypeDefinition._Ignored_3);
 	UnionTypeDefinition.UnionMemberTypes = create_UnionMemberTypes();
-	if (!try_parse_fn(parse_UnionMemberTypes, UnionTypeDefinition.UnionMemberTypes)) UnionTypeDefinition.UnionMemberTypes = undefined;
-	parse_Ignored(UnionTypeDefinition.Ignored);
+	if (!try_parse_fn(parse_UnionMemberTypes, UnionTypeDefinition.UnionMemberTypes))
+		UnionTypeDefinition.UnionMemberTypes = undefined;
+	parse_Ignored(UnionTypeDefinition._Ignored_4);
 };
 const parse_UnionMemberTypes = (UnionMemberTypes: UnionMemberTypes) => {
 	debugName = "UnionMemberTypes";
@@ -2033,18 +2524,18 @@ const parse_UnionMemberTypes_0 = (UnionMemberTypes_0: UnionMemberTypes_0) => {
 	parse_regex(reg`/=/`, false, false, false);
 	parse_Ignored(UnionMemberTypes_0.Ignored);
 	parse_regex(reg`/(\|)?/`, false, false, false);
-	parse_Ignored(UnionMemberTypes_0.Ignored);
+	parse_Ignored(UnionMemberTypes_0._Ignored_1);
 	parse_NamedType(UnionMemberTypes_0.NamedType);
-	parse_Ignored(UnionMemberTypes_0.Ignored);
+	parse_Ignored(UnionMemberTypes_0._Ignored_2);
 };
 const parse_UnionMemberTypes_1 = (UnionMemberTypes_1: UnionMemberTypes_1) => {
 	debugName = "UnionMemberTypes_1";
 	parse_UnionMemberTypes(UnionMemberTypes_1.UnionMemberTypes);
 	parse_Ignored(UnionMemberTypes_1.Ignored);
 	parse_regex(reg`/\|/`, false, false, false);
-	parse_Ignored(UnionMemberTypes_1.Ignored);
+	parse_Ignored(UnionMemberTypes_1._Ignored_1);
 	parse_NamedType(UnionMemberTypes_1.NamedType);
-	parse_Ignored(UnionMemberTypes_1.Ignored);
+	parse_Ignored(UnionMemberTypes_1._Ignored_2);
 };
 const parse_UnionTypeExtension = (UnionTypeExtension: UnionTypeExtension) => {
 	debugName = "UnionTypeExtension";
@@ -2059,26 +2550,27 @@ const parse_UnionTypeExtension_0 = (UnionTypeExtension_0: UnionTypeExtension_0) 
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(UnionTypeExtension_0.Ignored);
 	parse_regex(reg`/union/`, false, false, false);
-	parse_Ignored(UnionTypeExtension_0.Ignored);
+	parse_Ignored(UnionTypeExtension_0._Ignored_1);
 	parse_Name(UnionTypeExtension_0.Name);
-	parse_Ignored(UnionTypeExtension_0.Ignored);
+	parse_Ignored(UnionTypeExtension_0._Ignored_2);
 	UnionTypeExtension_0.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, UnionTypeExtension_0.Directives)) UnionTypeExtension_0.Directives = undefined;
-	parse_Ignored(UnionTypeExtension_0.Ignored);
+	parse_Ignored(UnionTypeExtension_0._Ignored_3);
 	UnionTypeExtension_0.UnionMemberTypes = create_UnionMemberTypes();
-	if (!try_parse_fn(parse_UnionMemberTypes, UnionTypeExtension_0.UnionMemberTypes)) UnionTypeExtension_0.UnionMemberTypes = undefined;
-	parse_Ignored(UnionTypeExtension_0.Ignored);
+	if (!try_parse_fn(parse_UnionMemberTypes, UnionTypeExtension_0.UnionMemberTypes))
+		UnionTypeExtension_0.UnionMemberTypes = undefined;
+	parse_Ignored(UnionTypeExtension_0._Ignored_4);
 };
 const parse_UnionTypeExtension_1 = (UnionTypeExtension_1: UnionTypeExtension_1) => {
 	debugName = "UnionTypeExtension_1";
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(UnionTypeExtension_1.Ignored);
 	parse_regex(reg`/union/`, false, false, false);
-	parse_Ignored(UnionTypeExtension_1.Ignored);
+	parse_Ignored(UnionTypeExtension_1._Ignored_1);
 	parse_Name(UnionTypeExtension_1.Name);
-	parse_Ignored(UnionTypeExtension_1.Ignored);
+	parse_Ignored(UnionTypeExtension_1._Ignored_2);
 	parse_Directives(UnionTypeExtension_1.Directives);
-	parse_Ignored(UnionTypeExtension_1.Ignored);
+	parse_Ignored(UnionTypeExtension_1._Ignored_3);
 };
 const parse_EnumTypeDefinition = (EnumTypeDefinition: EnumTypeDefinition) => {
 	debugName = "EnumTypeDefinition";
@@ -2086,24 +2578,25 @@ const parse_EnumTypeDefinition = (EnumTypeDefinition: EnumTypeDefinition) => {
 	if (!try_parse_fn(parse_Description, EnumTypeDefinition.Description)) EnumTypeDefinition.Description = undefined;
 	parse_Ignored(EnumTypeDefinition.Ignored);
 	parse_regex(reg`/enum/`, false, false, false);
-	parse_Ignored(EnumTypeDefinition.Ignored);
+	parse_Ignored(EnumTypeDefinition._Ignored_1);
 	parse_Name(EnumTypeDefinition.Name);
-	parse_Ignored(EnumTypeDefinition.Ignored);
+	parse_Ignored(EnumTypeDefinition._Ignored_2);
 	EnumTypeDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, EnumTypeDefinition.Directives)) EnumTypeDefinition.Directives = undefined;
-	parse_Ignored(EnumTypeDefinition.Ignored);
+	parse_Ignored(EnumTypeDefinition._Ignored_3);
 	EnumTypeDefinition.EnumValuesDefinition = create_EnumValuesDefinition();
-	if (!try_parse_fn(parse_EnumValuesDefinition, EnumTypeDefinition.EnumValuesDefinition)) EnumTypeDefinition.EnumValuesDefinition = undefined;
-	parse_Ignored(EnumTypeDefinition.Ignored);
+	if (!try_parse_fn(parse_EnumValuesDefinition, EnumTypeDefinition.EnumValuesDefinition))
+		EnumTypeDefinition.EnumValuesDefinition = undefined;
+	parse_Ignored(EnumTypeDefinition._Ignored_4);
 };
 const parse_EnumValuesDefinition = (EnumValuesDefinition: EnumValuesDefinition) => {
 	debugName = "EnumValuesDefinition";
 	parse_regex(reg`/\{/`, false, false, false);
 	parse_Ignored(EnumValuesDefinition.Ignored);
 	parse_array_fn(parse_EnumValueDefinition, EnumValuesDefinition.EnumValueDefinition, create_EnumValueDefinition, 1);
-	parse_Ignored(EnumValuesDefinition.Ignored);
+	parse_Ignored(EnumValuesDefinition._Ignored_1);
 	parse_regex(reg`/\}/`, false, false, false);
-	parse_Ignored(EnumValuesDefinition.Ignored);
+	parse_Ignored(EnumValuesDefinition._Ignored_2);
 };
 const parse_EnumValueDefinition = (EnumValueDefinition: EnumValueDefinition) => {
 	debugName = "EnumValueDefinition";
@@ -2111,10 +2604,10 @@ const parse_EnumValueDefinition = (EnumValueDefinition: EnumValueDefinition) => 
 	if (!try_parse_fn(parse_Description, EnumValueDefinition.Description)) EnumValueDefinition.Description = undefined;
 	parse_Ignored(EnumValueDefinition.Ignored);
 	parse_EnumValue(EnumValueDefinition.EnumValue);
-	parse_Ignored(EnumValueDefinition.Ignored);
+	parse_Ignored(EnumValueDefinition._Ignored_1);
 	EnumValueDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, EnumValueDefinition.Directives)) EnumValueDefinition.Directives = undefined;
-	parse_Ignored(EnumValueDefinition.Ignored);
+	parse_Ignored(EnumValueDefinition._Ignored_2);
 };
 const parse_EnumTypeExtension = (EnumTypeExtension: EnumTypeExtension) => {
 	debugName = "EnumTypeExtension";
@@ -2129,25 +2622,25 @@ const parse_EnumTypeExtension_0 = (EnumTypeExtension_0: EnumTypeExtension_0) => 
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(EnumTypeExtension_0.Ignored);
 	parse_regex(reg`/enum/`, false, false, false);
-	parse_Ignored(EnumTypeExtension_0.Ignored);
+	parse_Ignored(EnumTypeExtension_0._Ignored_1);
 	parse_Name(EnumTypeExtension_0.Name);
-	parse_Ignored(EnumTypeExtension_0.Ignored);
+	parse_Ignored(EnumTypeExtension_0._Ignored_2);
 	EnumTypeExtension_0.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, EnumTypeExtension_0.Directives)) EnumTypeExtension_0.Directives = undefined;
-	parse_Ignored(EnumTypeExtension_0.Ignored);
+	parse_Ignored(EnumTypeExtension_0._Ignored_3);
 	parse_EnumValuesDefinition(EnumTypeExtension_0.EnumValuesDefinition);
-	parse_Ignored(EnumTypeExtension_0.Ignored);
+	parse_Ignored(EnumTypeExtension_0._Ignored_4);
 };
 const parse_EnumTypeExtension_1 = (EnumTypeExtension_1: EnumTypeExtension_1) => {
 	debugName = "EnumTypeExtension_1";
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(EnumTypeExtension_1.Ignored);
 	parse_regex(reg`/enum/`, false, false, false);
-	parse_Ignored(EnumTypeExtension_1.Ignored);
+	parse_Ignored(EnumTypeExtension_1._Ignored_1);
 	parse_Name(EnumTypeExtension_1.Name);
-	parse_Ignored(EnumTypeExtension_1.Ignored);
+	parse_Ignored(EnumTypeExtension_1._Ignored_2);
 	parse_Directives(EnumTypeExtension_1.Directives);
-	parse_Ignored(EnumTypeExtension_1.Ignored);
+	parse_Ignored(EnumTypeExtension_1._Ignored_3);
 };
 const parse_InputObjectTypeDefinition = (InputObjectTypeDefinition: InputObjectTypeDefinition) => {
 	debugName = "InputObjectTypeDefinition";
@@ -2155,24 +2648,25 @@ const parse_InputObjectTypeDefinition = (InputObjectTypeDefinition: InputObjectT
 	if (!try_parse_fn(parse_Description, InputObjectTypeDefinition.Description)) InputObjectTypeDefinition.Description = undefined;
 	parse_Ignored(InputObjectTypeDefinition.Ignored);
 	parse_regex(reg`/input/`, false, false, false);
-	parse_Ignored(InputObjectTypeDefinition.Ignored);
+	parse_Ignored(InputObjectTypeDefinition._Ignored_1);
 	parse_Name(InputObjectTypeDefinition.Name);
-	parse_Ignored(InputObjectTypeDefinition.Ignored);
+	parse_Ignored(InputObjectTypeDefinition._Ignored_2);
 	InputObjectTypeDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, InputObjectTypeDefinition.Directives)) InputObjectTypeDefinition.Directives = undefined;
-	parse_Ignored(InputObjectTypeDefinition.Ignored);
+	parse_Ignored(InputObjectTypeDefinition._Ignored_3);
 	InputObjectTypeDefinition.InputFieldsDefinition = create_InputFieldsDefinition();
-	if (!try_parse_fn(parse_InputFieldsDefinition, InputObjectTypeDefinition.InputFieldsDefinition)) InputObjectTypeDefinition.InputFieldsDefinition = undefined;
-	parse_Ignored(InputObjectTypeDefinition.Ignored);
+	if (!try_parse_fn(parse_InputFieldsDefinition, InputObjectTypeDefinition.InputFieldsDefinition))
+		InputObjectTypeDefinition.InputFieldsDefinition = undefined;
+	parse_Ignored(InputObjectTypeDefinition._Ignored_4);
 };
 const parse_InputFieldsDefinition = (InputFieldsDefinition: InputFieldsDefinition) => {
 	debugName = "InputFieldsDefinition";
 	parse_regex(reg`/\{/`, false, false, false);
 	parse_Ignored(InputFieldsDefinition.Ignored);
 	parse_array_fn(parse_InputValueDefinition, InputFieldsDefinition.InputValueDefinition, create_InputValueDefinition, 1);
-	parse_Ignored(InputFieldsDefinition.Ignored);
+	parse_Ignored(InputFieldsDefinition._Ignored_1);
 	parse_regex(reg`/\}/`, false, false, false);
-	parse_Ignored(InputFieldsDefinition.Ignored);
+	parse_Ignored(InputFieldsDefinition._Ignored_2);
 };
 const parse_InputObjectTypeExtension = (InputObjectTypeExtension: InputObjectTypeExtension) => {
 	debugName = "InputObjectTypeExtension";
@@ -2187,25 +2681,25 @@ const parse_InputObjectTypeExtension_0 = (InputObjectTypeExtension_0: InputObjec
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(InputObjectTypeExtension_0.Ignored);
 	parse_regex(reg`/input/`, false, false, false);
-	parse_Ignored(InputObjectTypeExtension_0.Ignored);
+	parse_Ignored(InputObjectTypeExtension_0._Ignored_1);
 	parse_Name(InputObjectTypeExtension_0.Name);
-	parse_Ignored(InputObjectTypeExtension_0.Ignored);
+	parse_Ignored(InputObjectTypeExtension_0._Ignored_2);
 	InputObjectTypeExtension_0.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, InputObjectTypeExtension_0.Directives)) InputObjectTypeExtension_0.Directives = undefined;
-	parse_Ignored(InputObjectTypeExtension_0.Ignored);
+	parse_Ignored(InputObjectTypeExtension_0._Ignored_3);
 	parse_InputFieldsDefinition(InputObjectTypeExtension_0.InputFieldsDefinition);
-	parse_Ignored(InputObjectTypeExtension_0.Ignored);
+	parse_Ignored(InputObjectTypeExtension_0._Ignored_4);
 };
 const parse_InputObjectTypeExtension_1 = (InputObjectTypeExtension_1: InputObjectTypeExtension_1) => {
 	debugName = "InputObjectTypeExtension_1";
 	parse_regex(reg`/extend/`, false, false, false);
 	parse_Ignored(InputObjectTypeExtension_1.Ignored);
 	parse_regex(reg`/input/`, false, false, false);
-	parse_Ignored(InputObjectTypeExtension_1.Ignored);
+	parse_Ignored(InputObjectTypeExtension_1._Ignored_1);
 	parse_Name(InputObjectTypeExtension_1.Name);
-	parse_Ignored(InputObjectTypeExtension_1.Ignored);
+	parse_Ignored(InputObjectTypeExtension_1._Ignored_2);
 	parse_Directives(InputObjectTypeExtension_1.Directives);
-	parse_Ignored(InputObjectTypeExtension_1.Ignored);
+	parse_Ignored(InputObjectTypeExtension_1._Ignored_3);
 };
 const parse_DirectiveDefinition = (DirectiveDefinition: DirectiveDefinition) => {
 	debugName = "DirectiveDefinition";
@@ -2213,18 +2707,19 @@ const parse_DirectiveDefinition = (DirectiveDefinition: DirectiveDefinition) => 
 	if (!try_parse_fn(parse_Description, DirectiveDefinition.Description)) DirectiveDefinition.Description = undefined;
 	parse_Ignored(DirectiveDefinition.Ignored);
 	parse_regex(reg`/directive/`, false, false, false);
-	parse_Ignored(DirectiveDefinition.Ignored);
+	parse_Ignored(DirectiveDefinition._Ignored_1);
 	parse_regex(reg`/@/`, false, false, false);
-	parse_Ignored(DirectiveDefinition.Ignored);
+	parse_Ignored(DirectiveDefinition._Ignored_2);
 	parse_Name(DirectiveDefinition.Name);
-	parse_Ignored(DirectiveDefinition.Ignored);
+	parse_Ignored(DirectiveDefinition._Ignored_3);
 	DirectiveDefinition.ArgumentsDefinition = create_ArgumentsDefinition();
-	if (!try_parse_fn(parse_ArgumentsDefinition, DirectiveDefinition.ArgumentsDefinition)) DirectiveDefinition.ArgumentsDefinition = undefined;
-	parse_Ignored(DirectiveDefinition.Ignored);
+	if (!try_parse_fn(parse_ArgumentsDefinition, DirectiveDefinition.ArgumentsDefinition))
+		DirectiveDefinition.ArgumentsDefinition = undefined;
+	parse_Ignored(DirectiveDefinition._Ignored_4);
 	parse_regex(reg`/on/`, false, false, false);
-	parse_Ignored(DirectiveDefinition.Ignored);
+	parse_Ignored(DirectiveDefinition._Ignored_5);
 	parse_DirectiveLocations(DirectiveDefinition.DirectiveLocations);
-	parse_Ignored(DirectiveDefinition.Ignored);
+	parse_Ignored(DirectiveDefinition._Ignored_6);
 };
 const parse_DirectiveLocations = (DirectiveLocations: DirectiveLocations) => {
 	debugName = "DirectiveLocations";
@@ -2239,16 +2734,16 @@ const parse_DirectiveLocations_0 = (DirectiveLocations_0: DirectiveLocations_0) 
 	parse_regex(reg`/(\|)?/`, false, false, false);
 	parse_Ignored(DirectiveLocations_0.Ignored);
 	parse_DirectiveLocation(DirectiveLocations_0.DirectiveLocation);
-	parse_Ignored(DirectiveLocations_0.Ignored);
+	parse_Ignored(DirectiveLocations_0._Ignored_1);
 };
 const parse_DirectiveLocations_1 = (DirectiveLocations_1: DirectiveLocations_1) => {
 	debugName = "DirectiveLocations_1";
 	parse_DirectiveLocations(DirectiveLocations_1.DirectiveLocations);
 	parse_Ignored(DirectiveLocations_1.Ignored);
 	parse_regex(reg`/\|/`, false, false, false);
-	parse_Ignored(DirectiveLocations_1.Ignored);
+	parse_Ignored(DirectiveLocations_1._Ignored_1);
 	parse_DirectiveLocation(DirectiveLocations_1.DirectiveLocation);
-	parse_Ignored(DirectiveLocations_1.Ignored);
+	parse_Ignored(DirectiveLocations_1._Ignored_2);
 };
 const parse_DirectiveLocation = (DirectiveLocation: DirectiveLocation) => {
 	debugName = "DirectiveLocation";
@@ -2260,18 +2755,28 @@ const parse_DirectiveLocation = (DirectiveLocation: DirectiveLocation) => {
 };
 const parse_ExecutableDirectiveLocation = (ExecutableDirectiveLocation: ExecutableDirectiveLocation) => {
 	debugName = "ExecutableDirectiveLocation";
-	ExecutableDirectiveLocation.value = parse_regex(reg`/QUERY|MUTATION|SUBSCRIPTION|FIELD|FRAGMENT_DEFINITION|FRAGMENT_SPREAD|INLINE_FRAGMENT/`, false, false, false);
+	ExecutableDirectiveLocation.value = parse_regex(
+		reg`/QUERY|MUTATION|SUBSCRIPTION|FIELD|FRAGMENT_DEFINITION|FRAGMENT_SPREAD|INLINE_FRAGMENT/`,
+		false,
+		false,
+		false
+	);
 };
 const parse_TypeSystemDirectiveLocation = (TypeSystemDirectiveLocation: TypeSystemDirectiveLocation) => {
 	debugName = "TypeSystemDirectiveLocation";
-	TypeSystemDirectiveLocation.value = parse_regex(reg`/SCHEMA|SCALAR|OBJECT|FIELD_DEFINITION|ARGUMENT_DEFINITION|INTERFACE|UNION|ENUM|ENUM_VALUE|INPUT_OBJECT|INPUT_FIELD_DEFINITION/`, false, false, false);
+	TypeSystemDirectiveLocation.value = parse_regex(
+		reg`/SCHEMA|SCALAR|OBJECT|FIELD_DEFINITION|ARGUMENT_DEFINITION|INTERFACE|UNION|ENUM|ENUM_VALUE|INPUT_OBJECT|INPUT_FIELD_DEFINITION/`,
+		false,
+		false,
+		false
+	);
 };
 const parse_FieldsDefinition = (FieldsDefinition: FieldsDefinition) => {
 	debugName = "FieldsDefinition";
 	parse_regex(reg`/\{/`, false, false, false);
 	parse_Ignored(FieldsDefinition.Ignored);
 	parse_array_fn(parse_FieldDefinition, FieldsDefinition.FieldDefinition, create_FieldDefinition, 1);
-	parse_Ignored(FieldsDefinition.Ignored);
+	parse_Ignored(FieldsDefinition._Ignored_1);
 	parse_regex(reg`/\}/`, false, false, false);
 };
 const parse_FieldDefinition = (FieldDefinition: FieldDefinition) => {
@@ -2280,26 +2785,27 @@ const parse_FieldDefinition = (FieldDefinition: FieldDefinition) => {
 	if (!try_parse_fn(parse_Description, FieldDefinition.Description)) FieldDefinition.Description = undefined;
 	parse_Ignored(FieldDefinition.Ignored);
 	parse_Name(FieldDefinition.Name);
-	parse_Ignored(FieldDefinition.Ignored);
+	parse_Ignored(FieldDefinition._Ignored_1);
 	FieldDefinition.ArgumentsDefinition = create_ArgumentsDefinition();
-	if (!try_parse_fn(parse_ArgumentsDefinition, FieldDefinition.ArgumentsDefinition)) FieldDefinition.ArgumentsDefinition = undefined;
-	parse_Ignored(FieldDefinition.Ignored);
+	if (!try_parse_fn(parse_ArgumentsDefinition, FieldDefinition.ArgumentsDefinition))
+		FieldDefinition.ArgumentsDefinition = undefined;
+	parse_Ignored(FieldDefinition._Ignored_2);
 	parse_regex(reg`/:/`, false, false, false);
-	parse_Ignored(FieldDefinition.Ignored);
+	parse_Ignored(FieldDefinition._Ignored_3);
 	parse_Type(FieldDefinition.Type);
-	parse_Ignored(FieldDefinition.Ignored);
+	parse_Ignored(FieldDefinition._Ignored_4);
 	FieldDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, FieldDefinition.Directives)) FieldDefinition.Directives = undefined;
-	parse_Ignored(FieldDefinition.Ignored);
+	parse_Ignored(FieldDefinition._Ignored_5);
 };
 const parse_ArgumentsDefinition = (ArgumentsDefinition: ArgumentsDefinition) => {
 	debugName = "ArgumentsDefinition";
 	parse_regex(reg`/\(/`, false, false, false);
 	parse_Ignored(ArgumentsDefinition.Ignored);
 	parse_array_fn(parse_InputValueDefinition, ArgumentsDefinition.InputValueDefinition, create_InputValueDefinition, 1);
-	parse_Ignored(ArgumentsDefinition.Ignored);
+	parse_Ignored(ArgumentsDefinition._Ignored_1);
 	parse_regex(reg`/\)/`, false, false, false);
-	parse_Ignored(ArgumentsDefinition.Ignored);
+	parse_Ignored(ArgumentsDefinition._Ignored_2);
 };
 const parse_InputValueDefinition = (InputValueDefinition: InputValueDefinition) => {
 	debugName = "InputValueDefinition";
@@ -2307,17 +2813,17 @@ const parse_InputValueDefinition = (InputValueDefinition: InputValueDefinition) 
 	if (!try_parse_fn(parse_Description, InputValueDefinition.Description)) InputValueDefinition.Description = undefined;
 	parse_Ignored(InputValueDefinition.Ignored);
 	parse_Name(InputValueDefinition.Name);
-	parse_Ignored(InputValueDefinition.Ignored);
+	parse_Ignored(InputValueDefinition._Ignored_1);
 	parse_regex(reg`/:/`, false, false, false);
-	parse_Ignored(InputValueDefinition.Ignored);
+	parse_Ignored(InputValueDefinition._Ignored_2);
 	parse_Type(InputValueDefinition.Type);
-	parse_Ignored(InputValueDefinition.Ignored);
+	parse_Ignored(InputValueDefinition._Ignored_3);
 	InputValueDefinition.DefaultValue = create_DefaultValue();
 	if (!try_parse_fn(parse_DefaultValue, InputValueDefinition.DefaultValue)) InputValueDefinition.DefaultValue = undefined;
-	parse_Ignored(InputValueDefinition.Ignored);
+	parse_Ignored(InputValueDefinition._Ignored_4);
 	InputValueDefinition.Directives = create_Directives();
 	if (!try_parse_fn(parse_Directives, InputValueDefinition.Directives)) InputValueDefinition.Directives = undefined;
-	parse_Ignored(InputValueDefinition.Ignored);
+	parse_Ignored(InputValueDefinition._Ignored_5);
 };
 
 export const parse = (textToParse: string, filePath = "", onFail?: (result: Document) => void) => {

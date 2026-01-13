@@ -208,10 +208,20 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 	}
 
 	function defineType(typeName: string, type: DefineTypeType, contentArray: Content[]) {
+		const ruleNameSet = new Map<string, number>();
+		const getUniqueRuleName = (ruleName: rule_name): rule_name & { index?: number } => {
+			if (ruleNameSet.has(ruleName.value)) {
+				const index = ruleNameSet.get(ruleName.value) ?? 0;
+				ruleNameSet.set(ruleName.value, index + 1);
+				return { ...ruleName, index: index + 1 };
+			}
+			ruleNameSet.set(ruleName.value, 0);
+			return ruleName;
+		};
 		if (contentArray[0]?.type === "item") {
 			const baseContent: Content = {
 				type: "rule_name_quantified",
-				rule_name: { type: "rule_name", value: contentArray[0].rule_name },
+				rule_name: getUniqueRuleName({ type: "rule_name", value: contentArray[0].rule_name }),
 			};
 			if (contentArray[0].isJoinRegex)
 				defineType(`${typeName}_item`, "item", [
@@ -223,7 +233,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 					baseContent,
 					{
 						type: "rule_name_quantified",
-						rule_name: contentArray[0].join as rule_name,
+						rule_name: getUniqueRuleName(contentArray[0].join as rule_name),
 					},
 				]);
 		}
@@ -263,7 +273,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 					if (content.bNegation)
 						parseCode.push(
 							`if (try_parse_fn(parse_regex, reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline})) ` +
-								`throw new Error("Match should be failed: ${content.regexContent.replace('"', '\\"')}");`
+								`throw new Error("Match should be failed: ${content.regexContent.replace(/"/g, '\\"')}");`
 						);
 					else {
 						if (type === "value") {
@@ -286,38 +296,42 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 			} else if (content.type === "rule_name_quantified") {
 				newLineCode();
 				newLineParseCode();
-				const ruleName = content.rule_name.value;
+				const uniqueRuleName = getUniqueRuleName(content.rule_name);
+				const hasIndex = uniqueRuleName.index !== undefined;
+				const ruleName = hasIndex ? `_${uniqueRuleName.value}_${uniqueRuleName.index}` : uniqueRuleName.value;
 				const childName = `${typeName}.${ruleName}`;
 				if (content.rule_quantifier?.value.type === "rule_basic_quantifier") {
 					if (content.rule_quantifier?.value.value === "?") {
-						code.push(`${ruleName}?: ${ruleName};`);
-						parseCode.push(`${childName} = create_${ruleName}();`);
+						code.push(`${ruleName}?: ${uniqueRuleName.value};`);
+						parseCode.push(`${childName} = create_${uniqueRuleName.value}();`);
 						newLineParseCode();
-						parseCode.push(`if (!try_parse_fn(parse_${ruleName}, ${childName})) ${childName} = undefined;`);
+						parseCode.push(`if (!try_parse_fn(parse_${uniqueRuleName.value}, ${childName})) ${childName} = undefined;`);
 					} else {
-						code.push(`${ruleName}: ${ruleName}[];`);
+						code.push(`${ruleName}: ${uniqueRuleName.value}[];`);
 						createFnCode += `, ${ruleName}: []`;
 						const min = content.rule_quantifier?.value.value === "+" ? 1 : 0;
-						parseCode.push(`parse_array_fn(parse_${ruleName}, ${childName}, create_${ruleName}, ${min});`);
+						parseCode.push(`parse_array_fn(parse_${ruleName}, ${childName}, create_${uniqueRuleName.value}, ${min});`);
 					}
 				} else if (content.rule_quantifier?.value.type === "rule_brace_quantifier") {
-					code.push(`${ruleName}: ${ruleName}[];`);
+					code.push(`${ruleName}: ${uniqueRuleName.value}[];`);
 					createFnCode += `, ${ruleName}: []`;
 					const min = content.rule_quantifier.value.rule_brace_min.value;
 					const hasMax = !!content.rule_quantifier.value.rule_brace_max;
 					const max =
 						content.rule_quantifier.value.rule_brace_max?.rule_brace_max_value?.value ??
 						(hasMax ? "Number.MAX_SAFE_INTEGER" : min);
-					parseCode.push(`parse_array_fn(parse_${ruleName}, ${childName}, create_${ruleName}, ${min}, ${max});`);
+					parseCode.push(
+						`parse_array_fn(parse_${uniqueRuleName.value}, ${childName}, create_${uniqueRuleName.value}, ${min}, ${max});`
+					);
 				} else {
-					code.push(`${ruleName}: ${ruleName};`);
-					createFnCode += `, ${ruleName}: create_${ruleName}()`;
+					code.push(`${ruleName}: ${uniqueRuleName.value};`);
+					createFnCode += `, ${ruleName}: create_${uniqueRuleName.value}()`;
 					if (i !== 0 && type === "item") {
 						// if type is "item", first is item, second is join
-						parseCode.push(`if (try_parse_fn(parse_${ruleName}, ${childName})) return true;`);
+						parseCode.push(`if (try_parse_fn(parse_${uniqueRuleName.value}, ${childName})) return true;`);
 						newLineParseCode();
 						parseCode.push(`return false;`);
-					} else parseCode.push(`parse_${ruleName}(${childName});`);
+					} else parseCode.push(`parse_${uniqueRuleName.value}(${childName});`);
 				}
 			} else if (content.type === "rule_or") {
 				newLineParseCode();
