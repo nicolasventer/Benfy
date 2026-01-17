@@ -16,6 +16,7 @@ Benfy is a parser generator that converts `.bf` grammar files into type-safe Typ
 - **Validation**: Automatic validation of rule references and grammar structure
 - **Debugging**: Optional JSON output for debugging parsed grammar structures
 - **Error Handling**: Detailed error messages with line and column information
+- **Location Metadata**: Optional location data in generated parser output
 - **Comments**: Support for single-line (`#`) and multi-line (`##...##`) comments
 
 ## Usage
@@ -43,6 +44,10 @@ Options:
                         (if no path provided, uses <input-name>_parser.ts)
   -d, --debug [file]    Output JSON result file path for debugging
                         (if no path provided, uses <input-name>_result.json)
+  -s, --strip           Strip location data from debug JSON output
+                        (default: false)
+  -l, --location        Include location data in generated parser output
+                        (default: false)
   -h, --help            Show this help message
 ```
 
@@ -60,6 +65,12 @@ bun index.ts grammar.bf -d
 
 # Generate parser with custom output and debug files
 bun index.ts grammar.bf -o parser.ts -d debug.json
+
+# Generate parser with debug JSON (strip locations)
+bun index.ts grammar.bf -d --strip
+
+# Include location data in generated parser
+bun index.ts grammar.bf -l
 ```
 
 ## Grammar File Syntax
@@ -120,11 +131,11 @@ It can be overridden anywhere in the grammar or with Regex flags.
 
 ```bf
 "loose"
-rule_1: /abc/ # equivalent to /\s*abc/
+rule_1: /abc/ # equivalent to /\s*\babc\b/
 rule_2: /abc/s # equivalent to /abc/, here "s" is the regex flag for strict spacing policy
 "strict"
 rule_3: /abc/ # equivalent to /abc/, here "strict" is the spacing policy
-rule_4: /abc/l # equivalent to /abc/, here "l" is the regex flag for loose spacing policy
+rule_4: /abc/l # equivalent to /\s*\babc\b/, here "l" is the regex flag for loose spacing policy
 ```
 
 ## Workflow
@@ -220,7 +231,7 @@ const result = parse_json(
 
 ## License
 
-MIT Licence. See [LICENSE file](LICENSE).
+MIT License. See [LICENSE file](LICENSE).
 Please refer me with:
 
 	Copyright (c) Nicolas VENTER All rights reserved.
