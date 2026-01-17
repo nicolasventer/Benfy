@@ -68,14 +68,15 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 		const matches = spaceRegex.exec(text);
 		if (matches) index = matches.index + matches[0].length;
 	}
-	const newRgx = new RegExp(rgx.source, flags);
+	const source = skipSpace ? `\b${rgx.source}\b` : rgx.source;
+	const newRgx = new RegExp(source, flags);
 	newRgx.lastIndex = index;
 	const matches = newRgx.exec(text);
 	if (!matches) {
 		const { line, col } = getCurrentLocation();
 		failedValues.push({
 			debugName: debugName,
-			rgx: rgx.source,
+			rgx: source,
 			status: "false",
 			index: index,
 			location: `${path ? `${path}:` : ""}${line}:${col}`,
@@ -85,7 +86,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 				.replace(/\t/g, "\\t")
 				.replace(/^(\\t|\\n)*/g, ""),
 		});
-		throw new Error(`Match failed: ${rgx.source}`);
+		throw new Error(`Match failed: ${source}`);
 	}
 	if (matches) {
 		index = matches.index + matches[0].length;
@@ -93,7 +94,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 		const { line, col } = getCurrentLocation();
 		successValues.push({
 			debugName: debugName,
-			rgx: rgx.source,
+			rgx: source,
 			status: "true",
 			index: index,
 			location: `${path ? `${path}:` : ""}${line}:${col}`,
