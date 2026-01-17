@@ -13,8 +13,6 @@
 
 ## TODO BENFY
 
-- [ ] add param for add of index, line and column in parsed object
-- [ ] handle multiple times same rule in expression
 - [ ] tests
 
 ## TODO BOTH
@@ -23,7 +21,6 @@
 
 ## ✨ Features
 
-- [ ] **Interactive execution**: Step-by-step parsing/debugging
 - [x] **EBNF Conversion from**: Support conversion from Benfy to EBNF format
 - [ ] **EBNF Conversion to**: Support conversion from EBNF to Benfy format
 - [ ] **Railroad diagrams**: Support generation of railroad diagrams from EBNF

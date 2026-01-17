@@ -1,4 +1,5 @@
 import type {
+	_location,
 	grammar,
 	rule,
 	rule_name,
@@ -33,11 +34,12 @@ type RuleOrContent = {
 type ItemContent = {
 	type: "item";
 	rule_name: string;
+	_location: _location;
 	bOptional: boolean;
 	join: rule_regex | rule_name;
 	isJoinRegex: boolean;
 };
-type Content = RegexContent | NegativeRuleNameContent | rule_name_quantified | RuleOrContent | ItemContent;
+type Content = RegexContent | NegativeRuleNameContent | Omit<rule_name_quantified, "_location"> | RuleOrContent | ItemContent;
 
 // ============================================================================
 // Generator Module
@@ -46,13 +48,13 @@ type Content = RegexContent | NegativeRuleNameContent | rule_name_quantified | R
 /**
  * Generates TypeScript parser code from a parsed grammar AST.
  */
-export function generateCode(parsedGrammar: grammar): string {
+export function generateCode(parsedGrammar: grammar, bWithLocation = false): string {
 	const code: string[] = [];
 	const parseCode = [`\n`];
 	const createCode = [`\n`];
 
 	// Initialize code with helper functions
-	code.push(getHelperFunctions());
+	code.push(getHelperFunctions(bWithLocation));
 
 	// Code generation state
 	let indentCode = "\n";
@@ -68,7 +70,7 @@ export function generateCode(parsedGrammar: grammar): string {
 	// Extract rules from lines
 	const rules: (rule | spacing_policy)[] = parsedGrammar.line
 		.filter(
-			(line): line is { type: "line"; value: rule | spacing_policy } =>
+			(line): line is { type: "line"; value: rule | spacing_policy; _location: _location } =>
 				line.value.type === "rule" || line.value.type === "spacing_policy"
 		)
 		.map((line) => line.value);
@@ -110,6 +112,7 @@ export function generateCode(parsedGrammar: grammar): string {
 					{
 						type: "item",
 						rule_name: expr.rule_name.value,
+						_location: expr.rule_name._location,
 						isJoinRegex: rule_name_or_regex.type === "rule_regex",
 						join: join,
 						bOptional: !!expr.rest_rule_name.value.rule_item_optional,
@@ -120,7 +123,8 @@ export function generateCode(parsedGrammar: grammar): string {
 				// rule_name_as_term
 				const first_rule_name: rule_name_quantified = {
 					type: "rule_name_quantified",
-					rule_name: { type: "rule_name", value: expr.rule_name.value },
+					rule_name: { type: "rule_name", value: expr.rule_name.value, _location: expr.rule_name._location },
+					_location: expr.rest_rule_name._location,
 					rule_quantifier: expr.rest_rule_name.value.rule_quantifier,
 				};
 				const contentArray: Content[] = [first_rule_name];
@@ -149,7 +153,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 	parseCode.push(`parse_${firstRuleName}(result);`);
 	newLineParseCode();
 	parseCode.push(`if (index !== text.length) {
-			const { line, col } = indexToLineCol(index);
+			const { line, col } = getCurrentLocation();
 			throw new Error(\`Text not fully parsed, interrupted at index \${index} (\${path ? \`\${path}:\` : ""}\${line}:\${col})\`);
 		}
 		logs.length = 0;
@@ -163,6 +167,22 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 		onFail?.(result);
 		throw error;
 	}
+};
+export type RecursiveStripLocation<T> = T extends Array<infer U>
+	? RecursiveStripLocation<U>[]
+	: T extends object
+	? { [K in Exclude<keyof T, "_location">]: RecursiveStripLocation<T[K]> }
+	: T;
+export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> => {
+	if (Array.isArray(value)) return value.map((item) => recursiveStripLocation(item)) as RecursiveStripLocation<T>;
+	if (!value || typeof value !== "object" || value instanceof Date || value instanceof RegExp)
+		return value as RecursiveStripLocation<T>;
+	const result: Record<string, unknown> = {};
+	for (const [key, entry] of Object.entries(value as Record<string, unknown>)) {
+		if (key === "_location") continue;
+		result[key] = recursiveStripLocation(entry);
+	}
+	return result as RecursiveStripLocation<T>;
 };`);
 	decrIndentParseCode();
 	newLineParseCode();
@@ -221,7 +241,11 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 		if (contentArray[0]?.type === "item") {
 			const baseContent: Content = {
 				type: "rule_name_quantified",
-				rule_name: getUniqueRuleName({ type: "rule_name", value: contentArray[0].rule_name }),
+				rule_name: getUniqueRuleName({
+					type: "rule_name",
+					value: contentArray[0].rule_name,
+					_location: contentArray[0]._location,
+				}),
 			};
 			if (contentArray[0].isJoinRegex)
 				defineType(`${typeName}_item`, "item", [
@@ -239,7 +263,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 		}
 
 		newLineCode();
-		code.push(`export type ${typeName} = {`);
+		code.push(`export type ${typeName} = _location_object & {`);
 		incrIndentCode();
 		newLineCode();
 		code.push(`type: "${typeName}";`);
@@ -250,7 +274,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 		newLineParseCode();
 		parseCode.push(`debugName = "${typeName}";`);
 
-		let createFnCode = `\nconst create_${typeName} = (): ${typeName} => ({ type: "${typeName}"`;
+		let createFnCode = `\nconst create_${typeName} = (): ${typeName} => ({ ...getCurrentLocationObject(), type: "${typeName}"`;
 
 		if (contentArray[0]?.type === "rule_or") {
 			newLineCode();
@@ -365,7 +389,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 	}
 }
 
-function getHelperFunctions(): string {
+function getHelperFunctions(bWithLocation: boolean): string {
 	return `export type LogValue = { debugName: string; rgx: string; status: string; index: number; location: string; text: string };
 const successValues: LogValue[] = [];
 const failedValues: LogValue[] = [];
@@ -374,13 +398,28 @@ let index = 0;
 let text = "";
 let debugName = "";
 let path = "";
-const indexToLineCol = (textIndex: number) => {
-	const lineBreakBefore = textIndex === 0 ? -1 : text.lastIndexOf("\\n", textIndex - 1);
+export type _location = {
+	index: number;
+	line: number;
+	col: number;
+};
+export type _location_object = ${
+		bWithLocation
+			? `{
+	/** @deprecated Not actually deprecated. Marked only to appear last in auto-completion. */
+	_location: _location;
+};`
+			: "{};"
+	}
+const getCurrentLocation = (): _location => {
+	const lineBreakBefore = index === 0 ? -1 : text.lastIndexOf("\\n", index - 1);
 	return {
+		index: index,
 		line: lineBreakBefore === -1 ? 1 : text.slice(0, lineBreakBefore + 1).match(/\\n/g)!.length + 1,
-		col: textIndex - lineBreakBefore,
+		col: index - lineBreakBefore,
 	};
 };
+const getCurrentLocationObject = (): _location_object => (${bWithLocation ? `{ _location: getCurrentLocation() }` : "{}"});
 const try_parse_fn = <T extends any[]>(parse_fn: (...args: T) => void | boolean | string, ...args: T) => {
 	const current_index = index;
 	try {
@@ -429,7 +468,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 	newRgx.lastIndex = index;
 	const matches = newRgx.exec(text);
 	if (!matches) {
-		const { line, col } = indexToLineCol(index);
+		const { line, col } = getCurrentLocation();
 		failedValues.push({
 			debugName: debugName,
 			rgx: rgx.source,
@@ -447,7 +486,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 	if (matches) {
 		index = matches.index + matches[0].length;
 		failedValues.length = 0;
-		const { line, col } = indexToLineCol(index);
+		const { line, col } = getCurrentLocation();
 		successValues.push({
 			debugName: debugName,
 			rgx: rgx.source,

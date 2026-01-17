@@ -1,7 +1,7 @@
 import path from "path";
 import { checkRules } from "./grammar_checker";
 import { generateCode } from "./grammar_generator";
-import { logs, parse } from "./grammar_parser";
+import { logs, parse, recursiveStripLocation } from "./grammar_parser";
 
 export interface ParserGeneratorConfig {
 	/** Input grammar file path (relative to __dirname or absolute) */
@@ -10,12 +10,18 @@ export interface ParserGeneratorConfig {
 	outputFile?: string;
 	/** Output JSON result file path for debugging (optional) */
 	debugJsonFile?: string;
+	/** Strip location data in debug JSON output (default: true) */
+	stripLocationsInDebug?: boolean;
+	/** Include location data in generated parser output (default: false) */
+	withLocation?: boolean;
 }
 
 interface CliArgs {
 	inputFile: string;
 	outputFile?: string;
 	debugJsonFile?: string;
+	stripLocationsInDebug?: boolean;
+	withLocation?: boolean;
 }
 
 function parseArgs(): CliArgs {
@@ -42,6 +48,10 @@ function parseArgs(): CliArgs {
 				// -d without path: will be computed later from input file
 				result.debugJsonFile = "";
 			}
+		} else if (arg === "-s" || arg === "--strip") {
+			result.stripLocationsInDebug = true;
+		} else if (arg === "-l" || arg === "--location") {
+			result.withLocation = true;
 		} else if (arg === "-h" || arg === "--help") {
 			console.log(`
 Usage: bun index.ts <input-file> [options]
@@ -54,6 +64,10 @@ Options:
                         (if no path provided, uses <input-name>_parser.ts)
   -d, --debug [file]    Output JSON result file path for debugging
                         (if no path provided, uses <input-name>_result.json)
+  -s, --strip           Strip location data from debug JSON output
+                        (default: false)
+  -l, --location        Include location data in generated parser output
+                        (default: false)
   -h, --help            Show this help message
 
 Examples:
@@ -61,6 +75,8 @@ Examples:
   bun index.ts grammar.bf -o parser.ts
   bun index.ts grammar.bf -o parser.ts -d debug.json
   bun index.ts grammar.bf -d
+  bun index.ts grammar.bf -d --strip
+  bun index.ts grammar.bf -l
 			`);
 			process.exit(0);
 		} else if (!arg.startsWith("-")) {
@@ -110,6 +126,7 @@ function computeDebugFile(inputFile: string): string {
 export async function generateParser(config: ParserGeneratorConfig) {
 	const inputPath = path.resolve(config.inputFile);
 	const outputPath = config.outputFile ? path.resolve(config.outputFile) : computeOutputFile(config.inputFile);
+	const stripLocationsInDebug = config.stripLocationsInDebug ?? false;
 	const debugJsonPath =
 		config.debugJsonFile !== undefined
 			? config.debugJsonFile === ""
@@ -128,7 +145,8 @@ export async function generateParser(config: ParserGeneratorConfig) {
 			console.table(logs);
 			if (debugJsonPath) {
 				console.log(`Writing debug JSON: ${debugJsonPath}`);
-				Bun.write(debugJsonPath, JSON.stringify(res, null, "\t"));
+				const debugPayload = stripLocationsInDebug ? recursiveStripLocation(res) : res;
+				Bun.write(debugJsonPath, JSON.stringify(debugPayload, null, "\t"));
 			}
 			console.log("Parsing failed, exiting...");
 			process.exit(1);
@@ -137,7 +155,8 @@ export async function generateParser(config: ParserGeneratorConfig) {
 		// Step 3: Optionally write debug JSON
 		if (debugJsonPath) {
 			console.log(`Writing debug JSON: ${debugJsonPath}`);
-			await Bun.write(debugJsonPath, JSON.stringify(parsedGrammar, null, "\t"));
+			const debugPayload = stripLocationsInDebug ? recursiveStripLocation(parsedGrammar) : parsedGrammar;
+			await Bun.write(debugJsonPath, JSON.stringify(debugPayload, null, "\t"));
 		}
 
 		// Step 4: Validate rules (reference checks)
@@ -156,7 +175,7 @@ export async function generateParser(config: ParserGeneratorConfig) {
 
 		// Step 5: Generate TypeScript parser code
 		console.log(`Generating parser code: ${outputPath}`);
-		const generatedCode = generateCode(parsedGrammar);
+		const generatedCode = generateCode(parsedGrammar, config.withLocation ?? false);
 		await Bun.write(outputPath, generatedCode);
 
 		console.log("Parser generation completed successfully!");
@@ -173,6 +192,8 @@ async function main() {
 		inputFile: args.inputFile,
 		outputFile: args.outputFile,
 		debugJsonFile: args.debugJsonFile,
+		stripLocationsInDebug: args.stripLocationsInDebug,
+		withLocation: args.withLocation,
 	};
 	await generateParser(config);
 }

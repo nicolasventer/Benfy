@@ -1,4 +1,4 @@
-import type { grammar, rule, rule_quantifier, space_rule_term, spacing_policy } from "./grammar_parser";
+import type { _location, grammar, rule, rule_quantifier, space_rule_term, spacing_policy } from "./grammar_parser";
 
 // ============================================================================
 // Types
@@ -44,7 +44,7 @@ export function checkRules(parsedGrammar: grammar, filePath: string): Validation
 function checkReferences(parsedGrammar: grammar, filePath: string, { errors, others }: ValidationResult) {
 	// Extract rules from lines
 	const rules: rule[] = parsedGrammar.line
-		.filter((line): line is { type: "line"; value: rule } => line.value.type === "rule")
+		.filter((line): line is { type: "line"; value: rule; _location: _location } => line.value.type === "rule")
 		.map((line) => line.value);
 
 	if (rules.length === 0) {

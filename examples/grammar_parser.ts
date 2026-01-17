@@ -6,13 +6,24 @@ let index = 0;
 let text = "";
 let debugName = "";
 let path = "";
-const indexToLineCol = (textIndex: number) => {
-	const lineBreakBefore = textIndex === 0 ? -1 : text.lastIndexOf("\n", textIndex - 1);
+export type _location = {
+	index: number;
+	line: number;
+	col: number;
+};
+export type _location_object = {
+	/** @deprecated Not actually deprecated. Marked only to appear last in auto-completion. */
+	_location: _location;
+};
+const getCurrentLocation = (): _location => {
+	const lineBreakBefore = index === 0 ? -1 : text.lastIndexOf("\n", index - 1);
 	return {
+		index: index,
 		line: lineBreakBefore === -1 ? 1 : text.slice(0, lineBreakBefore + 1).match(/\n/g)!.length + 1,
-		col: textIndex - lineBreakBefore,
+		col: index - lineBreakBefore,
 	};
 };
+const getCurrentLocationObject = (): _location_object => ({ _location: getCurrentLocation() });
 const try_parse_fn = <T extends any[]>(parse_fn: (...args: T) => void | boolean | string, ...args: T) => {
 	const current_index = index;
 	try {
@@ -61,7 +72,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 	newRgx.lastIndex = index;
 	const matches = newRgx.exec(text);
 	if (!matches) {
-		const { line, col } = indexToLineCol(index);
+		const { line, col } = getCurrentLocation();
 		failedValues.push({
 			debugName: debugName,
 			rgx: rgx.source,
@@ -79,7 +90,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 	if (matches) {
 		index = matches.index + matches[0].length;
 		failedValues.length = 0;
-		const { line, col } = indexToLineCol(index);
+		const { line, col } = getCurrentLocation();
 		successValues.push({
 			debugName: debugName,
 			rgx: rgx.source,
@@ -96,240 +107,330 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 	return matches[0];
 };
 
-export type grammar = {
+export type grammar = _location_object & {
 	type: "grammar";
 	line: line[];
 };
-export type line = {
+export type line = _location_object & {
 	type: "line";
 	value: spacing_policy | rule | multiline_comment | singleline_comment | new_line;
 };
-export type spacing_policy = {
+export type spacing_policy = _location_object & {
 	type: "spacing_policy";
 	spacing_policy_value: spacing_policy_value;
 	inline_comment: inline_comment[];
 };
-export type spacing_policy_value = {
+export type spacing_policy_value = _location_object & {
 	type: "spacing_policy_value";
 	value: string;
 };
-export type rule = {
+export type rule = _location_object & {
 	type: "rule";
 	rule_name: rule_name;
 	rule_expr: rule_expr;
 	inline_comment: inline_comment[];
 };
-export type rule_name = {
+export type rule_name = _location_object & {
 	type: "rule_name";
 	value: string;
 };
-export type rule_expr = {
+export type rule_expr = _location_object & {
 	type: "rule_expr";
 	value: first_rule_negation | first_rule_regex | first_rule_name;
 };
-export type first_rule_negation = {
+export type first_rule_negation = _location_object & {
 	type: "first_rule_negation";
 	rule_name_or_regex: rule_name_or_regex;
 	space_rule_term: space_rule_term[];
 };
-export type first_rule_regex = {
+export type first_rule_regex = _location_object & {
 	type: "first_rule_regex";
 	rule_regex: rule_regex;
 	space_rule_term: space_rule_term[];
 };
-export type first_rule_name = {
+export type first_rule_name = _location_object & {
 	type: "first_rule_name";
 	rule_name: rule_name;
 	rest_rule_name: rest_rule_name;
 };
-export type rest_rule_name = {
+export type rest_rule_name = _location_object & {
 	type: "rest_rule_name";
 	value: rule_name_with_or | rule_name_as_item | rule_name_as_term;
 };
-export type rule_name_with_or = {
+export type rule_name_with_or = _location_object & {
 	type: "rule_name_with_or";
 	space_rule_name: space_rule_name[];
 };
-export type rule_name_as_item = {
+export type rule_name_as_item = _location_object & {
 	type: "rule_name_as_item";
 	rule_item_optional?: rule_item_optional;
 	rule_name_or_regex: rule_name_or_regex;
 };
-export type rule_item_optional = {
+export type rule_item_optional = _location_object & {
 	type: "rule_item_optional";
 	value: string;
 };
-export type rule_name_or_regex = {
+export type rule_name_or_regex = _location_object & {
 	type: "rule_name_or_regex";
 	value: rule_name | rule_regex;
 };
-export type rule_name_as_term = {
+export type rule_name_as_term = _location_object & {
 	type: "rule_name_as_term";
 	rule_quantifier?: rule_quantifier;
 	space_rule_term: space_rule_term[];
 };
-export type space_rule_name = {
+export type space_rule_name = _location_object & {
 	type: "space_rule_name";
 	rule_name: rule_name;
 };
-export type space_rule_term = {
+export type space_rule_term = _location_object & {
 	type: "space_rule_term";
 	rule_term: rule_term;
 };
-export type rule_term = {
+export type rule_term = _location_object & {
 	type: "rule_term";
 	value: rule_term_negative | rule_term_positive;
 };
-export type rule_term_negative = {
+export type rule_term_negative = _location_object & {
 	type: "rule_term_negative";
 	rule_name_or_regex: rule_name_or_regex;
 };
-export type rule_term_positive = {
+export type rule_term_positive = _location_object & {
 	type: "rule_term_positive";
 	value: rule_name_quantified | rule_regex;
 };
-export type rule_name_quantified = {
+export type rule_name_quantified = _location_object & {
 	type: "rule_name_quantified";
 	rule_name: rule_name;
 	rule_quantifier?: rule_quantifier;
 };
-export type rule_quantifier = {
+export type rule_quantifier = _location_object & {
 	type: "rule_quantifier";
 	value: rule_basic_quantifier | rule_brace_quantifier;
 };
-export type rule_regex = {
+export type rule_regex = _location_object & {
 	type: "rule_regex";
 	rule_regex_content: rule_regex_content;
 	rule_regex_flags: rule_regex_flags;
 };
-export type rule_regex_content = {
+export type rule_regex_content = _location_object & {
 	type: "rule_regex_content";
 	value: string;
 };
-export type rule_regex_flags = {
+export type rule_regex_flags = _location_object & {
 	type: "rule_regex_flags";
 	value: string;
 };
-export type rule_basic_quantifier = {
+export type rule_basic_quantifier = _location_object & {
 	type: "rule_basic_quantifier";
 	value: string;
 };
-export type rule_brace_quantifier = {
+export type rule_brace_quantifier = _location_object & {
 	type: "rule_brace_quantifier";
 	rule_brace_min: rule_brace_min;
 	rule_brace_max?: rule_brace_max;
 };
-export type rule_brace_min = {
+export type rule_brace_min = _location_object & {
 	type: "rule_brace_min";
 	value: string;
 };
-export type rule_brace_max = {
+export type rule_brace_max = _location_object & {
 	type: "rule_brace_max";
 	rule_brace_max_value?: rule_brace_max_value;
 };
-export type rule_brace_max_value = {
+export type rule_brace_max_value = _location_object & {
 	type: "rule_brace_max_value";
 	value: string;
 };
-export type inline_comment = {
+export type inline_comment = _location_object & {
 	type: "inline_comment";
 	value: inline_multiline_comment | inline_singleline_comment;
 };
-export type inline_singleline_comment = {
+export type inline_singleline_comment = _location_object & {
 	type: "inline_singleline_comment";
 	value: string;
 };
-export type singleline_comment = {
+export type singleline_comment = _location_object & {
 	type: "singleline_comment";
 	value: string;
 };
-export type multiline_comment = {
+export type multiline_comment = _location_object & {
 	type: "multiline_comment";
 	value: string;
 };
-export type inline_multiline_comment = {
+export type inline_multiline_comment = _location_object & {
 	type: "inline_multiline_comment";
 	value: string;
 };
-export type new_line = {
+export type new_line = _location_object & {
 	type: "new_line";
 	value: string;
 };
 
-const create_grammar = (): grammar => ({ type: "grammar", line: [] });
-const create_line = (): line => ({ type: "line", value: create_spacing_policy() });
+const create_grammar = (): grammar => ({ ...getCurrentLocationObject(), type: "grammar", line: [] });
+const create_line = (): line => ({ ...getCurrentLocationObject(), type: "line", value: create_spacing_policy() });
 const create_spacing_policy = (): spacing_policy => ({
+	...getCurrentLocationObject(),
 	type: "spacing_policy",
 	spacing_policy_value: create_spacing_policy_value(),
 	inline_comment: [],
 });
-const create_spacing_policy_value = (): spacing_policy_value => ({ type: "spacing_policy_value", value: "" });
+const create_spacing_policy_value = (): spacing_policy_value => ({
+	...getCurrentLocationObject(),
+	type: "spacing_policy_value",
+	value: "",
+});
 const create_rule = (): rule => ({
+	...getCurrentLocationObject(),
 	type: "rule",
 	rule_name: create_rule_name(),
 	rule_expr: create_rule_expr(),
 	inline_comment: [],
 });
-const create_rule_name = (): rule_name => ({ type: "rule_name", value: "" });
-const create_rule_expr = (): rule_expr => ({ type: "rule_expr", value: create_first_rule_negation() });
+const create_rule_name = (): rule_name => ({ ...getCurrentLocationObject(), type: "rule_name", value: "" });
+const create_rule_expr = (): rule_expr => ({
+	...getCurrentLocationObject(),
+	type: "rule_expr",
+	value: create_first_rule_negation(),
+});
 const create_first_rule_negation = (): first_rule_negation => ({
+	...getCurrentLocationObject(),
 	type: "first_rule_negation",
 	rule_name_or_regex: create_rule_name_or_regex(),
 	space_rule_term: [],
 });
 const create_first_rule_regex = (): first_rule_regex => ({
+	...getCurrentLocationObject(),
 	type: "first_rule_regex",
 	rule_regex: create_rule_regex(),
 	space_rule_term: [],
 });
 const create_first_rule_name = (): first_rule_name => ({
+	...getCurrentLocationObject(),
 	type: "first_rule_name",
 	rule_name: create_rule_name(),
 	rest_rule_name: create_rest_rule_name(),
 });
-const create_rest_rule_name = (): rest_rule_name => ({ type: "rest_rule_name", value: create_rule_name_with_or() });
-const create_rule_name_with_or = (): rule_name_with_or => ({ type: "rule_name_with_or", space_rule_name: [] });
+const create_rest_rule_name = (): rest_rule_name => ({
+	...getCurrentLocationObject(),
+	type: "rest_rule_name",
+	value: create_rule_name_with_or(),
+});
+const create_rule_name_with_or = (): rule_name_with_or => ({
+	...getCurrentLocationObject(),
+	type: "rule_name_with_or",
+	space_rule_name: [],
+});
 const create_rule_name_as_item = (): rule_name_as_item => ({
+	...getCurrentLocationObject(),
 	type: "rule_name_as_item",
 	rule_name_or_regex: create_rule_name_or_regex(),
 });
-const create_rule_item_optional = (): rule_item_optional => ({ type: "rule_item_optional", value: "" });
-const create_rule_name_or_regex = (): rule_name_or_regex => ({ type: "rule_name_or_regex", value: create_rule_name() });
-const create_rule_name_as_term = (): rule_name_as_term => ({ type: "rule_name_as_term", space_rule_term: [] });
-const create_space_rule_name = (): space_rule_name => ({ type: "space_rule_name", rule_name: create_rule_name() });
-const create_space_rule_term = (): space_rule_term => ({ type: "space_rule_term", rule_term: create_rule_term() });
-const create_rule_term = (): rule_term => ({ type: "rule_term", value: create_rule_term_negative() });
+const create_rule_item_optional = (): rule_item_optional => ({
+	...getCurrentLocationObject(),
+	type: "rule_item_optional",
+	value: "",
+});
+const create_rule_name_or_regex = (): rule_name_or_regex => ({
+	...getCurrentLocationObject(),
+	type: "rule_name_or_regex",
+	value: create_rule_name(),
+});
+const create_rule_name_as_term = (): rule_name_as_term => ({
+	...getCurrentLocationObject(),
+	type: "rule_name_as_term",
+	space_rule_term: [],
+});
+const create_space_rule_name = (): space_rule_name => ({
+	...getCurrentLocationObject(),
+	type: "space_rule_name",
+	rule_name: create_rule_name(),
+});
+const create_space_rule_term = (): space_rule_term => ({
+	...getCurrentLocationObject(),
+	type: "space_rule_term",
+	rule_term: create_rule_term(),
+});
+const create_rule_term = (): rule_term => ({
+	...getCurrentLocationObject(),
+	type: "rule_term",
+	value: create_rule_term_negative(),
+});
 const create_rule_term_negative = (): rule_term_negative => ({
+	...getCurrentLocationObject(),
 	type: "rule_term_negative",
 	rule_name_or_regex: create_rule_name_or_regex(),
 });
 const create_rule_term_positive = (): rule_term_positive => ({
+	...getCurrentLocationObject(),
 	type: "rule_term_positive",
 	value: create_rule_name_quantified(),
 });
-const create_rule_name_quantified = (): rule_name_quantified => ({ type: "rule_name_quantified", rule_name: create_rule_name() });
-const create_rule_quantifier = (): rule_quantifier => ({ type: "rule_quantifier", value: create_rule_basic_quantifier() });
+const create_rule_name_quantified = (): rule_name_quantified => ({
+	...getCurrentLocationObject(),
+	type: "rule_name_quantified",
+	rule_name: create_rule_name(),
+});
+const create_rule_quantifier = (): rule_quantifier => ({
+	...getCurrentLocationObject(),
+	type: "rule_quantifier",
+	value: create_rule_basic_quantifier(),
+});
 const create_rule_regex = (): rule_regex => ({
+	...getCurrentLocationObject(),
 	type: "rule_regex",
 	rule_regex_content: create_rule_regex_content(),
 	rule_regex_flags: create_rule_regex_flags(),
 });
-const create_rule_regex_content = (): rule_regex_content => ({ type: "rule_regex_content", value: "" });
-const create_rule_regex_flags = (): rule_regex_flags => ({ type: "rule_regex_flags", value: "" });
-const create_rule_basic_quantifier = (): rule_basic_quantifier => ({ type: "rule_basic_quantifier", value: "" });
+const create_rule_regex_content = (): rule_regex_content => ({
+	...getCurrentLocationObject(),
+	type: "rule_regex_content",
+	value: "",
+});
+const create_rule_regex_flags = (): rule_regex_flags => ({ ...getCurrentLocationObject(), type: "rule_regex_flags", value: "" });
+const create_rule_basic_quantifier = (): rule_basic_quantifier => ({
+	...getCurrentLocationObject(),
+	type: "rule_basic_quantifier",
+	value: "",
+});
 const create_rule_brace_quantifier = (): rule_brace_quantifier => ({
+	...getCurrentLocationObject(),
 	type: "rule_brace_quantifier",
 	rule_brace_min: create_rule_brace_min(),
 });
-const create_rule_brace_min = (): rule_brace_min => ({ type: "rule_brace_min", value: "" });
-const create_rule_brace_max = (): rule_brace_max => ({ type: "rule_brace_max" });
-const create_rule_brace_max_value = (): rule_brace_max_value => ({ type: "rule_brace_max_value", value: "" });
-const create_inline_comment = (): inline_comment => ({ type: "inline_comment", value: create_inline_multiline_comment() });
-const create_inline_singleline_comment = (): inline_singleline_comment => ({ type: "inline_singleline_comment", value: "" });
-const create_singleline_comment = (): singleline_comment => ({ type: "singleline_comment", value: "" });
-const create_multiline_comment = (): multiline_comment => ({ type: "multiline_comment", value: "" });
-const create_inline_multiline_comment = (): inline_multiline_comment => ({ type: "inline_multiline_comment", value: "" });
-const create_new_line = (): new_line => ({ type: "new_line", value: "" });
+const create_rule_brace_min = (): rule_brace_min => ({ ...getCurrentLocationObject(), type: "rule_brace_min", value: "" });
+const create_rule_brace_max = (): rule_brace_max => ({ ...getCurrentLocationObject(), type: "rule_brace_max" });
+const create_rule_brace_max_value = (): rule_brace_max_value => ({
+	...getCurrentLocationObject(),
+	type: "rule_brace_max_value",
+	value: "",
+});
+const create_inline_comment = (): inline_comment => ({
+	...getCurrentLocationObject(),
+	type: "inline_comment",
+	value: create_inline_multiline_comment(),
+});
+const create_inline_singleline_comment = (): inline_singleline_comment => ({
+	...getCurrentLocationObject(),
+	type: "inline_singleline_comment",
+	value: "",
+});
+const create_singleline_comment = (): singleline_comment => ({
+	...getCurrentLocationObject(),
+	type: "singleline_comment",
+	value: "",
+});
+const create_multiline_comment = (): multiline_comment => ({
+	...getCurrentLocationObject(),
+	type: "multiline_comment",
+	value: "",
+});
+const create_inline_multiline_comment = (): inline_multiline_comment => ({
+	...getCurrentLocationObject(),
+	type: "inline_multiline_comment",
+	value: "",
+});
+const create_new_line = (): new_line => ({ ...getCurrentLocationObject(), type: "new_line", value: "" });
 
 const parse_grammar = (grammar: grammar) => {
 	debugName = "grammar";
@@ -562,7 +663,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: gram
 	try {
 		parse_grammar(result);
 		if (index !== text.length) {
-			const { line, col } = indexToLineCol(index);
+			const { line, col } = getCurrentLocation();
 			throw new Error(`Text not fully parsed, interrupted at index ${index} (${path ? `${path}:` : ""}${line}:${col})`);
 		}
 		logs.length = 0;
@@ -574,4 +675,20 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: gram
 		onFail?.(result);
 		throw error;
 	}
+};
+export type RecursiveStripLocation<T> = T extends Array<infer U>
+	? RecursiveStripLocation<U>[]
+	: T extends object
+	? { [K in Exclude<keyof T, "_location">]: RecursiveStripLocation<T[K]> }
+	: T;
+export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> => {
+	if (Array.isArray(value)) return value.map((item) => recursiveStripLocation(item)) as RecursiveStripLocation<T>;
+	if (!value || typeof value !== "object" || value instanceof Date || value instanceof RegExp)
+		return value as RecursiveStripLocation<T>;
+	const result: Record<string, unknown> = {};
+	for (const [key, entry] of Object.entries(value as Record<string, unknown>)) {
+		if (key === "_location") continue;
+		result[key] = recursiveStripLocation(entry);
+	}
+	return result as RecursiveStripLocation<T>;
 };

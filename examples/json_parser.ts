@@ -6,13 +6,21 @@ let index = 0;
 let text = "";
 let debugName = "";
 let path = "";
-const indexToLineCol = (textIndex: number) => {
-	const lineBreakBefore = textIndex === 0 ? -1 : text.lastIndexOf("\n", textIndex - 1);
+export type _location = {
+	index: number;
+	line: number;
+	col: number;
+};
+export type _location_object = {};
+const getCurrentLocation = (): _location => {
+	const lineBreakBefore = index === 0 ? -1 : text.lastIndexOf("\n", index - 1);
 	return {
+		index: index,
 		line: lineBreakBefore === -1 ? 1 : text.slice(0, lineBreakBefore + 1).match(/\n/g)!.length + 1,
-		col: textIndex - lineBreakBefore,
+		col: index - lineBreakBefore,
 	};
 };
+const getCurrentLocationObject = (): _location_object => ({});
 const try_parse_fn = <T extends any[]>(parse_fn: (...args: T) => void | boolean | string, ...args: T) => {
 	const current_index = index;
 	try {
@@ -61,7 +69,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 	newRgx.lastIndex = index;
 	const matches = newRgx.exec(text);
 	if (!matches) {
-		const { line, col } = indexToLineCol(index);
+		const { line, col } = getCurrentLocation();
 		failedValues.push({
 			debugName: debugName,
 			rgx: rgx.source,
@@ -79,7 +87,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 	if (matches) {
 		index = matches.index + matches[0].length;
 		failedValues.length = 0;
-		const { line, col } = indexToLineCol(index);
+		const { line, col } = getCurrentLocation();
 		successValues.push({
 			debugName: debugName,
 			rgx: rgx.source,
@@ -96,73 +104,73 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 	return matches[0];
 };
 
-export type json = {
+export type json = _location_object & {
 	type: "json";
 	json_content: json_content;
 };
-export type json_content = {
+export type json_content = _location_object & {
 	type: "json_content";
 	value: null_ | boolean_ | string_ | number_ | array_ | object_;
 };
-export type null_ = {
+export type null_ = _location_object & {
 	type: "null_";
 	value: string;
 };
-export type boolean_ = {
+export type boolean_ = _location_object & {
 	type: "boolean_";
 	value: string;
 };
-export type string_ = {
+export type string_ = _location_object & {
 	type: "string_";
 	value: string;
 };
-export type number_ = {
+export type number_ = _location_object & {
 	type: "number_";
 	value: string;
 };
-export type array_ = {
+export type array_ = _location_object & {
 	type: "array_";
 	array_content: array_content;
 };
-export type array_content_item = {
+export type array_content_item = _location_object & {
 	type: "array_content_item";
 	json: json;
 };
-export type array_content = {
+export type array_content = _location_object & {
 	type: "array_content";
 	value: array_content_item[];
 };
-export type object_ = {
+export type object_ = _location_object & {
 	type: "object_";
 	object_content: object_content;
 };
-export type object_content_item = {
+export type object_content_item = _location_object & {
 	type: "object_content_item";
 	object_kv: object_kv;
 };
-export type object_content = {
+export type object_content = _location_object & {
 	type: "object_content";
 	value: object_content_item[];
 };
-export type object_kv = {
+export type object_kv = _location_object & {
 	type: "object_kv";
 	string_: string_;
 	json: json;
 };
 
-const create_json = (): json => ({ type: "json", json_content: create_json_content() });
-const create_json_content = (): json_content => ({ type: "json_content", value: create_null_() });
-const create_null_ = (): null_ => ({ type: "null_", value: "" });
-const create_boolean_ = (): boolean_ => ({ type: "boolean_", value: "" });
-const create_string_ = (): string_ => ({ type: "string_", value: "" });
-const create_number_ = (): number_ => ({ type: "number_", value: "" });
-const create_array_ = (): array_ => ({ type: "array_", array_content: create_array_content() });
-const create_array_content_item = (): array_content_item => ({ type: "array_content_item", json: create_json() });
-const create_array_content = (): array_content => ({ type: "array_content", value: [] });
-const create_object_ = (): object_ => ({ type: "object_", object_content: create_object_content() });
-const create_object_content_item = (): object_content_item => ({ type: "object_content_item", object_kv: create_object_kv() });
-const create_object_content = (): object_content => ({ type: "object_content", value: [] });
-const create_object_kv = (): object_kv => ({ type: "object_kv", string_: create_string_(), json: create_json() });
+const create_json = (): json => ({ ...getCurrentLocationObject(), type: "json", json_content: create_json_content() });
+const create_json_content = (): json_content => ({ ...getCurrentLocationObject(), type: "json_content", value: create_null_() });
+const create_null_ = (): null_ => ({ ...getCurrentLocationObject(), type: "null_", value: "" });
+const create_boolean_ = (): boolean_ => ({ ...getCurrentLocationObject(), type: "boolean_", value: "" });
+const create_string_ = (): string_ => ({ ...getCurrentLocationObject(), type: "string_", value: "" });
+const create_number_ = (): number_ => ({ ...getCurrentLocationObject(), type: "number_", value: "" });
+const create_array_ = (): array_ => ({ ...getCurrentLocationObject(), type: "array_", array_content: create_array_content() });
+const create_array_content_item = (): array_content_item => ({ ...getCurrentLocationObject(), type: "array_content_item", json: create_json() });
+const create_array_content = (): array_content => ({ ...getCurrentLocationObject(), type: "array_content", value: [] });
+const create_object_ = (): object_ => ({ ...getCurrentLocationObject(), type: "object_", object_content: create_object_content() });
+const create_object_content_item = (): object_content_item => ({ ...getCurrentLocationObject(), type: "object_content_item", object_kv: create_object_kv() });
+const create_object_content = (): object_content => ({ ...getCurrentLocationObject(), type: "object_content", value: [] });
+const create_object_kv = (): object_kv => ({ ...getCurrentLocationObject(), type: "object_kv", string_: create_string_(), json: create_json() });
 
 const parse_json = (json: json) => {
 	debugName = "json";
@@ -252,7 +260,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: json
 	try {
 		parse_json(result);
 		if (index !== text.length) {
-			const { line, col } = indexToLineCol(index);
+			const { line, col } = getCurrentLocation();
 			throw new Error(`Text not fully parsed, interrupted at index ${index} (${path ? `${path}:` : ""}${line}:${col})`);
 		}
 		logs.length = 0;
@@ -264,4 +272,14 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: json
 		onFail?.(result);
 		throw error;
 	}
+};
+export const recursiveStripLocation = <T>(value: T): T => {
+	if (Array.isArray(value)) return value.map((item) => recursiveStripLocation(item)) as T;
+	if (!value || typeof value !== "object" || value instanceof Date || value instanceof RegExp) return value;
+	const result: Record<string, unknown> = {};
+	for (const [key, entry] of Object.entries(value as Record<string, unknown>)) {
+		if (key === "_location") continue;
+		result[key] = recursiveStripLocation(entry);
+	}
+	return result as T;
 };

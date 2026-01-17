@@ -63,7 +63,8 @@
 							}
 						]
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		},
 		{
@@ -126,7 +127,8 @@
 							}
 						}
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		},
 		{
@@ -154,7 +156,8 @@
 						},
 						"space_rule_term": []
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		},
 		{
@@ -182,7 +185,8 @@
 						},
 						"space_rule_term": []
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		},
 		{
@@ -210,7 +214,8 @@
 						},
 						"space_rule_term": []
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		},
 		{
@@ -238,7 +243,8 @@
 						},
 						"space_rule_term": []
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		},
 		{
@@ -303,7 +309,8 @@
 							}
 						]
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		},
 		{
@@ -326,10 +333,6 @@
 							"type": "rest_rule_name",
 							"value": {
 								"type": "rule_name_as_item",
-								"rule_first_item_optional": {
-									"type": "rule_first_item_optional",
-									"value": "?"
-								},
 								"rule_name_or_regex": {
 									"type": "rule_name_or_regex",
 									"value": {
@@ -343,11 +346,16 @@
 											"value": ""
 										}
 									}
+								},
+								"rule_item_optional": {
+									"type": "rule_item_optional",
+									"value": "?"
 								}
 							}
 						}
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		},
 		{
@@ -412,7 +420,8 @@
 							}
 						]
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		},
 		{
@@ -435,10 +444,6 @@
 							"type": "rest_rule_name",
 							"value": {
 								"type": "rule_name_as_item",
-								"rule_first_item_optional": {
-									"type": "rule_first_item_optional",
-									"value": "?"
-								},
 								"rule_name_or_regex": {
 									"type": "rule_name_or_regex",
 									"value": {
@@ -452,11 +457,16 @@
 											"value": ""
 										}
 									}
+								},
+								"rule_item_optional": {
+									"type": "rule_item_optional",
+									"value": "?"
 								}
 							}
 						}
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		},
 		{
@@ -537,7 +547,8 @@
 							}
 						]
 					}
-				}
+				},
+				"inline_comment": []
 			}
 		}
 	]
