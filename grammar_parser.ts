@@ -39,7 +39,7 @@ const parse_array_fn = <T>(
 	arg: T[],
 	create_fn: () => T,
 	min: number,
-	max = Number.MAX_SAFE_INTEGER
+	max = Number.MAX_SAFE_INTEGER,
 ) => {
 	let obj = create_fn();
 	for (let i = 0; i < min; i++) {
@@ -51,6 +51,9 @@ const parse_array_fn = <T>(
 		arg.push(obj);
 		obj = create_fn();
 	}
+};
+const parse_array_join_fn = <T>(parse_fn: (arg: T[]) => void | boolean, arg: T[]) => {
+	while (try_parse_fn(parse_fn, arg) === true) {}
 };
 const fail_parse = (message: string) => {
 	throw new Error(message);
@@ -68,7 +71,9 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 		const matches = spaceRegex.exec(text);
 		if (matches) index = matches.index + matches[0].length;
 	}
-	const source = skipSpace ? `\b${rgx.source}\b` : rgx.source;
+	const prefix = skipSpace && /^(\d|\w|\\[wd])/.test(rgx.source) ? "\\b" : "";
+	const suffix = skipSpace && /(\d|\w|\\[wd])$/.test(rgx.source) ? "\\b" : "";
+	const source = `${prefix}${rgx.source}${suffix}`;
 	const newRgx = new RegExp(source, flags);
 	newRgx.lastIndex = index;
 	const matches = newRgx.exec(text);
@@ -89,7 +94,6 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 		throw new Error(`Match failed: ${source}`);
 	}
 	if (matches) {
-		index = matches.index + matches[0].length;
 		failedValues.length = 0;
 		const { line, col } = getCurrentLocation();
 		successValues.push({
@@ -104,6 +108,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 				.replace(/\t/g, "\\t")
 				.replace(/^(\\t|\\n)*/g, ""),
 		});
+		index = matches.index + matches[0].length;
 	}
 	return matches[0];
 };
@@ -663,7 +668,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: gram
 	failedValues.length = 0;
 	try {
 		parse_grammar(result);
-		if (index !== text.length) {
+		if (index < text.trim().length) {
 			const { line, col } = getCurrentLocation();
 			throw new Error(`Text not fully parsed, interrupted at index ${index} (${path ? `${path}:` : ""}${line}:${col})`);
 		}
@@ -677,11 +682,12 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: gram
 		throw error;
 	}
 };
-export type RecursiveStripLocation<T> = T extends Array<infer U>
-	? RecursiveStripLocation<U>[]
-	: T extends object
-	? { [K in Exclude<keyof T, "_location">]: RecursiveStripLocation<T[K]> }
-	: T;
+export type RecursiveStripLocation<T> =
+	T extends Array<infer U>
+		? RecursiveStripLocation<U>[]
+		: T extends object
+			? { [K in Exclude<keyof T, "_location">]: RecursiveStripLocation<T[K]> }
+			: T;
 export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> => {
 	if (Array.isArray(value)) return value.map((item) => recursiveStripLocation(item)) as RecursiveStripLocation<T>;
 	if (!value || typeof value !== "object" || value instanceof Date || value instanceof RegExp)

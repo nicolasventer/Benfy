@@ -39,7 +39,12 @@ type ItemContent = {
 	join: rule_regex | rule_name;
 	isJoinRegex: boolean;
 };
-type Content = RegexContent | NegativeRuleNameContent | Omit<rule_name_quantified, "_location"> | RuleOrContent | ItemContent;
+type Content =
+	| RegexContent
+	| NegativeRuleNameContent
+	| (Omit<rule_name_quantified, "_location"> & { bOptional?: boolean })
+	| RuleOrContent
+	| ItemContent;
 
 // ============================================================================
 // Generator Module
@@ -71,7 +76,7 @@ export function generateCode(parsedGrammar: grammar, bWithLocation = false): str
 	const rules: (rule | spacing_policy)[] = parsedGrammar.line
 		.filter(
 			(line): line is { type: "line"; value: rule | spacing_policy; _location: _location } =>
-				line.value.type === "rule" || line.value.type === "spacing_policy"
+				line.value.type === "rule" || line.value.type === "spacing_policy",
 		)
 		.map((line) => line.value);
 
@@ -152,7 +157,7 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: ${fi
 	newLineParseCode();
 	parseCode.push(`parse_${firstRuleName}(result);`);
 	newLineParseCode();
-	parseCode.push(`if (index !== text.length) {
+	parseCode.push(`if (index < text.trim().length) {
 			const { line, col } = getCurrentLocation();
 			throw new Error(\`Text not fully parsed, interrupted at index \${index} (\${path ? \`\${path}:\` : ""}\${line}:\${col})\`);
 		}
@@ -246,19 +251,20 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 					value: contentArray[0].rule_name,
 					_location: contentArray[0]._location,
 				}),
+				bOptional: contentArray[0].bOptional,
 			};
 			if (contentArray[0].isJoinRegex)
 				defineType(`${typeName}_item`, "item", [
-					baseContent,
 					getRegexContent(contentArray[0].join as rule_regex, false, defaultSkipSpace),
+					baseContent,
 				]);
 			else
 				defineType(`${typeName}_item`, "item", [
-					baseContent,
 					{
 						type: "rule_name_quantified",
 						rule_name: getUniqueRuleName(contentArray[0].join as rule_name),
 					},
+					baseContent,
 				]);
 		}
 
@@ -269,7 +275,8 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 		code.push(`type: "${typeName}";`);
 
 		newLineParseCode();
-		parseCode.push(`const parse_${typeName} = (${typeName}: ${typeName}) => {`);
+		if (type === "item") parseCode.push(`const parse_${typeName} = (arg: ${typeName}[]) => {`);
+		else parseCode.push(`const parse_${typeName} = (${typeName}: ${typeName}) => {`);
 		incrIndentParseCode();
 		newLineParseCode();
 		parseCode.push(`debugName = "${typeName}";`);
@@ -289,15 +296,13 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 				if (type === "item") {
 					// if type is "item", only join can be regex
 					parseCode.push(
-						`if (try_parse_fn(parse_regex, reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline})) return true;`
+						`if (arg.length > 0) parse_regex(reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline});`,
 					);
-					newLineParseCode();
-					parseCode.push(`return false;`);
 				} else {
 					if (content.bNegation)
 						parseCode.push(
 							`if (try_parse_fn(parse_regex, reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline})) ` +
-								`throw new Error("Match should be failed: ${content.regexContent.replace(/"/g, '\\"')}");`
+								`throw new Error("Match should be failed: ${content.regexContent.replace(/"/g, '\\"')}");`,
 						);
 					else {
 						if (type === "value") {
@@ -307,7 +312,7 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 							parseCode.push(`${typeName}.value = `);
 						}
 						parseCode.push(
-							`parse_regex(reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline});`
+							`parse_regex(reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline});`,
 						);
 					}
 				}
@@ -315,7 +320,7 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 				newLineParseCode();
 				const ruleName = content.rule_name;
 				parseCode.push(
-					`if (try_parse_fn(parse_${ruleName}, create_${ruleName}())) throw new Error("Match should be failed: ${ruleName}");`
+					`if (try_parse_fn(parse_${ruleName}, create_${ruleName}())) throw new Error("Match should be failed: ${ruleName}");`,
 				);
 			} else if (content.type === "rule_name_quantified") {
 				newLineCode();
@@ -345,16 +350,26 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 						content.rule_quantifier.value.rule_brace_max?.rule_brace_max_value?.value ??
 						(hasMax ? "Number.MAX_SAFE_INTEGER" : min);
 					parseCode.push(
-						`parse_array_fn(parse_${uniqueRuleName.value}, ${childName}, create_${uniqueRuleName.value}, ${min}, ${max});`
+						`parse_array_fn(parse_${uniqueRuleName.value}, ${childName}, create_${uniqueRuleName.value}, ${min}, ${max});`,
 					);
 				} else {
+					// no quantifier
 					code.push(`${ruleName}: ${uniqueRuleName.value};`);
 					createFnCode += `, ${ruleName}: create_${uniqueRuleName.value}()`;
-					if (i !== 0 && type === "item") {
-						// if type is "item", first is item, second is join
-						parseCode.push(`if (try_parse_fn(parse_${uniqueRuleName.value}, ${childName})) return true;`);
-						newLineParseCode();
-						parseCode.push(`return false;`);
+					if (type === "item") {
+						if (i === 0) {
+							// if type is "item", first is join
+							parseCode.push(`if (arg.length > 0) parse_${uniqueRuleName.value}(arg.at(-1)!.${uniqueRuleName.value});`);
+						} else {
+							// if type is "item", second is item
+							parseCode.push(`const obj = create_${typeName}();`);
+							newLineParseCode();
+							if (content.bOptional)
+								parseCode.push(`if (!try_parse_fn(parse_${uniqueRuleName.value}, obj.${uniqueRuleName.value})) return false;`);
+							else parseCode.push(`parse_${uniqueRuleName.value}(obj.${uniqueRuleName.value});`);
+							newLineParseCode();
+							parseCode.push(`arg.push(obj);`);
+						}
 					} else parseCode.push(`parse_${uniqueRuleName.value}(${childName});`);
 				}
 			} else if (content.type === "rule_or") {
@@ -366,9 +381,8 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 				newLineCode();
 				code.push(`value: ${typeName}_item[];`);
 				createFnCode += `, value: []`;
-				const min = content.bOptional ? 0 : 1;
 				newLineParseCode();
-				parseCode.push(`parse_array_fn(parse_${typeName}_item, ${typeName}.value, create_${typeName}_item, ${min});`);
+				parseCode.push(`parse_array_join_fn(parse_${typeName}_item, ${typeName}.value);`);
 			}
 		}
 
@@ -448,6 +462,9 @@ const parse_array_fn = <T>(
 		obj = create_fn();
 	}
 };
+const parse_array_join_fn = <T>(parse_fn: (arg: T[]) => void | boolean, arg: T[]) => {
+	while (try_parse_fn(parse_fn, arg) === true) {}
+};
 const fail_parse = (message: string) => {
 	throw new Error(message);
 };
@@ -464,7 +481,9 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 		const matches = spaceRegex.exec(text);
 		if (matches) index = matches.index + matches[0].length;
 	}
-	const source = skipSpace ? \`\\b\${rgx.source}\\b\` : rgx.source;
+	const prefix = skipSpace && /^(\\d|\\w|\\\\[wd])/.test(rgx.source) ? "\\\\b" : "";
+	const suffix = skipSpace && /(\\d|\\w|\\\\[wd])\$/.test(rgx.source) ? "\\\\b" : "";
+	const source = \`\${prefix}\${rgx.source}\${suffix}\`;
 	const newRgx = new RegExp(source, flags);
 	newRgx.lastIndex = index;
 	const matches = newRgx.exec(text);
@@ -485,7 +504,6 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 		throw new Error(\`Match failed: \${source}\`);
 	}
 	if (matches) {
-		index = matches.index + matches[0].length;
 		failedValues.length = 0;
 		const { line, col } = getCurrentLocation();
 		successValues.push({
@@ -500,6 +518,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 				.replace(/\\t/g, "\\\\t")
 				.replace(/^(\\\\t|\\\\n)*/g, ""),
 		});
+		index = matches.index + matches[0].length;
 	}
 	return matches[0];
 };
