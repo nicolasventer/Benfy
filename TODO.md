@@ -2,8 +2,11 @@
 
 ## TODO EBNF
 
+- [ ] fix ebnf sanitize <abc>_0
+- [ ] support of ::+
 - [ ] support of line comments with //
 - [ ] support of multiline comment with (* *)
+- [ ] support of {...} for group (like (...))
 
 - [ ] ISO/IEC 14977:
   - [ ] remove support of + * ?
@@ -14,6 +17,9 @@
 ## TODO BENFY
 
 - [ ] tests
+- [ ] support of rule|: (equivalent of ::+) ?
+- [ ] auto rename when generating parser (for keword like 'case', 'number', 'type', ...)
+- [ ] manual renaming like definition_0 --> module_definition (yaml file)
 
 ## TODO BOTH
 

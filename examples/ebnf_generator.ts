@@ -11,7 +11,6 @@ function sanitizeGrammar(parsedGrammar: grammar): grammar {
 		const line = sanitizedGrammar.line[lineIndex];
 		if (line.value.type !== "production") continue;
 		const production = line.value;
-		if (production.expression.value.length === 1) continue;
 		let bNeedToSplit = false;
 		let bHaveOrJoin = false;
 		for (let expression_index = 0; expression_index < production.expression.value.length; expression_index++) {
@@ -20,20 +19,9 @@ function sanitizeGrammar(parsedGrammar: grammar): grammar {
 			let bHasIdentifier = false;
 			let groupIndex = 0;
 			for (const term_list of expression.term_list.value) {
-				if (bCannotHaveOrJoin) break;
 				const term = term_list.term;
 				const factor = term.factor.value;
-				if (factor.type === "identifier_no_assignment") {
-					if (bHasIdentifier || term.quantifier) bCannotHaveOrJoin = true;
-					bHasIdentifier = true;
-				} else if (
-					factor.type === "terminal" ||
-					factor.type === "hex" ||
-					factor.type === "regex_" ||
-					factor.type === "character_class"
-				) {
-					if (bHasIdentifier) bCannotHaveOrJoin = true;
-				} else if (factor.type === "group") {
+				if (factor.type === "group") {
 					const newName = `${production.identifier.value}_group_${groupIndex}`;
 					sanitizedGrammar.line.splice(lineIndex + 1 + groupIndex, 0, {
 						type: "line",
@@ -45,6 +33,18 @@ function sanitizeGrammar(parsedGrammar: grammar): grammar {
 					});
 					term.factor.value = { type: "identifier_no_assignment", value: newName };
 					groupIndex++;
+				}
+				if (bCannotHaveOrJoin) continue;
+				if (factor.type === "identifier_no_assignment") {
+					if (bHasIdentifier || term.quantifier) bCannotHaveOrJoin = true;
+					bHasIdentifier = true;
+				} else if (
+					factor.type === "terminal" ||
+					factor.type === "hex" ||
+					factor.type === "regex_" ||
+					factor.type === "character_class"
+				) {
+					if (bHasIdentifier) bCannotHaveOrJoin = true;
 				}
 			}
 			if (expression.expression_join.value === "|") bHaveOrJoin = true;
@@ -103,9 +103,9 @@ function sanitizeGrammar(parsedGrammar: grammar): grammar {
 						},
 					};
 				}
-
 				indexToAppend = expression_join.value !== "|" ? lineIndex + 1 + expression_index : -1;
 			}
+			lineIndex--;
 		}
 	}
 
@@ -143,14 +143,13 @@ export function generateEbnfGrammar(parsedGrammar: grammar): string {
 	}
 	return result;
 }
-
 const escapeRegex = (value: string) => value.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
 const replaceHex = (value: string) => value.replace(/#x[0-9A-F]+/g, (match) => `\\u${match.slice(2)}`);
 
-const regexWithQuantifier = (value: string, quantifier: string, bSlash: boolean = true) =>
-	`${bSlash ? "/" : ""}${quantifier ? "(" : ""}${replaceHex(escapeRegex(value))}${quantifier ? `)${quantifier}` : ""}${
-		bSlash ? "/" : ""
-	}`;
+const regexWithQuantifier = (value: string, quantifier: string, bSlash = true, bEscape = true) =>
+	`${bSlash ? "/" : ""}${quantifier ? "(" : ""}${replaceHex(bEscape ? escapeRegex(value) : value)}${
+		quantifier ? `)${quantifier}` : ""
+	}${bSlash ? "/" : ""}`;
 
 const toBenfyComment = (value: string) =>
 	value.includes("\n")
@@ -175,7 +174,7 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 		if (line.value.type === "production") {
 			result += `${toBenfyIdentifier(line.value.identifier.value)}:`;
 			const bHasNoIdentifier = line.value.expression.value.every((expression) =>
-				expression.term_list.value.every((term_list) => term_list.term.factor.value.type !== "identifier_no_assignment")
+				expression.term_list.value.every((term_list) => term_list.term.factor.value.type !== "identifier_no_assignment"),
 			);
 			if (bHasNoIdentifier) {
 				result += " /";
@@ -183,7 +182,7 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 				let commentStr = "";
 				for (const expression of line.value.expression.value) {
 					const last_non_comment_index = expression.term_list.value.findLastIndex(
-						(term_list) => term_list.term.factor.value.type !== "comment"
+						(term_list) => term_list.term.factor.value.type !== "comment",
 					);
 					const last_term_index = expression.term_list.value.length - 1;
 					let expressionStr = "";
@@ -196,7 +195,7 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 						if (factor.type === "identifier_no_assignment")
 							throw new Error("This branch should not have identifier_no_assignment");
 						else if (factor.type === "regex_")
-							expressionStr += regexWithQuantifier(factor.value.slice(0, -1), realQuantifier, false);
+							expressionStr += regexWithQuantifier(factor.value.slice(1, -1), realQuantifier, false, false);
 						else if (factor.type === "terminal")
 							expressionStr += regexWithQuantifier(factor.value.slice(1, -1), realQuantifier, false);
 						else if (factor.type === "hex") expressionStr += regexWithQuantifier(factor.value, realQuantifier, false);
@@ -223,7 +222,7 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 				const last_expression_index = line.value.expression.value.length - 1;
 				line.value.expression.value.forEach((expression, expression_index) => {
 					const last_non_comment_index = expression.term_list.value.findLastIndex(
-						(term_list) => term_list.term.factor.value.type !== "comment"
+						(term_list) => term_list.term.factor.value.type !== "comment",
 					);
 					const last_term_index = expression.term_list.value.length - 1;
 					let expressionStr = "";

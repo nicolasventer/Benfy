@@ -1,3 +1,4 @@
+"loose"
 grammar: line*
 line: production | comment
 production: identifier /=|::=/ expression /;?/
