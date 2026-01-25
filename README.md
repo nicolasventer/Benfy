@@ -1,6 +1,6 @@
 # Benfy
 
-Benfy is a parser generator that converts `.bf` grammar files into type-safe TypeScript parsers.
+Benfy is a parser generator that converts `.bf` grammar files into **type-safe** TypeScript parsers.
 
 ## Features
 
@@ -138,29 +138,58 @@ rule_3: /abc/ # equivalent to /abc/, here "strict" is the spacing policy
 rule_4: /abc/l # equivalent to /\s*\babc\b/, here "l" is the regex flag for loose spacing policy
 ```
 
+<details>
+<summary>Advanced Examples</summary>
+
+The bounding part of the policy is added only when the first/last character (modulo quantifier) is not special, (i.e matches `/\w|\d|\\[wd]/`).  
+This allows regexes that start/end with a special character to be followed by another special character.
+
+```bf
+"loose"
+rule_5: /\[abc/ # equivalent to /\s*\[abc\b\s*/
+rule_6: /(abc)/ # equivalent to /\s*\(abc\)\s*/, it is a way to bypass the bounding part of the policy
+
+rule_7: /.*/ rule_5 /.*/ # it accepts "d[abc(e", "d [abc e", "d([abc e" but not "d[abce"
+rule_8: /.*/ rule_6 /.*/ # it accepts "dabce" or "]abc["
+```
+
+</details>
+
 ## Workflow
 
 1. **Create a grammar file** (`.bf` extension)
    ```bf
-   # WARNING: This content is not valid Benfy grammar, it is just an example to show how to write a grammar file.
-   json: json_content
-   json_content: object_ | array_ | string_ | number_ | boolean_ | null_
-   object_: /\{/ object_content /\}/
-   object_content: object_kv? >> /,/
-   object_kv: string_ /:/ json
+   "loose"
+   
+   # Simple arithmetic grammar for tests
+   expr: term >> op
+   term: number_ | paren_expr
+   number_: /\d+(\.\d+)?/
+   paren_expr: /\(/ expr /\)/
+   op: /[+\-*\/]/
    ```
 
 2. **Generate the parser**
    ```bash
-   bun index.ts json.bf
+   bun index.ts arithmetic.bf
    ```
-   This creates `json_parser.ts`
+   This creates `arithmetic_parser.ts`
 
 3. **Use the generated parser**
    ```typescript
-   import { parse_json } from './json_parser';
+   import { parse } from './arithmetic_parser';
    
-   const result = parse_json('{"key": "value"}');
+   const result = parse('(1 + 2) * 3');
+   for (const v of result.value) {
+      process.stdout.write(v.term.value.type);
+      if (v.op.value) process.stdout.write(" " + v.op.value + " ");
+   }
+   process.stdout.write("\n");
+   ```
+
+   This will output the parsed result:
+   ```
+   paren_expr * number_
    ```
 
 ## Examples

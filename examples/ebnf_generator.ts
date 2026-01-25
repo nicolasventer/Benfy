@@ -4,6 +4,9 @@ import type { grammar } from "./ebnf_parser";
 // Generator Module
 // ============================================================================
 
+const toEbnfIdentifier = (value: string, suffix: string) =>
+	/<\S+>/.test(value) ? `<${value.slice(1, -1)}_${suffix}>` : `${value}_${suffix}`;
+
 function sanitizeGrammar(parsedGrammar: grammar): grammar {
 	const sanitizedGrammar = structuredClone(parsedGrammar);
 
@@ -22,7 +25,7 @@ function sanitizeGrammar(parsedGrammar: grammar): grammar {
 				const term = term_list.term;
 				const factor = term.factor.value;
 				if (factor.type === "group") {
-					const newName = `${production.identifier.value}_group_${groupIndex}`;
+					const newName = toEbnfIdentifier(production.identifier.value, `group_${groupIndex}`);
 					sanitizedGrammar.line.splice(lineIndex + 1 + groupIndex, 0, {
 						type: "line",
 						value: {
@@ -63,7 +66,7 @@ function sanitizeGrammar(parsedGrammar: grammar): grammar {
 			let indexToAppend = -1;
 			for (let expression_index = 0; expression_index < production.expression.value.length; expression_index++) {
 				const expression = production.expression.value[expression_index];
-				const newName = `${production.identifier.value}_${expression_index}`;
+				const newName = toEbnfIdentifier(production.identifier.value, `${expression_index}`);
 				const expression_join = expression.expression_join;
 				expression.expression_join = {
 					type: "expression_join",
@@ -174,7 +177,7 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 		if (line.value.type === "production") {
 			result += `${toBenfyIdentifier(line.value.identifier.value)}:`;
 			const bHasNoIdentifier = line.value.expression.value.every((expression) =>
-				expression.term_list.value.every((term_list) => term_list.term.factor.value.type !== "identifier_no_assignment"),
+				expression.term_list.value.every((term_list) => term_list.term.factor.value.type !== "identifier_no_assignment")
 			);
 			if (bHasNoIdentifier) {
 				result += " /";
@@ -182,7 +185,7 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 				let commentStr = "";
 				for (const expression of line.value.expression.value) {
 					const last_non_comment_index = expression.term_list.value.findLastIndex(
-						(term_list) => term_list.term.factor.value.type !== "comment",
+						(term_list) => term_list.term.factor.value.type !== "comment"
 					);
 					const last_term_index = expression.term_list.value.length - 1;
 					let expressionStr = "";
@@ -222,7 +225,7 @@ export function generateBenfyGrammar(parsedGrammar: grammar, bStrict: boolean = 
 				const last_expression_index = line.value.expression.value.length - 1;
 				line.value.expression.value.forEach((expression, expression_index) => {
 					const last_non_comment_index = expression.term_list.value.findLastIndex(
-						(term_list) => term_list.term.factor.value.type !== "comment",
+						(term_list) => term_list.term.factor.value.type !== "comment"
 					);
 					const last_term_index = expression.term_list.value.length - 1;
 					let expressionStr = "";

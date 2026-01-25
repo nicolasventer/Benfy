@@ -76,7 +76,7 @@ export function generateCode(parsedGrammar: grammar, bWithLocation = false): str
 	const rules: (rule | spacing_policy)[] = parsedGrammar.line
 		.filter(
 			(line): line is { type: "line"; value: rule | spacing_policy; _location: _location } =>
-				line.value.type === "rule" || line.value.type === "spacing_policy",
+				line.value.type === "rule" || line.value.type === "spacing_policy"
 		)
 		.map((line) => line.value);
 
@@ -296,13 +296,13 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 				if (type === "item") {
 					// if type is "item", only join can be regex
 					parseCode.push(
-						`if (arg.length > 0) parse_regex(reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline});`,
+						`if (arg.length > 0) parse_regex(reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline});`
 					);
 				} else {
 					if (content.bNegation)
 						parseCode.push(
 							`if (try_parse_fn(parse_regex, reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline})) ` +
-								`throw new Error("Match should be failed: ${content.regexContent.replace(/"/g, '\\"')}");`,
+								`throw new Error("Match should be failed: ${content.regexContent.replace(/"/g, '\\"')}");`
 						);
 					else {
 						if (type === "value") {
@@ -312,7 +312,7 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 							parseCode.push(`${typeName}.value = `);
 						}
 						parseCode.push(
-							`parse_regex(reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline});`,
+							`parse_regex(reg\`${content.regexContent}\`, ${content.skipSpace}, ${content.ignoreCase}, ${content.multiline});`
 						);
 					}
 				}
@@ -320,7 +320,7 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 				newLineParseCode();
 				const ruleName = content.rule_name;
 				parseCode.push(
-					`if (try_parse_fn(parse_${ruleName}, create_${ruleName}())) throw new Error("Match should be failed: ${ruleName}");`,
+					`if (try_parse_fn(parse_${ruleName}, create_${ruleName}())) throw new Error("Match should be failed: ${ruleName}");`
 				);
 			} else if (content.type === "rule_name_quantified") {
 				newLineCode();
@@ -350,7 +350,7 @@ export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> =
 						content.rule_quantifier.value.rule_brace_max?.rule_brace_max_value?.value ??
 						(hasMax ? "Number.MAX_SAFE_INTEGER" : min);
 					parseCode.push(
-						`parse_array_fn(parse_${uniqueRuleName.value}, ${childName}, create_${uniqueRuleName.value}, ${min}, ${max});`,
+						`parse_array_fn(parse_${uniqueRuleName.value}, ${childName}, create_${uniqueRuleName.value}, ${min}, ${max});`
 					);
 				} else {
 					// no quantifier
@@ -482,7 +482,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 		if (matches) index = matches.index + matches[0].length;
 	}
 	const prefix = skipSpace && /^(\\d|\\w|\\\\[wd])/.test(rgx.source) ? "\\\\b" : "";
-	const suffix = skipSpace && /(\\d|\\w|\\\\[wd])\$/.test(rgx.source) ? "\\\\b" : "";
+	const suffix = skipSpace && /(\\d|\\w|\\\\[wd])[*+?]?\$/.test(rgx.source) ? "\\\\b" : "";
 	const source = \`\${prefix}\${rgx.source}\${suffix}\`;
 	const newRgx = new RegExp(source, flags);
 	newRgx.lastIndex = index;

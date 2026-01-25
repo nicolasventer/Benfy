@@ -39,7 +39,7 @@ const parse_array_fn = <T>(
 	arg: T[],
 	create_fn: () => T,
 	min: number,
-	max = Number.MAX_SAFE_INTEGER,
+	max = Number.MAX_SAFE_INTEGER
 ) => {
 	let obj = create_fn();
 	for (let i = 0; i < min; i++) {
@@ -72,7 +72,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 		if (matches) index = matches.index + matches[0].length;
 	}
 	const prefix = skipSpace && /^(\d|\w|\\[wd])/.test(rgx.source) ? "\\b" : "";
-	const suffix = skipSpace && /(\d|\w|\\[wd])$/.test(rgx.source) ? "\\b" : "";
+	const suffix = skipSpace && /(\d|\w|\\[wd])[*+?]?$/.test(rgx.source) ? "\\b" : "";
 	const source = `${prefix}${rgx.source}${suffix}`;
 	const newRgx = new RegExp(source, flags);
 	newRgx.lastIndex = index;
@@ -682,12 +682,11 @@ export const parse = (textToParse: string, filePath = "", onFail?: (result: gram
 		throw error;
 	}
 };
-export type RecursiveStripLocation<T> =
-	T extends Array<infer U>
-		? RecursiveStripLocation<U>[]
-		: T extends object
-			? { [K in Exclude<keyof T, "_location">]: RecursiveStripLocation<T[K]> }
-			: T;
+export type RecursiveStripLocation<T> = T extends Array<infer U>
+	? RecursiveStripLocation<U>[]
+	: T extends object
+	? { [K in Exclude<keyof T, "_location">]: RecursiveStripLocation<T[K]> }
+	: T;
 export const recursiveStripLocation = <T>(value: T): RecursiveStripLocation<T> => {
 	if (Array.isArray(value)) return value.map((item) => recursiveStripLocation(item)) as RecursiveStripLocation<T>;
 	if (!value || typeof value !== "object" || value instanceof Date || value instanceof RegExp)

@@ -2,7 +2,6 @@
 
 ## TODO EBNF
 
-- [ ] fix ebnf sanitize <abc>_0
 - [ ] support of ::+
 - [ ] support of line comments with //
 - [ ] support of multiline comment with (* *)

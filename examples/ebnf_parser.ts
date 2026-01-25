@@ -36,7 +36,7 @@ const parse_array_fn = <T>(
 	arg: T[],
 	create_fn: () => T,
 	min: number,
-	max = Number.MAX_SAFE_INTEGER,
+	max = Number.MAX_SAFE_INTEGER
 ) => {
 	let obj = create_fn();
 	for (let i = 0; i < min; i++) {
@@ -69,7 +69,7 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 		if (matches) index = matches.index + matches[0].length;
 	}
 	const prefix = skipSpace && /^(\d|\w|\\[wd])/.test(rgx.source) ? "\\b" : "";
-	const suffix = skipSpace && /(\d|\w|\\[wd])$/.test(rgx.source) ? "\\b" : "";
+	const suffix = skipSpace && /(\d|\w|\\[wd])[*+?]?$/.test(rgx.source) ? "\\b" : "";
 	const source = `${prefix}${rgx.source}${suffix}`;
 	const newRgx = new RegExp(source, flags);
 	newRgx.lastIndex = index;
@@ -312,7 +312,7 @@ const parse_identifier_no_assignment = (identifier_no_assignment: identifier_no_
 		reg`/(\b[a-zA-Z][a-zA-Z0-9_]*\b(?!>)|<[a-zA-Z][a-zA-Z0-9_]*>)(?!\s*(::=|=))/`,
 		true,
 		false,
-		false,
+		false
 	);
 };
 const parse_terminal = (terminal: terminal) => {
