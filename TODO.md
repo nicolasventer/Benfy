@@ -17,7 +17,7 @@
 
 - [ ] tests
 - [ ] support of rule|: (equivalent of ::+) ?
-- [ ] auto rename when generating parser (for keword like 'case', 'number', 'type', ...)
+- [ ] auto rename when generating parser (for keyword like 'case', 'number', 'type', ...)
 - [ ] manual renaming like definition_0 --> module_definition (yaml file)
 
 ## TODO BOTH

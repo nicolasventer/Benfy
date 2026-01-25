@@ -110,82 +110,124 @@ const parse_regex = (rgx: RegExp, skipSpace: boolean, ignoreCase: boolean, multi
 	return matches[0];
 };
 
-export type expr_item = _location_object & {
-	type: "expr_item";
-	op: op;
-	term: term;
+export type regex_expr = _location_object & {
+	type: "regex_expr";
+	pattern_item: pattern_item[];
 };
-export type expr = _location_object & {
-	type: "expr";
-	value: expr_item[];
+export type pattern_item = _location_object & {
+	type: "pattern_item";
+	value: literal | digit | number_ | ignore_case | multiline | no_ignore_case | no_multiline | new_line;
 };
-export type term = _location_object & {
-	type: "term";
-	value: number_ | paren_expr;
+export type literal = _location_object & {
+	type: "literal";
+	value: string;
+};
+export type digit = _location_object & {
+	type: "digit";
+	value: string;
 };
 export type number_ = _location_object & {
 	type: "number_";
 	value: string;
 };
-export type paren_expr = _location_object & {
-	type: "paren_expr";
-	expr: expr;
+export type ignore_case = _location_object & {
+	type: "ignore_case";
+	value: string;
 };
-export type op = _location_object & {
-	type: "op";
+export type multiline = _location_object & {
+	type: "multiline";
+	value: string;
+};
+export type no_ignore_case = _location_object & {
+	type: "no_ignore_case";
+	value: string;
+};
+export type no_multiline = _location_object & {
+	type: "no_multiline";
+	value: string;
+};
+export type new_line = _location_object & {
+	type: "new_line";
 	value: string;
 };
 
-const create_expr_item = (): expr_item => ({ ...getCurrentLocationObject(), type: "expr_item", op: create_op(), term: create_term() });
-const create_expr = (): expr => ({ ...getCurrentLocationObject(), type: "expr", value: [] });
-const create_term = (): term => ({ ...getCurrentLocationObject(), type: "term", value: create_number_() });
+const create_regex_expr = (): regex_expr => ({ ...getCurrentLocationObject(), type: "regex_expr", pattern_item: [] });
+const create_pattern_item = (): pattern_item => ({ ...getCurrentLocationObject(), type: "pattern_item", value: create_literal() });
+const create_literal = (): literal => ({ ...getCurrentLocationObject(), type: "literal", value: "" });
+const create_digit = (): digit => ({ ...getCurrentLocationObject(), type: "digit", value: "" });
 const create_number_ = (): number_ => ({ ...getCurrentLocationObject(), type: "number_", value: "" });
-const create_paren_expr = (): paren_expr => ({ ...getCurrentLocationObject(), type: "paren_expr", expr: create_expr() });
-const create_op = (): op => ({ ...getCurrentLocationObject(), type: "op", value: "" });
+const create_ignore_case = (): ignore_case => ({ ...getCurrentLocationObject(), type: "ignore_case", value: "" });
+const create_multiline = (): multiline => ({ ...getCurrentLocationObject(), type: "multiline", value: "" });
+const create_no_ignore_case = (): no_ignore_case => ({ ...getCurrentLocationObject(), type: "no_ignore_case", value: "" });
+const create_no_multiline = (): no_multiline => ({ ...getCurrentLocationObject(), type: "no_multiline", value: "" });
+const create_new_line = (): new_line => ({ ...getCurrentLocationObject(), type: "new_line", value: "" });
 
-const parse_expr_item = (arg: expr_item[]) => {
-	debugName = "expr_item";
-	if (arg.length > 0) parse_op(arg.at(-1)!.op);
-	const obj = create_expr_item();
-	parse_term(obj.term);
-	arg.push(obj);
+const parse_regex_expr = (regex_expr: regex_expr) => {
+	debugName = "regex_expr";
+	parse_array_fn(parse_pattern_item, regex_expr.pattern_item, create_pattern_item, 1);
 };
-const parse_expr = (expr: expr) => {
-	debugName = "expr";
-	parse_array_join_fn(parse_expr_item, expr.value);
+const parse_pattern_item = (pattern_item: pattern_item) => {
+	debugName = "pattern_item";
+	pattern_item.value = create_literal();
+	if (try_parse_fn(parse_literal, pattern_item.value)) return;
+	pattern_item.value = create_digit();
+	if (try_parse_fn(parse_digit, pattern_item.value)) return;
+	pattern_item.value = create_number_();
+	if (try_parse_fn(parse_number_, pattern_item.value)) return;
+	pattern_item.value = create_ignore_case();
+	if (try_parse_fn(parse_ignore_case, pattern_item.value)) return;
+	pattern_item.value = create_multiline();
+	if (try_parse_fn(parse_multiline, pattern_item.value)) return;
+	pattern_item.value = create_no_ignore_case();
+	if (try_parse_fn(parse_no_ignore_case, pattern_item.value)) return;
+	pattern_item.value = create_no_multiline();
+	if (try_parse_fn(parse_no_multiline, pattern_item.value)) return;
+	pattern_item.value = create_new_line();
+	if (try_parse_fn(parse_new_line, pattern_item.value)) return;
+	fail_parse("Failed to parse pattern_item");
 };
-const parse_term = (term: term) => {
-	debugName = "term";
-	term.value = create_number_();
-	if (try_parse_fn(parse_number_, term.value)) return;
-	term.value = create_paren_expr();
-	if (try_parse_fn(parse_paren_expr, term.value)) return;
-	fail_parse("Failed to parse term");
+const parse_literal = (literal: literal) => {
+	debugName = "literal";
+	literal.value = parse_regex(reg`/literal: [a-zA-Z]/`, false, false, false);
+};
+const parse_digit = (digit: digit) => {
+	debugName = "digit";
+	digit.value = parse_regex(reg`/digit: \d/`, false, false, false);
 };
 const parse_number_ = (number_: number_) => {
 	debugName = "number_";
-	number_.value = parse_regex(reg`/\d+(\.\d+)?/`, true, false, false);
+	number_.value = parse_regex(reg`/number_: \d+(\.\d*)?/`, false, false, false);
 };
-const parse_paren_expr = (paren_expr: paren_expr) => {
-	debugName = "paren_expr";
-	parse_regex(reg`/\(/`, true, false, false);
-	parse_expr(paren_expr.expr);
-	parse_regex(reg`/\)/`, true, false, false);
+const parse_ignore_case = (ignore_case: ignore_case) => {
+	debugName = "ignore_case";
+	ignore_case.value = parse_regex(reg`/ignore_case: [a-z]/`, false, true, false);
 };
-const parse_op = (op: op) => {
-	debugName = "op";
-	op.value = parse_regex(reg`/[+\-*\/]/`, true, false, false);
+const parse_multiline = (multiline: multiline) => {
+	debugName = "multiline";
+	multiline.value = parse_regex(reg`/multiline: [a-z]$/`, false, false, true);
+};
+const parse_no_ignore_case = (no_ignore_case: no_ignore_case) => {
+	debugName = "no_ignore_case";
+	no_ignore_case.value = parse_regex(reg`/no_ignore_case: [a-z]/`, false, false, false);
+};
+const parse_no_multiline = (no_multiline: no_multiline) => {
+	debugName = "no_multiline";
+	no_multiline.value = parse_regex(reg`/no_multiline: [a-z]$/`, false, false, false);
+};
+const parse_new_line = (new_line: new_line) => {
+	debugName = "new_line";
+	new_line.value = parse_regex(reg`/\r?\n/`, false, false, false);
 };
 
-export const parse = (textToParse: string, filePath = "", onFail?: (result: expr) => void) => {
+export const parse = (textToParse: string, filePath = "", onFail?: (result: regex_expr) => void) => {
 	path = filePath;
 	text = textToParse;
 	index = 0;
-	const result = create_expr();
+	const result = create_regex_expr();
 	successValues.length = 0;
 	failedValues.length = 0;
 	try {
-		parse_expr(result);
+		parse_regex_expr(result);
 		if (index < text.trim().length) {
 			const { line, col } = getCurrentLocation();
 			throw new Error(`Text not fully parsed, interrupted at index ${index} (${path ? `${path}:` : ""}${line}:${col})`);
