@@ -6,7 +6,7 @@ Benfy is a parser generator that converts `.bf` grammar files into **type-safe**
 
 - **Grammar Definition**: Define your grammar using a simple, readable syntax
 - **Type-Safe Output**: Generates fully typed TypeScript parsers with proper type inference
-- **Rich Grammar Support**: 
+- **Rich Grammar Support**:
   - Regular expressions with flags (`/pattern/slmi`)
   - Quantifiers (`+`, `*`, `?`, `{n}`, `{n,m}`)
   - Negation (`!rule` or `!/regex/`)
@@ -82,21 +82,21 @@ Benfy grammar files use a simple, readable syntax. Look at `examples/grammar.bf`
 - **Rules**: `rule_name: expression`
 - **Regex**: `/pattern/` with optional flags (`s`=strict spacing, `l`=loose spacing, `m`=multiline, `i`=ignoreCase)
 - **Alternation**: `rule1 | rule2 | rule3`
-- **Quantifiers**: 
+- **Quantifiers**:
   - `rule*` (zero or more)
   - `rule+` (one or more)
   - `rule?` (zero or one)
   - `rule{3}` (exactly 3)
   - `rule{3,5}` (3 to 5)
 - **Negation**: `!rule` or `!/regex/` (negative lookahead)
-- **Separated Lists**: 
+- **Separated Lists**:
   - `rule >> separator` (items separated by separator, no trailing separator)
   - `rule? >> separator` (items separated by separator, trailing separator optional)
-- **Spacing Policy**: 
+- **Spacing Policy**:
   - `"strict"` - Whitespace must be explicitly matched (default)
   - `"loose"` - Automatically skip starting whitespace
   - Can be overridden with regex flag `s` (strict) or `l` (loose)
-- **Comments**: 
+- **Comments**:
   - `# comment text` (single-line)
   - `## multi-line comment ##` (multi-line)
 
@@ -158,9 +158,10 @@ rule_8: /.*/ rule_6 /.*/ # it accepts "dabce" or "]abc["
 ## Workflow
 
 1. **Create a grammar file** (`.bf` extension)
+
    ```bf
    "loose"
-   
+
    # Simple arithmetic grammar for tests
    expr: term >> op
    term: number_ | paren_expr
@@ -170,24 +171,28 @@ rule_8: /.*/ rule_6 /.*/ # it accepts "dabce" or "]abc["
    ```
 
 2. **Generate the parser**
+
    ```bash
    bun index.ts arithmetic.bf
    ```
+
    This creates `arithmetic_parser.ts`
 
 3. **Use the generated parser**
+
    ```typescript
-   import { parse } from './arithmetic_parser';
-   
-   const result = parse('(1 + 2) * 3');
+   import { parse } from "./arithmetic_parser";
+
+   const result = parse("(1 + 2) * 3");
    for (const v of result.value) {
-      process.stdout.write(v.term.value.type);
-      if (v.op.value) process.stdout.write(" " + v.op.value + " ");
+   	process.stdout.write(v.term.value.type);
+   	if (v.op.value) process.stdout.write(" " + v.op.value + " ");
    }
    process.stdout.write("\n");
    ```
 
    This will output the parsed result:
+
    ```
    paren_expr * number_
    ```
@@ -204,6 +209,7 @@ Check out the `examples/` directory for complete examples:
 ## Error Handling
 
 Benfy provides detailed error messages including:
+
 - File location (file:line:column)
 - Matched pattern information
 - Context around the error location
@@ -236,6 +242,7 @@ When you call `console.table(logs)`, you'll see output like this:
 ```
 
 This helps you understand:
+
 - Which rules were attempted
 - Where in the input the parser failed
 - What text was being parsed at that point
@@ -246,21 +253,21 @@ This helps you understand:
 You can also access logs in the error callback:
 
 ```typescript
-import { logs, parse_json } from './json_parser';
+import { logs, parse_json } from "./json_parser";
 
 const result = parse_json(
-  '{"invalid": json}',
-  '', // file path (optional)
-  (error) => {
-    console.table(logs);
-    console.error('Parse failed:', error);
-  }
+	'{"invalid": json}',
+	"", // file path (optional)
+	(error) => {
+		console.table(logs);
+		console.error("Parse failed:", error);
+	}
 );
 ```
 
 ## License
 
-MIT License. See [LICENSE file](LICENSE).
+MIT License. See [LICENSE file](LICENSE).  
 Please refer me with:
 
-	Copyright (c) Nicolas VENTER All rights reserved.
+    Copyright (c) Nicolas VENTER. All rights reserved.
